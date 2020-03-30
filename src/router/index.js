@@ -8,7 +8,11 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: Home
+    component: Home,
+    meta: {
+      // 页面标题title
+      title: '首页'
+    }
   },
   {
     path: "/about",
@@ -23,11 +27,12 @@ const routes = [
   {
     path: "/login",
     name: "Login",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/login/index.vue")
+      import("../views/login/index.vue"),
+    meta: {
+      // 页面标题title
+      title: '登录'
+    }
   },
 ];
 
