@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/home/index.vue";
+// import userCenter from "..views/userCenter/index.vue"
 
 Vue.use(VueRouter);
 
@@ -11,7 +12,7 @@ const routes = [
     component: Home,
     meta: {
       // 页面标题title
-      title: '首页'
+      title: "首页"
     }
   },
   {
@@ -27,13 +28,30 @@ const routes = [
   {
     path: "/login",
     name: "Login",
-    component: () =>
-      import("../views/login/index.vue"),
+    component: () => import("../views/login/index.vue"),
     meta: {
       // 页面标题title
-      title: '登录'
+      title: "登录"
     }
   },
+  // 个人中心
+  {
+    path: "/userCenter",
+    name: "userCenter",
+    component: () => import("../views/userCenter/index.vue"),
+    meta: {
+      title: "个人中心"
+    }
+  },
+  // 管理中心
+  {
+    path: "/manageCenter",
+    name: "manageCenter",
+    component: () => import("../views/manageCenter/index.vue"),
+    meta: {
+      title: "管理中心"
+    }
+  }
 ];
 
 const router = new VueRouter({
