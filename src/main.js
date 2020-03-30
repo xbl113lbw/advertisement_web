@@ -5,8 +5,8 @@ import store from "./store";
 import ajax from "./utils/ajax";
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
-import './scss/element-variables';
-import common from './utils/commom';
+import './scss/element-variables.scss';
+import common from './utils/common';
 
 
 Vue.use(ElementUI);
