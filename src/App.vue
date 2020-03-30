@@ -1,28 +1,46 @@
 <template>
-  <div id="app">
-    <router-view />
-  </div>
+    <div id="app">
+        <!-- 头部导航 -->
+        <HeaderNav/>
+        <router-view/>
+    </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+    import HeaderNav from "./components/HeaderNav"
 
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+    export default {
+        components: {
+            HeaderNav
+        }
     }
-  }
-}
+</script>
+
+<style lang="scss">
+    #app {
+        font-family: Avenir, Helvetica, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-align: center;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    ul, li {
+        list-style: none;
+    }
+
+    button {
+        outline: none;
+        border: none;
+    }
+
+    input {
+        outline: none;
+        border: none;
+    }
 </style>
