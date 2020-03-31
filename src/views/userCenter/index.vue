@@ -58,13 +58,14 @@ export default {
       height: 100%;
       padding-top: 32px;
       .menu_title {
-        width: 80px;
-        height: 28px;
         font-size: 20px;
         font-weight: 600;
         color: rgba(0, 0, 0, 1);
         line-height: 28px;
-        margin: 0 auto;
+        margin: 0 40px;
+        padding-bottom:20px;
+        padding-right:39px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
       }
     }
   }

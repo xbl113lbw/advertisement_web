@@ -12,23 +12,32 @@
       >
         <div class="menu_title">管理中心</div>
         <el-menu-item index="1">
-          <span slot="title">基本信息</span>
+          <span slot="title" @click="ToAuth('1')">基本信息</span>
         </el-menu-item>
         <el-menu-item index="2">
-          <span slot="title" @click="ToAuth">认证管理</span>
+          <span slot="title" @click="ToAuth('2')">认证管理</span>
         </el-menu-item>
         <el-submenu index="3">
           <template slot="title">
             <span>服务管理</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="3-1" style="padding-left: 70px;"
+            <el-menu-item
+              index="3-1"
+              style="padding-left: 70px;"
+              @click="ToAuth('3')"
               >审核中(2)</el-menu-item
             >
-            <el-menu-item index="3-2" style="padding-left: 70px;"
+            <el-menu-item
+              index="3-2"
+              style="padding-left: 70px;"
+              @click="ToAuth('3')"
               >已发布(2)</el-menu-item
             >
-            <el-menu-item index="3-3" style="padding-left: 70px;"
+            <el-menu-item
+              index="3-3"
+              style="padding-left: 70px;"
+              @click="ToAuth('3')"
               >其他</el-menu-item
             >
           </el-menu-item-group>
@@ -36,31 +45,37 @@
       </el-menu>
     </div>
     <div class="content">
-      <auth v-if="active"></auth>
+      <baseInfo v-if="active === '1'"></baseInfo>
+      <auth v-else-if="active === '2'"></auth>
+      <serverManage v-else></serverManage>
     </div>
   </div>
 </template>
 <script>
 import auth from "./components/authenticationManage";
+import baseInfo from "./components/baseInfo";
+import serverManage from "./components/serverManage";
 export default {
   components: {
-    auth
+    auth,
+    baseInfo,
+    serverManage
   },
   data() {
     return {
-      active: false
+      active: "1"
     };
   },
   methods: {
     handleOpen(key, keyPath) {
-      console.log(key, keyPath);
+      console.log("handleOpen",key, keyPath);
     },
     handleClose(key, keyPath) {
-      console.log(key, keyPath);
+      console.log("handleClose",key, keyPath);
     },
     ToAuth(e) {
-      console.log(e);
-      this.active = true
+      console.log("e",e);
+      this.active = e;
     }
   }
 };
@@ -79,13 +94,14 @@ export default {
       height: 100%;
       padding-top: 32px;
       .menu_title {
-        width: 80px;
-        height: 28px;
         font-size: 20px;
         font-weight: 600;
         color: rgba(0, 0, 0, 1);
         line-height: 28px;
-        margin: 0 auto;
+        margin: 0 40px;
+        padding-bottom: 20px;
+        padding-right: 39px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
       }
     }
   }

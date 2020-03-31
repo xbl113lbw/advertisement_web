@@ -1,24 +1,31 @@
 <template>
   <div>
-    <div class="content_row">
+    <div class="base_row">
       <span class="left_title">纳税识别号</span>
       <input placeholder="请输入纳税识别号" value="" />
     </div>
-    <div class="content_row">
-      <span class="left_title" style="letter-spacing:5px;"> 法人代表</span>
+    <div class="base_row">
+      <span class="left_title" style="letter-spacing:4px;"> 法人代表</span>
       <input placeholder="请输入法人代表的姓名" value="" />
     </div>
-    <div class="content_row">
+    <div class="base_row">
       <span class="left_title"> 法人身份证</span>
       <input placeholder="请输入法人身份证" value="" />
     </div>
-    <div class="content_row">
+    <div class="base_row">
       <span class="left_title" style="letter-spacing:5px;"> 营业执照</span>
       <div class="span_grey">
         <p>
           请上传清晰、真实的营业执照的照片，请不要在照片上添加文字、数字、网址等内容，最多上传4张，每张最大5M
         </p>
-        <el-upload action="#" list-type="picture-card" :auto-upload="false" class="uploadImg">
+        <el-upload
+          action="#"
+          multiple
+          :limit="4"
+          list-type="picture-card"
+          :auto-upload="false"
+          class="uploadImg"
+        >
           <div slot="file" slot-scope="{ file }">
             <img
               class="el-upload-list__item-thumbnail"
@@ -27,7 +34,6 @@
             />
             <span class="el-upload-list__item-actions">
               <span
-                v-if="!disabled"
                 class="el-upload-list__item-delete"
                 @click="handleRemove(file)"
               >
@@ -83,34 +89,44 @@ export default {
   transition: opacity 0.3s;
 }
 .el-upload-list__item {
-    height:58px;
-    width:80px;
+  height: 58px !important;
+  width: 80px !important;
+  bottom: 0 !important;
 }
 </style>
+
 <style lang="scss" scope>
-.content_row {
+.base_row {
   margin-top: 30px;
   display: flex;
-  //   line-height: 50px;
+  align-items: baseline;
+
   .left_title {
     min-width: 110px;
     display: inline-block;
-    height: 22px;
     font-size: 16px;
     font-weight: 600;
     color: rgba(0, 0, 0, 1);
-    line-height: 50px;
   }
   .span_grey {
     width: 540px;
     font-size: 16px;
     font-weight: 400;
+    text-align: left;
     color: rgba(0, 0, 0, 0.6);
     line-height: 24px;
     margin-left: 25px;
-    .uploadImg{
-        display:flex;
-        flex-direction:row-reverse;
+    .uploadImg {
+      display: flex;
+      flex-direction: row-reverse;
+      justify-content: flex-end;
+      align-items: flex-end;
+      /deep/ .el-upload-list {
+        height: 58px !important;
+      }
+      /deep/.el-upload-list__item {
+        margin: 0 0 8px 10px;
+      }
     }
   }
   input {
