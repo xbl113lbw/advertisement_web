@@ -34,7 +34,8 @@
         box-sizing: border-box;
     }
 
-    ul, li {
+    ul,
+    li {
         list-style: none;
     }
 

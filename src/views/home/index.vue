@@ -2,23 +2,27 @@
  * @Author: liyh
  * @Date: 2020-03-30 11:04:57
  * @LastEditors: liyh
- * @LastEditTime: 2020-03-30 11:06:30
+ * @LastEditTime: 2020-03-31 11:41:17
  -->
 <template>
   <div class="home">
-    <img alt="Vue logo" src="./../../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <Search></Search>
+    <AdItem></AdItem>
+    <AdItem></AdItem>
+    <AdItem></AdItem>
+    <AdItem></AdItem>
+    <AdItem></AdItem>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
-
+import Search from "@/components/Search";
+import AdItem from "./components/adItem";
 export default {
   name: "Home",
-  components: {
-    HelloWorld
-  }
+  components: { Search, AdItem }
 };
 </script>
+
+<style lang="scss" scoped>
+</style>

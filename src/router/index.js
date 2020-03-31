@@ -17,16 +17,43 @@ const routes = [
     {
         path: "/about",
         name: "About",
-        component: () => import("../views/about/index.vue")
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () =>
+            import(/* webpackChunkName: "about" */ "../views/about/index.vue")
     },
     //登录
     {
         path: "/login",
         name: "Login",
-        component: () => import("../views/login/index.vue"),
+        component: () =>
+            import("../views/login/index.vue"),
         meta: {
             // 页面标题title
             title: '登录'
+        }
+    },
+    //隐私政策
+    {
+        path: "/privacyPolicy",
+        name: "privacyPolicy",
+        component: () =>
+            import("../views/privacyPolicy/index.vue"),
+        meta: {
+            // 页面标题title
+            title: '隐私政策'
+        }
+    },
+    //用户协议
+    {
+        path: "/userAgreement",
+        name: "userAgreement",
+        component: () =>
+            import("../views/userAgreement/index.vue"),
+        meta: {
+            // 页面标题title
+            title: '用户协议'
         }
     },
     // 发布信息
