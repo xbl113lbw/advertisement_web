@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-30 16:13:50
  * @LastEditors: liyh
- * @LastEditTime: 2020-03-30 18:44:04
+ * @LastEditTime: 2020-03-31 13:43:45
  -->
 <template>
   <!-- 注册部分 -->
@@ -111,6 +111,12 @@
     <div @click="toRegister" class="btnBox">
       <span class="defaultText">注册</span>
     </div>
+    <div class="agreeMentBox">
+      <span>注册即表示同意</span>
+      <span @click="toUserAgree">《用户协议》</span>
+      <span>和</span>
+      <span @click="toPrivacyPolicy">《隐私政策》</span>
+    </div>
   </div>
 </template>
 
@@ -151,6 +157,20 @@ export default {
       if (this.errorType == type) {
         this.errorMassage = "";
       }
+    },
+
+    /**
+     * @description: 点击用户协议
+     */
+    toUserAgree() {
+      this.$router.push({ path: "/userAgreement" });
+    },
+
+    /**
+     * @description: 点击隐私政策
+     */
+    toPrivacyPolicy() {
+      this.$router.push({ path: "/privacyPolicy" });
     },
 
     /**
@@ -279,4 +299,15 @@ export default {
 </script>
 
 <style lang="scss">
+.agreeMentBox {
+  margin-top: 8px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.4);
+  & span:nth-child(2) {
+    color: #f96d3f;
+  }
+  & span:nth-child(4) {
+    color: #f96d3f;
+  }
+}
 </style>
