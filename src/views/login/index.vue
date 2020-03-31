@@ -2,14 +2,14 @@
  * @Author: liyh
  * @Date: 2020-03-30 14:02:41
  * @LastEditors: liyh
- * @LastEditTime: 2020-03-30 18:10:39
+ * @LastEditTime: 2020-03-31 17:02:12
  -->
 <template>
   <div class="Wrapper">
     <div class="bg"></div>
     <div class="box">
       <div class="operationBox">
-        <div>返回</div>
+        <div @click="back">{{backText}}</div>
         <div @click="changeOperationType">{{operationType==0?'去注册':'返回登录'}}</div>
       </div>
       <!-- 登录部分 -->
@@ -37,13 +37,20 @@ export default {
   },
   data() {
     return {
+      backText: "<返回",
       operationType: 0 //0代表登录，1代表注册
     };
   },
   methods: {
-    changeUesrType(type) {
-      this.userType = type;
+    /**
+     * @description: 点击返回
+     */
+    back() {
+      //TODO
     },
+    /**
+     * @description: 切换操作类型(登录or注册)
+     */
     changeOperationType() {
       this.operationType = ~this.operationType + 2; //0变1，1变0
     }

@@ -57,6 +57,17 @@ const routes = [
       title: '用户协议'
     }
   },
+  //服务列表
+  {
+    path: "/serviceList",
+    name: "serviceList",
+    component: () =>
+      import("../views/serviceList/index.vue"),
+    meta: {
+      // 页面标题title
+      title: '用户协议'
+    }
+  },
   // 发布信息
   {
     path: "/publish",
