@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/home/index.vue";
+// import userCenter from "..views/userCenter/index.vue"
 
 Vue.use(VueRouter);
 
@@ -68,6 +69,24 @@ const routes = [
     name: "serviceInfo",
     component: () => import("../views/serviceInfo/serviceInfo.vue")
   },
+  // 个人中心
+  {
+    path: "/userCenter",
+    name: "userCenter",
+    component: () => import("../views/userCenter/index.vue"),
+    meta: {
+      title: "个人中心"
+    }
+  },
+  // 管理中心
+  {
+    path: "/manageCenter",
+    name: "manageCenter",
+    component: () => import("../views/manageCenter/index.vue"),
+    meta: {
+      title: "管理中心"
+    }
+  }
 ];
 
 const router = new VueRouter({
