@@ -11,11 +11,11 @@
         active-text-color="#1DBC76"
       >
         <div class="menu_title">管理中心</div>
-        <el-menu-item index="1">
-          <span slot="title" @click="ToAuth('1')">基本信息</span>
+        <el-menu-item index="1" @click="ToAuth('1')">
+          <span slot="title">基本信息</span>
         </el-menu-item>
-        <el-menu-item index="2">
-          <span slot="title" @click="ToAuth('2')">认证管理</span>
+        <el-menu-item index="2" @click="ToAuth('2')">
+          <span slot="title">认证管理</span>
         </el-menu-item>
         <el-submenu index="3">
           <template slot="title">
@@ -68,13 +68,13 @@ export default {
   },
   methods: {
     handleOpen(key, keyPath) {
-      console.log("handleOpen",key, keyPath);
+      console.log("handleOpen", key, keyPath);
     },
     handleClose(key, keyPath) {
-      console.log("handleClose",key, keyPath);
+      console.log("handleClose", key, keyPath);
     },
     ToAuth(e) {
-      console.log("e",e);
+      console.log("e", e);
       this.active = e;
     }
   }
@@ -90,6 +90,7 @@ export default {
   .menu {
     width: 200px;
     height: 609px;
+    margin-bottom: 60px;
     .el-menu-vertical-demo {
       height: 100%;
       padding-top: 32px;

@@ -1,18 +1,18 @@
 <template>
   <div>
-    <div class="base_row">
+    <div class="content_row">
       <span class="left_title">纳税识别号</span>
       <input placeholder="请输入纳税识别号" value="" />
     </div>
-    <div class="base_row">
+    <div class="content_row">
       <span class="left_title" style="letter-spacing:4px;"> 法人代表</span>
       <input placeholder="请输入法人代表的姓名" value="" />
     </div>
-    <div class="base_row">
+    <div class="content_row">
       <span class="left_title"> 法人身份证</span>
       <input placeholder="请输入法人身份证" value="" />
     </div>
-    <div class="base_row">
+    <div class="content_row">
       <span class="left_title" style="letter-spacing:5px;"> 营业执照</span>
       <div class="span_grey">
         <p>
@@ -48,8 +48,9 @@
         </el-dialog>
       </div>
     </div>
-
-    <el-button>保存</el-button>
+    <div class="button">
+      <el-button @click="save">保存</el-button>
+    </div>
   </div>
 </template>
 <script>
@@ -95,12 +96,11 @@ export default {
 }
 </style>
 
-<style lang="scss" scope>
-.base_row {
+<style lang="scss" scoped>
+.content_row {
   margin-top: 30px;
   display: flex;
   align-items: baseline;
-
   .left_title {
     min-width: 110px;
     display: inline-block;
@@ -142,13 +142,16 @@ export default {
     border: 0;
   }
 }
-.el-button {
-  width: 340px;
-  height: 56px;
-  background: rgba(29, 188, 118, 1);
-  font-size: 22px;
-  font-weight: 400;
-  color: rgba(255, 255, 255, 1);
-  margin-top: 50px;
+.button {
+  text-align: left;
+  .el-button {
+    width: 340px;
+    height: 56px;
+    background: rgba(29, 188, 118, 1);
+    font-size: 22px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 1);
+    margin-top: 50px;
+  }
 }
 </style>

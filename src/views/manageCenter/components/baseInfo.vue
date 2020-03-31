@@ -20,7 +20,9 @@
       <span class="left_title">联系电话</span>
       <input placeholder="请输入联系人电话" v-model="phone" />
     </div>
-    <el-button @click="save">保存</el-button>
+    <div class="button">
+      <el-button @click="save">保存</el-button>
+    </div>
   </div>
 </template>
 <script>
@@ -43,7 +45,7 @@ export default {
   }
 };
 </script>
-<style lang="scss" scope>
+<style lang="scss" scoped>
 .content_row {
   margin-top: 30px;
   display: flex;
@@ -86,13 +88,16 @@ export default {
     border: 0;
   }
 }
-.el-button {
-  width: 340px;
-  height: 56px;
-  background: rgba(29, 188, 118, 1);
-  font-size: 22px;
-  font-weight: 400;
-  color: rgba(255, 255, 255, 1);
-  margin-top: 50px;
+.button {
+  text-align: left;
+  .el-button {
+    width: 340px;
+    height: 56px;
+    background: rgba(29, 188, 118, 1);
+    font-size: 22px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 1);
+    margin-top: 50px;
+  }
 }
 </style>

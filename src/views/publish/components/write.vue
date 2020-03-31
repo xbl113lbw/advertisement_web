@@ -102,11 +102,11 @@
                     return
                 }
                 for (let item of files) {
-                    const isImg = item.type === 'image/png';
-                    if (!isImg) {
-                        this.$message.error('请上传图片');
-                        return
-                    }
+                    // const isImg = item.type === 'image/png';
+                    // if (!isImg) {
+                    //     this.$message.error('请上传图片');
+                    //     return
+                    // }
                     let size = item.size;
                     if (size / (1024 * 1024) < 5) {
                         this.imgLists.push(item);
