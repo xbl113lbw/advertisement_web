@@ -34,6 +34,38 @@ const routes = [
       title: "登录"
     }
   },
+  //隐私政策
+  {
+    path: "/privacyPolicy",
+    name: "privacyPolicy",
+    component: () => import("../views/privacyPolicy/index.vue"),
+    meta: {
+      // 页面标题title
+      title: "隐私政策"
+    }
+  },
+  //用户协议
+  {
+    path: "/userAgreement",
+    name: "userAgreement",
+    component: () => import("../views/userAgreement/index.vue"),
+    meta: {
+      // 页面标题title
+      title: "用户协议"
+    }
+  },
+  // 发布信息
+  {
+    path: "/publish",
+    name: "publish",
+    component: () => import("../views/publish/publish.vue")
+  },
+  // 服务详情
+  {
+    path: "/serviceInfo",
+    name: "serviceInfo",
+    component: () => import("../views/serviceInfo/serviceInfo.vue")
+  },
   // 个人中心
   {
     path: "/userCenter",
