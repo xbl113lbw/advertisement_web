@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-31 10:44:38
  * @LastEditors: liyh
- * @LastEditTime: 2020-03-31 11:42:49
+ * @LastEditTime: 2020-03-31 13:48:37
  -->
 <template>
   <div class="box">
@@ -168,6 +168,9 @@ export default {
       opacity: 0.4;
       display: inline-block;
       margin-right: 5px;
+    }
+    span:hover {
+      text-decoration: underline;
     }
     img {
       width: 10px;

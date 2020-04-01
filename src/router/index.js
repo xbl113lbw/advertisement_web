@@ -12,7 +12,7 @@ const routes = [
     component: Home,
     meta: {
       // 页面标题title
-      title: "首页"
+      title: '首页'
     }
   },
   {
@@ -28,30 +28,44 @@ const routes = [
   {
     path: "/login",
     name: "Login",
-    component: () => import("../views/login/index.vue"),
+    component: () =>
+      import("../views/login/index.vue"),
     meta: {
       // 页面标题title
-      title: "登录"
+      title: '登录'
     }
   },
   //隐私政策
   {
     path: "/privacyPolicy",
     name: "privacyPolicy",
-    component: () => import("../views/privacyPolicy/index.vue"),
+    component: () =>
+      import("../views/privacyPolicy/index.vue"),
     meta: {
       // 页面标题title
-      title: "隐私政策"
+      title: '隐私政策'
     }
   },
   //用户协议
   {
     path: "/userAgreement",
     name: "userAgreement",
-    component: () => import("../views/userAgreement/index.vue"),
+    component: () =>
+      import("../views/userAgreement/index.vue"),
     meta: {
       // 页面标题title
-      title: "用户协议"
+      title: '用户协议'
+    }
+  },
+  //服务列表
+  {
+    path: "/serviceList",
+    name: "serviceList",
+    component: () =>
+      import("../views/serviceList/index.vue"),
+    meta: {
+      // 页面标题title
+      title: '用户协议'
     }
   },
   // 发布信息
