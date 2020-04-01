@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-31 13:55:18
  * @LastEditors: liyh
- * @LastEditTime: 2020-03-31 17:45:29
+ * @LastEditTime: 2020-04-01 14:22:40
  -->
 <template>
   <div class="Wrapper">
@@ -99,7 +99,6 @@ export default {
 <style lang="scss">
 #pagination {
   margin-top: 95px;
-  padding-bottom: 177px;
   .number {
     width: 40px;
     height: 40px;
@@ -137,6 +136,7 @@ export default {
 .Wrapper {
   width: 1200px;
   margin: 0 auto;
+  padding-bottom: 177px;
   .breadcrumbBox {
     display: flex;
     font-size: 16px;
