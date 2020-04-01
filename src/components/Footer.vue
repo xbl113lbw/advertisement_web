@@ -38,8 +38,7 @@
         },
         watch: {
             '$route'(to) {
-                // 对路由变化作出响应...
-                if (to.path === "/publish") {
+                if (to.path === "/publish" || to.path === "/login") {
                     this.showFooter = false;
                     return
                 }

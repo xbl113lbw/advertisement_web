@@ -1,5 +1,5 @@
 <template>
-    <div id="header">
+    <div id="header" v-show="showHeader">
         <div class="nav">
             <!--左侧地址-->
             <div class="left">
@@ -51,7 +51,7 @@
                         <span>背景/形象墙</span>
                     </div>
                 </li>
-                <router-link to="/">登录/注册</router-link>
+                <router-link to="/login">登录/注册</router-link>
             </ul>
         </div>
     </div>
@@ -63,7 +63,17 @@
         data() {
             return {
                 navIndex: 0,
+                showHeader: true
             }
+        },
+        watch: {
+            '$route'(to) {
+                if (to.path === "/login") {
+                    this.showHeader = false;
+                    return
+                }
+                this.showHeader = true;
+            },
         },
         methods: {
             navChange(index) {

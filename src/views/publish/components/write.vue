@@ -102,7 +102,7 @@
                     return
                 }
                 for (let item of files) {
-                    const isImg = item.type === 'image/png';
+                    const isImg = item.type === 'image/png' || item.type === 'image/jpeg';
                     if (!isImg) {
                         this.$message.error('请上传图片');
                         return
