@@ -13,7 +13,7 @@
                 </div>
                 <div class="content_title">
                     <p>发布时间：2020.03.19</p>
-                    <p>浏览人数：28人</p>
+                    <p>浏览人数：29人</p>
                 </div>
                 <div class="goods_detail">
                     <div class="detail_left">
