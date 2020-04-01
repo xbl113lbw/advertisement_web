@@ -36,19 +36,11 @@ export default {
       showFooter: true
     };
   },
-  watch: {
-    $route(to) {
-      let excludeUrl = [
-        "/login",
-        "/userAgreement",
-        "/privacyPolicy",
-        "/publish"
-      ]; //这几个路由不需要底部
-      if (excludeUrl.includes(to.path)) {
-        this.showFooter = false;
-        return;
-      }
-      this.showFooter = true;
+  mounted() {
+    let excludeUrl = ["/login", "/userAgreement", "/privacyPolicy", "/publish"]; //这几个路由不需要底部
+    if (excludeUrl.includes(window.location.pathname)) {
+      this.showFooter = false;
+      return;
     }
   }
 };

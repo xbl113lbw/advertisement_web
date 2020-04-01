@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-30 14:02:41
  * @LastEditors: liyh
- * @LastEditTime: 2020-03-31 17:02:12
+ * @LastEditTime: 2020-04-01 15:25:23
  -->
 <template>
   <div class="Wrapper">
@@ -74,8 +74,9 @@ body {
   justify-content: center;
   flex: 1;
   position: relative;
-  top: 12%;
+  top: 15vh;
   font-weight: 400;
+  font-family: PingFangSC-Regular, PingFang SC;
   .bg {
     position: fixed;
     top: 0;
@@ -175,7 +176,9 @@ body {
       .right {
         width: 90px;
         height: 30px;
-        line-height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         text-align: center;
         background: #f0f0f0;
         border-radius: 2px;

@@ -66,14 +66,11 @@ export default {
       showHeader: true
     };
   },
-  watch: {
-    $route(to) {
-      let excludeUrl = ["/login", "/userAgreement", "/privacyPolicy"]; //这几个路由不需要顶部导航栏
-      if (excludeUrl.includes(to.path)) {
-        this.showHeader = false;
-        return;
-      }
-      this.showHeader = true;
+  mounted() {
+    let excludeUrl = ["/login", "/userAgreement", "/privacyPolicy"]; //这几个路由不需要顶部导航栏
+    if (excludeUrl.includes(window.location.pathname)) {
+      this.showHeader = false;
+      return;
     }
   },
   methods: {

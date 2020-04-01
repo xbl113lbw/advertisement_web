@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-30 16:13:50
  * @LastEditors: liyh
- * @LastEditTime: 2020-03-31 13:43:45
+ * @LastEditTime: 2020-04-01 15:23:58
  -->
 <template>
   <!-- 注册部分 -->
@@ -163,14 +163,14 @@ export default {
      * @description: 点击用户协议
      */
     toUserAgree() {
-      this.$router.push({ path: "/userAgreement" });
+      window.open(window.location.origin + "/userAgreement", "_blank");
     },
 
     /**
      * @description: 点击隐私政策
      */
     toPrivacyPolicy() {
-      this.$router.push({ path: "/privacyPolicy" });
+      window.open(window.location.origin + "/privacyPolicy", "_blank");
     },
 
     /**
@@ -192,7 +192,7 @@ export default {
             this.errorType = "userName";
             this.errorMassage = "请输入用户名";
             return false;
-          } else if (!(userName.length >= 4 && userName.length <= 20)) {
+          } else if (!(userName.length >= 5 && userName.length <= 20)) {
             this.errorType = "userName";
             this.errorMassage = "用户名错误，请重新输入";
             return false;
