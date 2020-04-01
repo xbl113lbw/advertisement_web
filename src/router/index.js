@@ -15,15 +15,6 @@ const routes = [
       title: '首页'
     }
   },
-  {
-    path: "/about",
-    name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/about/index.vue")
-  },
   //登录
   {
     path: "/login",
@@ -65,7 +56,7 @@ const routes = [
       import("../views/serviceList/index.vue"),
     meta: {
       // 页面标题title
-      title: '用户协议'
+      title: '服务列表'
     }
   },
   // 发布信息

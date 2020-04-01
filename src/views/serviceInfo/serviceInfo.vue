@@ -235,7 +235,6 @@ export default {
 
     .title {
       width: 712px;
-      margin-bottom: 12px;
       font-size: 28px;
       font-weight: 600;
       color: rgba(0, 0, 0, 0.8);
@@ -247,7 +246,6 @@ export default {
 
       .title {
         width: 712px;
-        margin-bottom: 12px;
         font-size: 28px;
         font-weight: 600;
         color: rgba(0, 0, 0, 0.8);
@@ -389,6 +387,7 @@ export default {
           font-size: 16px;
           color: rgba(0, 0, 0, 0.6);
           margin-top: 14px;
+          text-align: left;
           p {
             margin-top: 16px;
           }
@@ -444,7 +443,7 @@ export default {
 
     .content-right {
       .top {
-        margin-bottom: 60px;
+        margin-bottom: 65px;
         margin-left: 60px;
         padding: 24px 30px 60px;
         border: 1px solid #e5e5e5;
