@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-30 11:04:57
  * @LastEditors: liyh
- * @LastEditTime: 2020-03-31 11:41:17
+ * @LastEditTime: 2020-04-01 14:21:42
  -->
 <template>
   <div class="home">
@@ -25,4 +25,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.home {
+  padding-bottom: 177px;
+}
 </style>
