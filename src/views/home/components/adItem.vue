@@ -2,11 +2,11 @@
  * @Author: liyh
  * @Date: 2020-03-31 10:44:38
  * @LastEditors: liyh
- * @LastEditTime: 2020-03-31 13:48:37
+ * @LastEditTime: 2020-04-01 16:58:14
  -->
 <template>
   <div class="box">
-    <div class="title">广告传媒</div>
+    <div class="title">广告传媒{{idx}}</div>
     <div class="typeBox">
       <div
         v-for="(iten,index) in [1,2,3,4]"
@@ -38,6 +38,11 @@
 <script>
 export default {
   name: "adItem",
+  props: {
+    idx: {
+      type: Number
+    }
+  },
   data() {
     return {
       selectIndex: 0 //当前选择的index，默认第一个

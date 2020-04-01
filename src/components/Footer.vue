@@ -42,6 +42,21 @@ export default {
       this.showFooter = false;
       return;
     }
+  },
+  watch: {
+    $route(to) {
+      let excludeUrl = [
+        "/login",
+        "/userAgreement",
+        "/privacyPolicy",
+        "/publish"
+      ]; //这几个路由不需要底部
+      if (excludeUrl.includes(to.path)) {
+        this.showFooter = false;
+        return;
+      }
+      this.showFooter = true;
+    }
   }
 };
 </script>

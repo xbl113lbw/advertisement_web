@@ -58,6 +58,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+import common from "./../utils/common";
 export default {
   name: "HeaderNav",
   data() {
@@ -66,6 +68,12 @@ export default {
       showHeader: true
     };
   },
+  computed: {
+    ...mapState({
+      navoffsetTop: state => state.navoffsetTop, //获取navIndex
+      homeLoadSuccess: state => state.homeLoadSuccess
+    })
+  },
   mounted() {
     let excludeUrl = ["/login", "/userAgreement", "/privacyPolicy"]; //这几个路由不需要顶部导航栏
     if (excludeUrl.includes(window.location.pathname)) {
@@ -73,9 +81,31 @@ export default {
       return;
     }
   },
+  watch: {
+    $route(to) {
+      let excludeUrl = ["/login", "/userAgreement", "/privacyPolicy"]; //这几个路由不需要顶部导航栏
+      if (excludeUrl.includes(to.path)) {
+        this.showHeader = false;
+        return;
+      }
+      this.showHeader = true;
+    },
+    homeLoadSuccess: {
+      handler(newStatus) {
+        if (newStatus) {
+          common.scrollToTargetPageY(this.navoffsetTop[this.navIndex]); //滚动页面到指定位置
+        }
+      }
+    }
+  },
   methods: {
     navChange(index) {
       this.navIndex = index;
+      if (window.location.pathname !== "/") {
+        this.$router.push({ path: "/" });
+      } else {
+        common.scrollToTargetPageY(this.navoffsetTop[index]); //滚动页面到指定位置
+      }
     }
   }
 };
@@ -147,7 +177,9 @@ export default {
         line-height: 22px;
         cursor: pointer;
         z-index: 100;
-
+        &:hover {
+          color: #1dbc76;
+        }
         &:hover .right-lists {
           display: flex;
           align-items: center;

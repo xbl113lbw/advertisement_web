@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-30 14:02:41
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-01 15:25:23
+ * @LastEditTime: 2020-04-01 16:40:53
  -->
 <template>
   <div class="Wrapper">
@@ -47,6 +47,7 @@ export default {
      */
     back() {
       //TODO
+      this.$router.go(-1);
     },
     /**
      * @description: 切换操作类型(登录or注册)
@@ -77,6 +78,7 @@ body {
   top: 15vh;
   font-weight: 400;
   font-family: PingFangSC-Regular, PingFang SC;
+  cursor: pointer;
   .bg {
     position: fixed;
     top: 0;

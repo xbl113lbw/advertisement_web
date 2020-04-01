@@ -1,11 +1,28 @@
 import Vue from "vue";
 import Vuex from "vuex";
-
+// vuex 持久化插件（原理：将数据保存在session中一份）
+import persistedState from "vuex-persistedstate"
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {},
-  mutations: {},
+  plugins: [persistedState({ storage: window.sessionStorage })],
+  state: {
+    navIndex: 0,//顶部导航栏当前索引
+    navoffsetTop: {},//每个大类对应的top值
+    homeLoadSuccess: false,//首页DOM加载完成
+  },
+  mutations: {
+    changeNavIndex(state, data) {
+      state.navIndex = data;
+    },
+    setNavoffsetTop(state, data) {
+      state.navoffsetTop = { ...state.navoffsetTop, ...data }
+    },
+    setHomeLoadStatus(state, data) {
+      console.log('data', data);
+      state.homeLoadSuccess = data;
+    }
+  },
   actions: {},
   modules: {}
 });

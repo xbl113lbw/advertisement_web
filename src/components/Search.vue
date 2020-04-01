@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-31 10:39:35
  * @LastEditors: liyh
- * @LastEditTime: 2020-03-31 10:43:03
+ * @LastEditTime: 2020-04-01 18:24:07
  -->
 <!--
  * @Author: liyh
@@ -37,13 +37,19 @@
         </div>
       </div>
     </div>
-    <div class="publishBox">免费发布信息</div>
+    <div @click="toPublish" class="publishBox">免费发布信息</div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Search"
+  name: "Search",
+
+  methods: {
+    toPublish() {
+      this.$router.push({ path: "/publish" });
+    }
+  }
 };
 </script>
 
