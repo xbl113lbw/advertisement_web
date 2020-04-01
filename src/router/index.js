@@ -65,7 +65,7 @@ const routes = [
       import("../views/serviceList/index.vue"),
     meta: {
       // 页面标题title
-      title: '用户协议'
+      title: '服务列表'
     }
   },
   // 发布信息
