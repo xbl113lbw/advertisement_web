@@ -26,7 +26,8 @@
                 <swiper-slide> 4</swiper-slide>
                 <swiper-slide> 5</swiper-slide>
                 <swiper-slide> 6</swiper-slide>
-                <div class="swiper-pagination" slot="pagination"></div>
+                <div class="swiper-button-prev" slot="button-prev"></div>
+                <div class="swiper-button-next" slot="button-next"></div>
               </swiper>
             </div>
           </div>
@@ -50,10 +51,10 @@
               <img src="../../assets/serviceInfo/20.png" />
             </div>
             <div class="button">
-              <el-button @click="look"
-                ><img src="../../assets/serviceInfo/tel.png" />
-                <p>查看商家电话号码</p></el-button
-              >
+              <button @click="look">
+                <img src="../../assets/serviceInfo/tel.png" />
+                <p>查看商家电话号码</p>
+              </button>
             </div>
           </div>
         </div>
@@ -76,14 +77,18 @@ export default {
     return {
       swiperOption: {
         slidesPerView: 4,
-        spaceBetween: 30,
+        spaceBetween: 10,
         centeredSlides: true,
-        loop:true,
+        loop: true,
         initialSlide: 1,
-        pagination: {
-          el: ".swiper-pagination",
-          clickable: true
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev"
         }
+        // pagination: {
+        //   el: ".swiper-pagination",
+        //   clickable: true
+        // }
       }
     };
   }
@@ -91,6 +96,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.swiper-container {
+  --swiper-navigation-color: #000000; /* 单独设置按钮颜色 */
+  --swiper-navigation-size: 18px; /* 设置按钮大小 */
+}
 .swiper-slide {
   width: 100px;
   height: 75px;
@@ -187,7 +196,7 @@ export default {
           }
           .button {
             text-align: left;
-            .el-button {
+            button {
               display: flex;
               justify-content: center;
               width: 310px;
@@ -199,6 +208,7 @@ export default {
               p {
                 display: inline-block;
                 line-height: 36px;
+                padding-left: 24px;
               }
               img {
                 display: inline-block;
