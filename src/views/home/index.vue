@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-30 11:04:57
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-01 18:35:42
+ * @LastEditTime: 2020-04-02 10:55:19
  -->
 <template>
   <div class="home">
@@ -40,10 +40,7 @@ export default {
     console.log("obj", obj);
     this.setNavoffsetTop(obj);
     this.setHomeLoadStatus(true);
-
-    setTimeout(() => {
-      this.loading = false;
-    }, 2000);
+    this.loading = false;
   },
   destroyed() {
     this.setHomeLoadStatus(false);

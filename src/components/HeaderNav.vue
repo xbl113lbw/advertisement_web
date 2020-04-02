@@ -65,12 +65,13 @@ export default {
   data() {
     return {
       navIndex: 0,
-      showHeader: true
+      showHeader: true,
+      clickByNav: false
     };
   },
   computed: {
     ...mapState({
-      navoffsetTop: state => state.navoffsetTop, //获取navIndex
+      navoffsetTop: state => state.navoffsetTop,
       homeLoadSuccess: state => state.homeLoadSuccess
     })
   },
@@ -92,7 +93,8 @@ export default {
     },
     homeLoadSuccess: {
       handler(newStatus) {
-        if (newStatus) {
+        if (newStatus && this.clickByNav) {
+          this.clickByNav = false;
           common.scrollToTargetPageY(this.navoffsetTop[this.navIndex]); //滚动页面到指定位置
         }
       }
@@ -102,10 +104,11 @@ export default {
     navChange(index) {
       this.navIndex = index;
       if (window.location.pathname !== "/") {
+        this.clickByNav = true;
         this.$router.push({ path: "/" });
-      } else {
-        common.scrollToTargetPageY(this.navoffsetTop[index]); //滚动页面到指定位置
+        return;
       }
+      common.scrollToTargetPageY(this.navoffsetTop[index]); //滚动页面到指定位置
     }
   }
 };

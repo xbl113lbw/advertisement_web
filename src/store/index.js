@@ -7,14 +7,10 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   plugins: [persistedState({ storage: window.sessionStorage })],
   state: {
-    navIndex: 0,//顶部导航栏当前索引
     navoffsetTop: {},//每个大类对应的top值
     homeLoadSuccess: false,//首页DOM加载完成
   },
   mutations: {
-    changeNavIndex(state, data) {
-      state.navIndex = data;
-    },
     setNavoffsetTop(state, data) {
       state.navoffsetTop = { ...state.navoffsetTop, ...data }
     },
