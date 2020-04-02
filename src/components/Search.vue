@@ -2,23 +2,11 @@
  * @Author: liyh
  * @Date: 2020-03-31 10:39:35
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-01 18:24:07
- -->
-<!--
- * @Author: liyh
- * @Date: 2020-03-31 10:08:12
- * @LastEditors: liyh
- * @LastEditTime: 2020-03-31 10:38:24
- -->
-<!--
- * @Author: liyh
- * @Date: 2020-03-30 11:04:57
- * @LastEditors: liyh
- * @LastEditTime: 2020-03-31 10:32:02
+ * @LastEditTime: 2020-04-02 13:54:17
  -->
 <template>
   <div class="searchBox">
-    <div class="logo">
+    <div class="logo" @click="toIndex">
       <img src="@/assets/home/logo.png" alt />
     </div>
     <div class="searchArea">
@@ -46,8 +34,22 @@ export default {
   name: "Search",
 
   methods: {
+    /**
+     * @description: 点击发布信息
+     */
     toPublish() {
       this.$router.push({ path: "/publish" });
+    },
+    /**
+     * @description: 点击去首页
+     */
+    toIndex() {
+      if (window.location.pathname === "/") {
+        //如果当前是首页，则刷新一下
+        window.location.reload();
+      } else {
+        this.$router.push({ path: "/" });
+      }
     }
   }
 };
@@ -63,6 +65,7 @@ export default {
   .logo {
     width: 156px;
     height: 42px;
+    cursor: pointer;
     img {
       width: 100%;
       height: 100%;
@@ -95,6 +98,7 @@ export default {
         }
       }
       .searchBtn {
+        cursor: pointer;
         width: 96px;
         height: 40px;
         background: #1dbc76;
@@ -109,6 +113,7 @@ export default {
     .recommendBox {
       position: absolute;
       bottom: -32px;
+      cursor: pointer;
       span {
         margin-right: 16px;
         font-size: 12px;
@@ -133,6 +138,7 @@ export default {
   }
 
   .publishBox {
+    cursor: pointer;
     width: 146px;
     height: 40px;
     background: #f66f42;

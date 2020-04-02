@@ -17,7 +17,7 @@
         <li :class="navIndex === 0 ? 'active' : ''" @click="navChange(0)">
           广告传媒
           <div class="right-lists">
-            <span>LED显示屏</span>
+            <span @click.stop="toServiceList">LED显示屏</span>
             <span>灯箱/招牌</span>
             <span>户外广告</span>
             <span>背景/形象墙</span>
@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 import common from "./../utils/common";
 export default {
   name: "HeaderNav",
@@ -101,14 +101,21 @@ export default {
     }
   },
   methods: {
+    ...mapMutations({
+      setHomeLoadStatus: "setHomeLoadStatus"
+    }),
     navChange(index) {
       this.navIndex = index;
       if (window.location.pathname !== "/") {
+        // this.setHomeLoadStatus(false);
         this.clickByNav = true;
         this.$router.push({ path: "/" });
         return;
       }
       common.scrollToTargetPageY(this.navoffsetTop[index]); //滚动页面到指定位置
+    },
+    toServiceList() {
+      console.log("toServiceList");
     }
   }
 };

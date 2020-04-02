@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-30 14:14:28
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-01 18:28:30
+ * @LastEditTime: 2020-04-02 11:54:25
  */
 class Common {
     /**
@@ -14,12 +14,12 @@ class Common {
         let timer = setInterval(() => {
             let currentY = document.documentElement.scrollTop || document.body.scrollTop;//当前及滑动中任意时刻位置
             let distance = targetPageY > currentY ? targetPageY - currentY : currentY - targetPageY;//剩余距离
-            let speed = Math.ceil(distance / 10);//每时刻速度
+            let speed = Math.ceil(distance / 8);//每时刻速度
             if (currentY == targetPageY) {
                 //到达目标点
                 clearInterval(timer);
             } else {
-                window.scrollTo(0, targetPageY > currentY ? currentY + speed : currentY - speed);
+                document.documentElement.scrollTop = targetPageY > currentY ? currentY + speed : currentY - speed
             }
         }, 10);
     }

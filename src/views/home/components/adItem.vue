@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-31 10:44:38
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-01 16:58:14
+ * @LastEditTime: 2020-04-02 11:55:31
  -->
 <template>
   <div class="box">
@@ -73,6 +73,7 @@ export default {
   width: 1200px;
   margin: 0 auto;
   margin-top: 80px;
+  cursor: pointer;
   .title {
     font-size: 28px;
     font-weight: 600;

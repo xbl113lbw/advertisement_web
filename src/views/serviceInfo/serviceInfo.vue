@@ -8,9 +8,7 @@
     <!-- 内容详情 -->
     <div class="content">
       <div class="content-left">
-        <div class="title omit">
-          标题标题标题标题标题标题标题标题标题标标题标题标题标题标题标题
-        </div>
+        <div class="title omit">标题标题标题标题标题标题标题标题标题标标题标题标题标题标题标题</div>
         <div class="content_title">
           <p>发布时间：2020.03.19</p>
           <p>浏览人数：28人</p>
@@ -20,12 +18,12 @@
             <div class="img"></div>
             <div class="img_list">
               <swiper class="swiper" :options="swiperOption">
-                <swiper-slide> 1</swiper-slide>
-                <swiper-slide> 2</swiper-slide>
-                <swiper-slide> 3</swiper-slide>
-                <swiper-slide> 4</swiper-slide>
-                <swiper-slide> 5</swiper-slide>
-                <swiper-slide> 6</swiper-slide>
+                <swiper-slide>1</swiper-slide>
+                <swiper-slide>2</swiper-slide>
+                <swiper-slide>3</swiper-slide>
+                <swiper-slide>4</swiper-slide>
+                <swiper-slide>5</swiper-slide>
+                <swiper-slide>6</swiper-slide>
                 <div class="swiper-button-prev" slot="button-prev"></div>
                 <div class="swiper-button-next" slot="button-next"></div>
               </swiper>
@@ -42,9 +40,7 @@
             </div>
             <div class="detail_row">
               <span class="left_title">公司地址</span>：
-              <p class="P">
-                深圳市南山区南头街道大汪山社区桃园路8号田厦金牛广场A座2601室
-              </p>
+              <p class="P">深圳市南山区南头街道大汪山社区桃园路8号田厦金牛广场A座2601室</p>
             </div>
             <div class="detail_row">
               <span class="left_title">价格</span>：
@@ -59,7 +55,7 @@
           </div>
         </div>
         <div class="content_left_bottom">
-          <el-tabs v-model="activeName" @tab-click="handleClick">
+          <el-tabs v-model="activeName" @tab-click="handleClick" id="elTabs">
             <el-tab-pane label="服务描述" name="first">
               <div class="server_dec">
                 <p>
@@ -82,8 +78,7 @@
                     v-model="textarea"
                     maxlength="100"
                     show-word-limit
-                  >
-                  </el-input>
+                  ></el-input>
                   <el-button>评论</el-button>
                 </div>
                 <div class="discuss_list">
@@ -91,9 +86,9 @@
                     <div class="avter"></div>
                     <div class="discuss_right">
                       <div class="phone">129********</div>
-                      <div class="discuss_content">
-                        这家服务特别好～大家可以放心的选择他家的服务～这家服务特别好～大家可以放心的选择他家的服务～这家服务特别好～大家可以放心的选择他家的服务～这家服务特别好～大家可以放心的选择他家的服务～
-                      </div>
+                      <div
+                        class="discuss_content"
+                      >这家服务特别好～大家可以放心的选择他家的服务～这家服务特别好～大家可以放心的选择他家的服务～这家服务特别好～大家可以放心的选择他家的服务～这家服务特别好～大家可以放心的选择他家的服务～</div>
                     </div>
                   </div>
                 </div>
@@ -107,33 +102,21 @@
           <span class="top-title">温馨提示</span>
           <ul>
             <li>
-              <img
-                src="../../assets/serviceInfo/right-icon1.png"
-                alt=""
-                class="imgWrap"
-              />
+              <img src="../../assets/serviceInfo/right-icon1.png" alt class="imgWrap" />
               <div class="textWrap">
                 <span>线上沟通</span>
                 <span>要与商家要先在线上进行沟通</span>
               </div>
             </li>
             <li>
-              <img
-                src="../../assets/serviceInfo/right-icon1.png"
-                alt=""
-                class="imgWrap"
-              />
+              <img src="../../assets/serviceInfo/right-icon1.png" alt class="imgWrap" />
               <div class="textWrap">
                 <span>线下敲定</span>
                 <span>具体的细节要在线下进行敲定</span>
               </div>
             </li>
             <li>
-              <img
-                src="../../assets/serviceInfo/right-icon1.png"
-                alt=""
-                class="imgWrap"
-              />
+              <img src="../../assets/serviceInfo/right-icon1.png" alt class="imgWrap" />
               <div class="textWrap">
                 <span>谨慎汇款</span>
                 <span>请勿在线上给服务提供者汇款</span>
@@ -145,12 +128,15 @@
           <span class="bottom-title">相关推荐</span>
           <ul>
             <li v-for="(item, index) in [1, 2, 3, 4]" :key="index">
-              <img src="../../assets/logo.png" alt="" />
+              <img src="../../assets/logo.png" alt />
               <div class="textWrap">
                 <span class="omit">标题标题标题标题…</span>
                 <span>2020.03.19 ｜ 28人浏览过</span>
                 <span>展会服务 > 展会布置/搭建</span>
-                <span>20元<span>/m²</span></span>
+                <span>
+                  20元
+                  <span>/m²</span>
+                </span>
               </div>
             </li>
           </ul>
@@ -217,6 +203,14 @@ export default {
 
 .swiper-slide:nth-child(3n) {
   width: 20%;
+}
+/deep/#tab-first:hover {
+  color: #000000;
+  opacity: 0.8;
+}
+/deep/#tab-second:hover {
+  color: #000000;
+  opacity: 0.8;
 }
 
 .serviceInfo {
@@ -435,6 +429,9 @@ export default {
                   text-align: left;
                 }
               }
+            }
+            .discuss:last-child {
+              border-bottom: 0;
             }
           }
         }

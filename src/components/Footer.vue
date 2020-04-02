@@ -10,7 +10,7 @@
       </ul>
       <ul>
         <li>帮助中心</li>
-        <li>隐私政策</li>
+        <li @click="toPrivacyPolicy">隐私政策</li>
       </ul>
     </div>
     <div class="bottom">
@@ -41,6 +41,14 @@ export default {
     if (excludeUrl.includes(window.location.pathname)) {
       this.showFooter = false;
       return;
+    }
+  },
+  methods: {
+    /**
+     * @description: 点击隐私政策
+     */
+    toPrivacyPolicy() {
+      window.open(window.location.origin + "/privacyPolicy", "_blank");
     }
   },
   watch: {
@@ -101,6 +109,10 @@ export default {
 
         &:last-child {
           margin-bottom: 0;
+          cursor: pointer;
+        }
+        &:last-child:hover {
+          text-decoration: underline;
         }
       }
     }
