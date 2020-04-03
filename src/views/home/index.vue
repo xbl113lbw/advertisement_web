@@ -2,13 +2,13 @@
  * @Author: liyh
  * @Date: 2020-03-30 11:04:57
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-02 11:40:11
+ * @LastEditTime: 2020-04-03 13:58:44
  -->
 <template>
   <div class="home">
     <Search></Search>
-    <div v-for="(item,index) in [1,2,3,4]" :key="index" :id="index" class="navItemBox">
-      <AdItem :idx="index"></AdItem>
+    <div v-for="(item,index) in typeData" :key="index" :id="index" class="navItemBox">
+      <AdItem :typeData="item"></AdItem>
     </div>
     <div class="loading" v-show="loading" v-loading="loading"></div>
   </div>
@@ -18,11 +18,13 @@
 import { mapMutations, mapState } from "vuex";
 import Search from "@/components/Search";
 import AdItem from "./components/adItem";
+import typeData from "@/data/typeData";
 export default {
   name: "Home",
   data() {
     return {
-      loading: true
+      loading: true,
+      typeData: []
     };
   },
   components: { Search, AdItem },
@@ -32,6 +34,8 @@ export default {
     })
   },
   mounted() {
+    this.typeData = typeData;
+
     let el = [].slice.call(document.getElementsByClassName("navItemBox"));
     let obj = {};
     for (let index = 0; index < el.length; index++) {

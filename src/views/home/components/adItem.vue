@@ -2,29 +2,31 @@
  * @Author: liyh
  * @Date: 2020-03-31 10:44:38
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-02 11:55:31
+ * @LastEditTime: 2020-04-03 17:46:13
  -->
 <template>
   <div class="box">
-    <div class="title">广告传媒{{idx}}</div>
+    <div class="title">{{typeData.name}}</div>
     <div class="typeBox">
       <div
-        v-for="(iten,index) in [1,2,3,4]"
+        v-for="(item,index) in typeData.children"
         :key="index"
         @click="changeType(index)"
         :class="['typeItem',selectIndex==index?'highLight':'']"
       >
-        <span>导视系统设计</span>
+        <span>{{item.name}}</span>
       </div>
     </div>
     <div class="itemArea">
-      <div v-for="(iten,index) in [1,2,3,4]" :key="index" class="itemBox">
-        <div class="image"></div>
-        <div class="itemTitle">标题标题标题标题标题标题…</div>
-        <div class="itemContent">中国最大的以信息和知识为核心的互联…</div>
-        <div class="itemImformation">
-          <div>2020.03.18</div>
-          <div>28人浏览过</div>
+      <div v-for="(item,index) in currentsmallType.child" :key="index" class="itemBox">
+        <div v-if="currentItemData[item]" @click="toServiceInfo(item)">
+          <div class="image"></div>
+          <div class="itemTitle">{{currentItemData[item].title}}</div>
+          <div class="itemContent">中国最大的以信息和知识为核心的互联…</div>
+          <div class="itemImformation">
+            <div>{{currentItemData[item].date}}</div>
+            <div>{{currentItemData[item].browseCount}}人浏览过</div>
+          </div>
         </div>
       </div>
     </div>
@@ -36,17 +38,28 @@
 </template>
 
 <script>
+import itemData from "@/data/itemData";
 export default {
   name: "adItem",
   props: {
-    idx: {
-      type: Number
+    typeData: {
+      type: Object
     }
   },
   data() {
     return {
-      selectIndex: 0 //当前选择的index，默认第一个
+      selectIndex: 0, //当前选择的index，默认第一个,
+      // currentsmallType: []
+      currentItemData: {}
     };
+  },
+  computed: {
+    currentsmallType() {
+      return this.typeData["children"][this.selectIndex];
+    }
+  },
+  mounted() {
+    this.currentItemData = itemData;
   },
   methods: {
     /**
@@ -62,6 +75,27 @@ export default {
      */
     more() {
       //TODO
+      this.$router.push({
+        path: "/serviceList",
+        query: {
+          bigType: this.typeData.id,
+          smallType: this.typeData["children"][this.selectIndex].id
+        }
+      });
+    },
+    /**
+     * @description: 点击去详情
+     * @params 点击的唯一id
+     */
+    toServiceInfo(item) {
+      this.$router.push({
+        path: "/serviceInfo",
+        query: {
+          bigType: this.typeData.id,
+          smallType: this.typeData["children"][this.selectIndex].id,
+          id: item
+        }
+      });
     }
   },
   components: {}

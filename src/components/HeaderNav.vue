@@ -14,41 +14,19 @@
       </div>
       <!-- 右侧导航及登录 -->
       <ul class="right">
-        <li :class="navIndex === 0 ? 'active' : ''" @click="navChange(0)">
-          广告传媒
+        <li
+          v-for="(item,bigType_index) in bigType"
+          :key="bigType_index"
+          :class="navIndex == bigType_index ? 'active' : ''"
+          @click="navChange(bigType_index)"
+        >
+          {{item.name}}
           <div class="right-lists">
-            <span @click.stop="toServiceList">LED显示屏</span>
-            <span>灯箱/招牌</span>
-            <span>户外广告</span>
-            <span>背景/形象墙</span>
-          </div>
-        </li>
-        <li :class="navIndex === 1 ? 'active' : ''" @click="navChange(1)">
-          喷绘招牌
-          <div class="right-lists">
-            <span>hahahaha</span>
-            <span>灯箱/招牌</span>
-            <span>户外广告</span>
-            <span>背景/形象墙</span>
-          </div>
-        </li>
-        <li :class="navIndex === 2 ? 'active' : ''" @click="navChange(2)">
-          印刷包装
-          <div class="right-lists">
-            <span>lalalala</span>
-            <span>灯箱/招牌</span>
-            <span>户外广告</span>
-            <span>背景/形象墙</span>
-          </div>
-        </li>
-        <li :class="navIndex === 3 ? 'active' : ''" @click="navChange(3)">
-          展会服务
-          <div class="right-lists">
-            <span>lalalala</span>
-            <span>kakakaka</span>
-            <span>灯箱/招牌</span>
-            <span>户外广告</span>
-            <span>背景/形象墙</span>
+            <span
+              v-for="(item_s,smallType_index) in item.children"
+              :key="smallType_index"
+              @click.stop="toServiceList(bigType_index,smallType_index)"
+            >{{item_s.name}}</span>
           </div>
         </li>
         <router-link to="/login">登录/注册</router-link>
@@ -60,24 +38,30 @@
 <script>
 import { mapState, mapMutations } from "vuex";
 import common from "./../utils/common";
+import typeData from "@/data/typeData";
 export default {
   name: "HeaderNav",
+  inject: ["reload"],
   data() {
     return {
-      navIndex: 0,
       showHeader: true,
-      clickByNav: false
+      clickByNav: false,
+      bigType: []
     };
   },
   computed: {
     ...mapState({
+      navIndex: state => state.navIndex,
       navoffsetTop: state => state.navoffsetTop,
       homeLoadSuccess: state => state.homeLoadSuccess
     })
   },
+  created() {
+    this.bigType = typeData;
+  },
   mounted() {
     let excludeUrl = ["/login", "/userAgreement", "/privacyPolicy"]; //这几个路由不需要顶部导航栏
-    if (excludeUrl.includes(window.location.pathname)) {
+    if (excludeUrl.includes(this.$route.path)) {
       this.showHeader = false;
       return;
     }
@@ -102,20 +86,38 @@ export default {
   },
   methods: {
     ...mapMutations({
-      setHomeLoadStatus: "setHomeLoadStatus"
+      setHomeLoadStatus: "setHomeLoadStatus",
+      changeNavIndex: "changeNavIndex"
     }),
     navChange(index) {
-      this.navIndex = index;
-      if (window.location.pathname !== "/") {
-        // this.setHomeLoadStatus(false);
+      this.changeNavIndex(index);
+      if (this.$route.path !== "/") {
         this.clickByNav = true;
         this.$router.push({ path: "/" });
         return;
       }
       common.scrollToTargetPageY(this.navoffsetTop[index]); //滚动页面到指定位置
     },
-    toServiceList() {
-      console.log("toServiceList");
+    toServiceList(bigType_index, smallType_index) {
+      this.changeNavIndex(bigType_index);
+      if (this.$route.path === "/serviceList") {
+        this.$router.replace({
+          path: "/serviceList",
+          query: {
+            bigType: bigType_index,
+            smallType: smallType_index
+          }
+        });
+        this.reload();
+      } else {
+        this.$router.push({
+          path: "/serviceList",
+          query: {
+            bigType: bigType_index,
+            smallType: smallType_index
+          }
+        });
+      }
     }
   }
 };
@@ -219,7 +221,7 @@ export default {
             text-align: center;
             color: rgba(0, 0, 0, 0.4);
             background: #fff;
-
+            font-size: 12px;
             &:hover {
               color: #1dbc76;
               background: #f0f0f0;

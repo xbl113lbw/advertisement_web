@@ -38,7 +38,7 @@ export default {
   },
   mounted() {
     let excludeUrl = ["/login", "/userAgreement", "/privacyPolicy", "/publish"]; //这几个路由不需要底部
-    if (excludeUrl.includes(window.location.pathname)) {
+    if (excludeUrl.includes(this.$route.path)) {
       this.showFooter = false;
       return;
     }

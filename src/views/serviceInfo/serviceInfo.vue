@@ -2,16 +2,16 @@
   <div class="serviceInfo">
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item>首页</el-breadcrumb-item>
-      <el-breadcrumb-item>展会服务</el-breadcrumb-item>
-      <el-breadcrumb-item>展会布置/搭建</el-breadcrumb-item>
+      <el-breadcrumb-item>{{bigType[0].name}}</el-breadcrumb-item>
+      <el-breadcrumb-item>{{smallType[0].name}}</el-breadcrumb-item>
     </el-breadcrumb>
     <!-- 内容详情 -->
     <div class="content">
       <div class="content-left">
-        <div class="title omit">标题标题标题标题标题标题标题标题标题标标题标题标题标题标题标题</div>
+        <div class="title omit">{{detailData.title}}</div>
         <div class="content_title">
-          <p>发布时间：2020.03.19</p>
-          <p>浏览人数：28人</p>
+          <p>发布时间：{{detailData.date}}</p>
+          <p>浏览人数：{{detailData.browseCount}}人</p>
         </div>
         <div class="goods_detail">
           <div class="detail_left">
@@ -32,19 +32,22 @@
           <div class="detail_right">
             <div class="detail_row">
               <span class="left_title">联系人</span>：
-              <p class="P">喵喵喵</p>
+              <p class="P">{{detailData.contacts}}</p>
             </div>
             <div class="detail_row">
               <span class="left_title">公司名称</span>：
-              <p class="P">喵喵喵的公司</p>
+              <p class="P">{{detailData.companyName}}</p>
             </div>
             <div class="detail_row">
               <span class="left_title">公司地址</span>：
-              <p class="P">深圳市南山区南头街道大汪山社区桃园路8号田厦金牛广场A座2601室</p>
+              <p class="P">{{detailData.companyAddress}}</p>
             </div>
             <div class="detail_row">
               <span class="left_title">价格</span>：
-              <img src="../../assets/serviceInfo/20.png" />
+              <div class="price">
+                <span>{{detailData.price}}</span>
+                <span>/m²</span>
+              </div>
             </div>
             <div class="button">
               <button>
@@ -148,6 +151,8 @@
 
 <script>
 import { Swiper, SwiperSlide } from "vue-awesome-swiper";
+import itemData from "@/data/itemData";
+import typeData from "@/data/typeData";
 import "swiper/css/swiper.css";
 
 export default {
@@ -167,15 +172,27 @@ export default {
         navigation: {
           nextEl: ".swiper-button-next",
           prevEl: ".swiper-button-prev"
-        }
+        },
         // pagination: {
         //   el: ".swiper-pagination",
         //   clickable: true
         // }
+        bigType: [],
+        smallType: [],
+        detailData: {}
       },
       textarea: "",
       activeName: "first"
     };
+  },
+  created() {
+    this.bigType = typeData.filter(
+      item => item.id == this.$route.query.bigType
+    ); //根据id大类
+    this.smallType = this.bigType[0].children.filter(
+      item => item.id == this.$route.query.smallType
+    ); //根据id小类
+    this.detailData = itemData[this.$route.query.id]; //根据id匹配详情数据
   },
   methods: {
     handleClick(tab, event) {
@@ -204,6 +221,10 @@ export default {
 .swiper-slide:nth-child(3n) {
   width: 20%;
 }
+/deep/.el-breadcrumb__item:hover {
+  text-decoration: underline;
+}
+
 /deep/#tab-first:hover {
   color: #000000;
   opacity: 0.8;
@@ -220,7 +241,7 @@ export default {
   font-size: 16px;
   font-weight: 400;
   color: #000000;
-
+  cursor: pointer;
   .content {
     display: flex;
     justify-content: space-between;
@@ -233,6 +254,7 @@ export default {
       font-weight: 600;
       color: rgba(0, 0, 0, 0.8);
       line-height: 40px;
+      text-align: left;
     }
 
     .content-left {
@@ -291,6 +313,17 @@ export default {
             color: rgba(0, 0, 0, 0.4);
             // justify-content: space-between;
             margin-top: 30px;
+            .price {
+              margin-left: 10px;
+              color: #f96d3f;
+              font-family: PingFangSC-Semibold, PingFang SC;
+              & span:first-child {
+                font-size: 30px;
+              }
+              & span:last-child {
+                font-size: 20px;
+              }
+            }
             &:nth-child(4n + 4) {
               margin-top: 20px;
             }
@@ -330,7 +363,7 @@ export default {
 
           .button {
             text-align: left;
-
+            cursor: pointer;
             button {
               display: flex;
               justify-content: center;

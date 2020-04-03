@@ -44,7 +44,7 @@ export default {
      * @description: 点击去首页
      */
     toIndex() {
-      if (window.location.pathname === "/") {
+      if (this.$route.path === "/") {
         //如果当前是首页，则刷新一下
         window.location.reload();
       } else {

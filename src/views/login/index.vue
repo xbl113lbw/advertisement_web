@@ -2,10 +2,10 @@
  * @Author: liyh
  * @Date: 2020-03-30 14:02:41
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-01 16:40:53
+ * @LastEditTime: 2020-04-03 16:16:24
  -->
 <template>
-  <div class="Wrapper">
+  <div class="Wrapper" id="Wrapper">
     <div class="bg"></div>
     <div class="box">
       <div class="operationBox">
@@ -68,7 +68,7 @@ body {
 #app {
   height: 100vh;
 }
-.Wrapper {
+#Wrapper {
   position: relative;
   display: flex;
   align-items: center;

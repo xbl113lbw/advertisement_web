@@ -2,16 +2,16 @@
  * @Author: liyh
  * @Date: 2020-03-31 14:04:16
  * @LastEditors: liyh
- * @LastEditTime: 2020-03-31 14:54:30
+ * @LastEditTime: 2020-04-03 17:48:45
  -->
 <template>
   <div class="listItemBox">
     <div class="leftBox"></div>
     <div class="centerBox">
-      <div class="title">标题标题标题标题标题张三李四挥洒滑到了数据接口</div>
+      <div class="title">{{itemData.title}}</div>
       <div>中国最大的以信息和知识为核心的互联网综中国最大的以信息和知识为核心的互联网综核心的互联网综萨达所大萨达所大</div>
       <div class="price">
-        <span>20</span>
+        <span>{{itemData.price}}</span>
         <span>/m²</span>
       </div>
     </div>
@@ -22,9 +22,9 @@
         <div>查看电话号码</div>
       </div>
       <div class="textBox">
-        <div>2020.03.19</div>
+        <div>{{itemData.date}}</div>
         <div>|</div>
-        <div>28人浏览过</div>
+        <div>{{itemData.browseCount}}人浏览过</div>
       </div>
     </div>
   </div>
@@ -33,6 +33,11 @@
 <script>
 export default {
   name: "ListItem",
+  props: {
+    itemData: {
+      type: Object
+    }
+  },
   data() {
     return {};
   },

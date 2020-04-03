@@ -2,12 +2,12 @@
  * @Author: liyh
  * @Date: 2020-03-31 13:55:18
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-01 14:22:40
+ * @LastEditTime: 2020-04-03 17:51:44
  -->
 <template>
   <div class="Wrapper">
     <Search></Search>
-    <!-- <div class="noResultBox">
+    <div v-if="searchWord&&!(serviceList.length>0)" class="noResultBox">
       <div class="image">
         <img src="@/assets/serviceList/caution.png" alt />
       </div>
@@ -27,15 +27,15 @@
           <span>LED显示屏</span>
         </div>
       </div>
-    </div>-->
-    <div>
-      <div class="breadcrumbBox">
+    </div>
+    <div v-if="serviceList&&serviceList.length>0">
+      <!-- 搜索进来的不会出现面包屑 -->
+      <div class="breadcrumbBox" v-if="!searchWord">
         <div class="breadcrumbItem" v-for="(item,index) in breadcrumbData" :key="index">
           <span>{{item}}</span>
           <div v-if="index!=breadcrumbData.length-1" class="arrow_right">></div>
         </div>
-        <!-- 搜索进来的才会出现 -->
-        <div class="searchResult">
+        <!-- <div class="searchResult">
           <div class="search_arrow">></div>
           <div>
             找到
@@ -43,12 +43,12 @@
             相关信息共
             <span class="highLight">{{searchResultLen}}</span>条
           </div>
-        </div>
+        </div>-->
       </div>
       <div>
         <div v-for="(item,index) in serviceList" :key="index" class="itemBox">
-          <div @click="toServiceInfo(item)">
-            <ListItem></ListItem>
+          <div @click="toServiceInfo(itemData[item])">
+            <ListItem :itemData="itemData[item]"></ListItem>
           </div>
         </div>
       </div>
@@ -67,16 +67,38 @@
 <script>
 import Search from "@/components/Search";
 import ListItem from "./components/listItem";
+import itemData from "@/data/itemData";
+import typeData from "@/data/typeData";
 
 export default {
   name: "ServiceList",
   data() {
     return {
-      searchWord: "我是搜索的关键字", //搜索的关键字
+      searchWord: "", //搜索的关键字
       searchResultLen: 12, //搜索结果的总数
-      breadcrumbData: ["首页", "展会服务", "展会布置/搭建", "测试一下"],
-      serviceList: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }]
+      breadcrumbData: ["首页"],
+      bigType: [],
+      smallType: [],
+      serviceList: [],
+      itemData: {}
     };
+  },
+  created() {
+    this.bigType = typeData.filter(
+      item => item.id == this.$route.query.bigType
+    ); //根据id大类
+    this.smallType = this.bigType[0].children.filter(
+      item => item.id == this.$route.query.smallType
+    ); //根据id小类
+    if (this.$route.query.searchWord) {
+      //如果有搜索条件
+      this.searchWord = this.$route.query.searchWord;
+      this.serviceList = []; //匹配小类目下面的全部类目
+    } else {
+      this.serviceList = this.smallType[0].child; //匹配小类目下面的全部类目
+    }
+    this.itemData = itemData;
+    this.breadcrumbData.push(this.bigType[0].name, this.smallType[0].name);
   },
   methods: {
     /**
@@ -84,6 +106,14 @@ export default {
      */
     toServiceInfo(item) {
       console.log("item", item.id);
+      this.$router.push({
+        path: "/serviceInfo",
+        query: {
+          bigType: this.$route.query.bigType,
+          smallType: this.$route.query.smallType,
+          id: item.id
+        }
+      });
     },
     /**
      * @description: 页面发生改变
