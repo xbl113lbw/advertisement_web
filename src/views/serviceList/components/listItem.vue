@@ -2,13 +2,13 @@
  * @Author: liyh
  * @Date: 2020-03-31 14:04:16
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-03 17:48:45
+ * @LastEditTime: 2020-04-04 22:12:32
  -->
 <template>
   <div class="listItemBox">
     <div class="leftBox"></div>
     <div class="centerBox">
-      <div class="title">{{itemData.title}}</div>
+      <div :class="visited(itemData.id)">{{itemData.title}}</div>
       <div>中国最大的以信息和知识为核心的互联网综中国最大的以信息和知识为核心的互联网综核心的互联网综萨达所大萨达所大</div>
       <div class="price">
         <span>{{itemData.price}}</span>
@@ -38,6 +38,15 @@ export default {
       type: Object
     }
   },
+  methods: {
+    visited(id) {
+      //判断是否被点击过
+      let visitedObj = JSON.parse(sessionStorage.getItem("visitedObj"));
+      if (visitedObj && visitedObj[id]) {
+        return "visited";
+      }
+    }
+  },
   data() {
     return {};
   },
@@ -51,6 +60,7 @@ export default {
   padding: 40px 0;
   height: 180px;
   display: flex;
+  cursor: pointer;
   .leftBox {
     width: 240px;
     height: 180px;
@@ -74,6 +84,9 @@ export default {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+    }
+    .visited {
+      color: rgba(0, 0, 0, 0.4) !important;
     }
     & div:nth-child(2) {
       font-family: PingFangSC-Regular, PingFang SC;

@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-31 13:55:18
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-03 17:51:44
+ * @LastEditTime: 2020-04-04 22:04:56
  -->
 <template>
   <div class="Wrapper">
@@ -105,7 +105,13 @@ export default {
      * @description: 点击跳去详情页
      */
     toServiceInfo(item) {
-      console.log("item", item.id);
+      //将点击记录存进session
+      let temp = {};
+      let visitedObj = JSON.parse(sessionStorage.getItem("visitedObj"));
+      temp = visitedObj
+        ? { ...visitedObj, [item.id]: item.id }
+        : { [item.id]: item.id };
+      sessionStorage.setItem("visitedObj", JSON.stringify(temp));
       this.$router.push({
         path: "/serviceInfo",
         query: {
@@ -116,7 +122,7 @@ export default {
       });
     },
     /**
-     * @description: 页面发生改变
+     * @description: 页数发生改变
      */
     handlePageChange(page) {
       console.log("page", page);
