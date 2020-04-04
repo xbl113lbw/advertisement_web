@@ -2,12 +2,12 @@
  * @Author: liyh
  * @Date: 2020-03-30 11:04:57
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-03 13:58:44
+ * @LastEditTime: 2020-04-04 18:11:05
  -->
 <template>
   <div class="home">
     <Search></Search>
-    <div v-for="(item,index) in typeData" :key="index" :id="index" class="navItemBox">
+    <div v-for="(item,index) in typeData" :key="index" class="homenavItemBox">
       <AdItem :typeData="item"></AdItem>
     </div>
     <div class="loading" v-show="loading" v-loading="loading"></div>
@@ -35,16 +35,16 @@ export default {
   },
   mounted() {
     this.typeData = typeData;
-
-    let el = [].slice.call(document.getElementsByClassName("navItemBox"));
-    let obj = {};
-    for (let index = 0; index < el.length; index++) {
-      obj[index] = el[index].getBoundingClientRect().top;
-    }
-    console.log("obj", obj);
-    this.setNavoffsetTop(obj);
-    this.setHomeLoadStatus(true);
-    this.loading = false;
+    this.$nextTick(() => {
+      let el = [].slice.call(document.getElementsByClassName("homenavItemBox"));
+      let obj = {};
+      for (let index = 0; index < el.length; index++) {
+        obj[index] = el[index].getBoundingClientRect().top;
+      }
+      this.setNavoffsetTop(obj); //拿到值之后存到vuex
+      this.setHomeLoadStatus(true); //首页DOM加载完成标志，存到vuex
+      this.loading = false;
+    });
   },
   destroyed() {
     this.setHomeLoadStatus(false);
