@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-31 13:55:18
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-05 21:56:10
+ * @LastEditTime: 2020-04-06 00:31:28
  -->
 <template>
   <div class="Wrapper">
@@ -73,9 +73,6 @@ export default {
   data() {
     return {
       searchWord: "", //搜索的关键字
-      breadcrumbData: ["首页"],
-      bigType: [],
-      smallType: [],
       serviceList: [], //搜索的总数据
       pageList: [], //每页的总数据
       pageSize: 1, //每页渲染多少条数据
