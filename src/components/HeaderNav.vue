@@ -75,6 +75,9 @@ export default {
       }
       this.showHeader = true;
     },
+    /**
+     * @description: 监听首页DOM加载完毕
+     */
     homeLoadSuccess: {
       handler(newStatus) {
         if (newStatus && this.clickByNav) {
@@ -89,6 +92,9 @@ export default {
       setHomeLoadStatus: "setHomeLoadStatus",
       changeNavIndex: "changeNavIndex"
     }),
+    /**
+     * @description: 顶部导航发生改变
+     */
     navChange(index) {
       this.changeNavIndex(index);
       if (this.$route.path !== "/") {
@@ -98,6 +104,9 @@ export default {
       }
       common.scrollToTargetPageY(this.navoffsetTop[index]); //滚动页面到指定位置
     },
+    /**
+     * @description: 跳转到服务列表
+     */
     toServiceList(bigType_index, smallType_index) {
       this.changeNavIndex(bigType_index);
       if (this.$route.path === "/serviceList") {

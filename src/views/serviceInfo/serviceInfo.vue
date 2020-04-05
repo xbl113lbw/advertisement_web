@@ -49,10 +49,10 @@
                 <span>/m²</span>
               </div>
             </div>
-            <div class="button">
+            <div class="button" @click="showPhone(detailData.phone)">
               <button>
                 <img src="../../assets/serviceInfo/tel.png" />
-                <p>查看商家电话号码</p>
+                <p>{{phone}}</p>
               </button>
             </div>
           </div>
@@ -172,15 +172,16 @@ export default {
         navigation: {
           nextEl: ".swiper-button-next",
           prevEl: ".swiper-button-prev"
-        },
+        }
         // pagination: {
         //   el: ".swiper-pagination",
         //   clickable: true
         // }
-        bigType: [],
-        smallType: [],
-        detailData: {}
       },
+      phone: "查看商家电话号码",
+      bigType: [],
+      smallType: [],
+      detailData: {},
       textarea: "",
       activeName: "first"
     };
@@ -197,6 +198,12 @@ export default {
   methods: {
     handleClick(tab, event) {
       console.log(tab, event);
+    },
+    /**
+     * @description: 点击查看商家号码
+     */
+    showPhone(phone) {
+      this.phone = phone;
     }
   }
 };

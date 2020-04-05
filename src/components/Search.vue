@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-31 10:39:35
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-02 13:54:17
+ * @LastEditTime: 2020-04-05 21:59:13
  -->
 <template>
   <div class="searchBox">
@@ -13,9 +13,9 @@
       <div class="searchBox">
         <div class="searchLogo"></div>
         <div class="inputArea">
-          <input type="text" placeholder="宣传资料印刷" />
+          <input type="text" v-model="searchWord" placeholder="宣传资料印刷" />
         </div>
-        <div class="searchBtn">搜索</div>
+        <div @click="toSearchResult" class="searchBtn">搜索</div>
         <div class="recommendBox">
           <span>LED显示屏</span>
           <span>灯箱/招牌</span>
@@ -32,7 +32,12 @@
 <script>
 export default {
   name: "Search",
-
+  inject: ["reload"],
+  data() {
+    return {
+      searchWord: ""
+    };
+  },
   methods: {
     /**
      * @description: 点击发布信息
@@ -49,6 +54,27 @@ export default {
         window.location.reload();
       } else {
         this.$router.push({ path: "/" });
+      }
+    },
+    /**
+     * @description: 点击搜索
+     */
+    toSearchResult() {
+      if (this.$route.path === "/searchResult") {
+        this.$router.replace({
+          path: "/searchResult",
+          query: {
+            searchWord: encodeURIComponent(this.searchWord)
+          }
+        });
+        this.reload();
+      } else {
+        this.$router.push({
+          path: "/searchResult",
+          query: {
+            searchWord: encodeURIComponent(this.searchWord)
+          }
+        });
       }
     }
   }

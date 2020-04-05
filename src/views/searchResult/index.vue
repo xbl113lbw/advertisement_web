@@ -2,23 +2,50 @@
  * @Author: liyh
  * @Date: 2020-03-31 13:55:18
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-05 22:54:13
+ * @LastEditTime: 2020-04-05 21:56:10
  -->
 <template>
   <div class="Wrapper">
     <Search></Search>
-    <div v-if="serviceList&&serviceList.length>0">
-      <!-- 面包屑 -->
+    <div v-if="!(serviceList.length>0)" class="noResultBox">
+      <div class="image">
+        <img src="@/assets/serviceList/caution.png" alt />
+      </div>
+      <div class="tipsBox">
+        <div>
+          很抱歉，在“深圳”没有找到与
+          <span>“{{this.searchWord}}”</span>
+          相关的信息
+        </div>
+        <div>建议您：去掉不必要的字句，扩大搜索范围，如“的”、“什么”等。</div>
+        <div class="hotBox">
+          <span>热搜词:</span>
+          <span>LED显示屏</span>
+          <span>LED显示屏</span>
+          <span>LED显示屏</span>
+          <span>LED显示屏</span>
+          <span>LED显示屏</span>
+        </div>
+      </div>
+    </div>
+    <div v-if="serviceList.length>0">
+      <!-- 搜索进来的不会出现面包屑 -->
       <div class="breadcrumbBox">
-        <div class="breadcrumbItem" v-for="(item,index) in breadcrumbData" :key="index">
-          <span>{{item}}</span>
-          <div v-if="index!=breadcrumbData.length-1" class="arrow_right">></div>
+        <div class="searchResult">
+          <!-- <div class="search_arrow">></div> -->
+          <div>
+            找到
+            <span class="highLight">“{{this.searchWord}}”</span>
+            相关信息共
+            <span class="highLight">{{serviceList.length}}</span>
+            条
+          </div>
         </div>
       </div>
       <div>
         <div v-for="(item,index) in pageList" :key="index" class="itemBox">
-          <div @click="toServiceInfo(itemData[item])">
-            <ListItem :itemData="itemData[item]"></ListItem>
+          <div @click="toServiceInfo(item)">
+            <ListItem :itemData="item"></ListItem>
           </div>
         </div>
       </div>
@@ -42,37 +69,34 @@ import itemData from "@/data/itemData";
 import typeData from "@/data/typeData";
 
 export default {
-  name: "ServiceList",
+  name: "SearchResult",
   data() {
     return {
       searchWord: "", //搜索的关键字
-      searchResultLen: 12, //搜索结果的总数
       breadcrumbData: ["首页"],
       bigType: [],
       smallType: [],
       serviceList: [], //搜索的总数据
       pageList: [], //每页的总数据
-      pageSize: 2, //每页渲染多少条数据
+      pageSize: 1, //每页渲染多少条数据
       currentPage: 0, //当前页数
       itemData: {}
     };
   },
   created() {
-    this.bigType = typeData.filter(
-      item => item.id == this.$route.query.bigType
-    ); //根据id大类
-    this.smallType = this.bigType[0].children.filter(
-      item => item.id == this.$route.query.smallType
-    ); //根据id小类
-    this.serviceList = this.smallType[0].child; //匹配小类目下面的全部类目
+    this.searchWord = decodeURIComponent(this.$route.query.searchWord);
+    for (const key in itemData) {
+      const element = itemData[key];
+      if (element.title.indexOf(this.searchWord) > -1) {
+        this.serviceList.push(element);
+      }
+    }
     if (this.serviceList.length > 0) {
       this.pageList = this.serviceList.slice(
         this.currentPage * this.pageSize,
-        this.currentPage * this.pageSize + this.pageSize
+        this.currentPage * this.pageSize + 1
       );
     }
-    this.itemData = itemData;
-    this.breadcrumbData.push(this.bigType[0].name, this.smallType[0].name);
   },
   methods: {
     /**
@@ -86,11 +110,32 @@ export default {
         ? { ...visitedObj, [item.id]: item.id }
         : { [item.id]: item.id };
       sessionStorage.setItem("visitedObj", JSON.stringify(temp));
+      //根据当前元素id，寻找上一层id以及上上一层id
+      let outerId = 0; //记录第一层循环的id
+      let innerId = 0; //记录第二层循环的id
+      let outerLength = typeData.length;
+      /*第一层循环*/
+      outer: for (let outerIndex = 0; outerIndex < outerLength; outerIndex++) {
+        const outerElement = typeData[outerIndex];
+        //记录第一层循环的id
+        outerId = outerElement.id;
+        let innerLength = outerElement.children.length;
+        /*第二层循环*/
+        for (let innerIndex = 0; innerIndex < innerLength; innerIndex++) {
+          const innerElement = outerElement.children[innerIndex];
+          //记录第二层循环的id
+          innerId = innerElement.id;
+          if (innerElement.child.includes(5)) {
+            //找到了，直接跳出两层循环
+            break outer;
+          }
+        }
+      }
       this.$router.push({
         path: "/serviceInfo",
         query: {
-          bigType: this.$route.query.bigType,
-          smallType: this.$route.query.smallType,
+          bigType: outerId,
+          smallType: innerId,
           id: item.id
         }
       });
@@ -102,7 +147,7 @@ export default {
       this.currentPage = page - 1;
       this.pageList = this.serviceList.slice(
         this.currentPage * this.pageSize,
-        this.currentPage * this.pageSize + this.pageSize
+        this.currentPage * this.pageSize + 1
       );
     }
   },
@@ -110,7 +155,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 #pagination {
   margin-top: 95px;
   .number {

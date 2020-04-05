@@ -88,7 +88,16 @@ const routes = [
     meta: {
       title: "管理中心"
     }
-  }
+  },
+  // 搜索结果
+  {
+    path: "/searchResult",
+    name: "searchResult",
+    component: () => import("../views/searchResult/index.vue"),
+    meta: {
+      title: "搜索结果"
+    }
+  },
 ];
 
 const router = new VueRouter({
