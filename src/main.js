@@ -11,7 +11,6 @@ Vue.use(ElementUI);
 Vue.config.productionTip = false;
 // ajax 请求
 Vue.prototype.ajax = ajax;
-
 new Vue({
     router,
     store,
