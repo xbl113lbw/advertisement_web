@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-21 19:52:42
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-07 16:26:12
+ * @LastEditTime: 2020-04-07 18:24:54
  */
 import ajax from './../utils/ajax';
 
@@ -19,13 +19,13 @@ export const personalRegister = (params) => {
 }
 
 //企业用户登录
-export const enterpriseRegister = (params) => {
-    return ajax.post(`${config.baseUrl}/frontend/enterprise/register.json`, params);
+export const enterpriseLogin = (params) => {
+    return ajax.post(`${config.baseUrl}/frontend/enterprise/login.json`, params);
 }
 
 //企业用户注册
-export const enterpriseLogin = (params) => {
-    return ajax.post(`${config.baseUrl}/frontend/enterprise/login.json`, params);
+export const enterpriseRegister = (params) => {
+    return ajax.post(`${config.baseUrl}/frontend/enterprise/register.json`, params);
 }
 
 //获取用户个人信息

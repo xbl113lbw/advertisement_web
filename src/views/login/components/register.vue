@@ -165,14 +165,14 @@ export default {
      * @description: 点击用户协议
      */
     toUserAgree() {
-      window.open(window.location.origin + "/userAgreement", "_blank");
+      window.open(window.location.origin + "/#/userAgreement", "_blank");
     },
 
     /**
      * @description: 点击隐私政策
      */
     toPrivacyPolicy() {
-      window.open(window.location.origin + "/privacyPolicy", "_blank");
+      window.open(window.location.origin + "/#//privacyPolicy", "_blank");
     },
 
     /**
