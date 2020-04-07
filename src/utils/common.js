@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-30 14:14:28
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-03 16:28:26
+ * @LastEditTime: 2020-04-07 14:45:35
  */
 class Common {
     /**
@@ -16,6 +16,17 @@ class Common {
                 behavior: "smooth"
             })
         }, 30);
+    }
+
+    /**
+     * @description: 判断是否登录
+     * @return 返回去用户是否登录;true:已登录;false:未登录 
+     */
+    isLogin() {
+        if (localStorage.getItem('token')) {
+            return true;
+        }
+        return false;
     }
 }
 

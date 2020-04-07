@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-30 14:02:41
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-03 16:16:24
+ * @LastEditTime: 2020-04-07 15:30:16
  -->
 <template>
   <div class="Wrapper" id="Wrapper">
@@ -18,7 +18,7 @@
       </div>
       <!-- 注册部分 -->
       <div v-else>
-        <RegisterPart></RegisterPart>
+        <RegisterPart @registerSuccess="registerSuccess"></RegisterPart>
       </div>
     </div>
   </div>
@@ -54,6 +54,13 @@ export default {
      */
     changeOperationType() {
       this.operationType = ~this.operationType + 2; //0变1，1变0
+    },
+
+    /**
+     * @description: 子组件注册成功回调事件
+     */
+    registerSuccess() {
+      this.operationType = ~this.operationType + 2; //切换成登录框
     }
   }
 };

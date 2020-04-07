@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-30 16:13:50
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-01 15:23:58
+ * @LastEditTime: 2020-04-07 15:29:02
  -->
 <template>
   <!-- 注册部分 -->
@@ -122,6 +122,8 @@
 
 <script>
 const telephoneReg = /^1[3456789]\d{9}$/;
+import { getSms } from "@/service/commonApi";
+import { enterpriseRegister, personalRegister } from "@/service/userApi";
 export default {
   name: "Login",
   data() {
@@ -137,7 +139,7 @@ export default {
       qrcode: "", //验证码
       companyName: "", //企业名称
       companyEmail: "", //企业邮箱
-      setPassword: "", //设置邮箱
+      setPassword: "", //设置密码
       confirmPassword: "" //确认密码
     };
   },
@@ -208,11 +210,12 @@ export default {
             this.errorType = "qrcode";
             this.errorMassage = "请输入验证码";
             return false;
-          } else if (qrcode.length != 6) {
-            this.errorType = "qrcode";
-            this.errorMassage = "验证码错误，请重新输入";
-            return false;
           }
+          // else if (qrcode.length != 6) {
+          //   this.errorType = "qrcode";
+          //   this.errorMassage = "验证码错误，请重新输入";
+          //   return false;
+          // }
           return true;
           break;
         case "company":
@@ -251,7 +254,7 @@ export default {
     /**
      * @description: 点击获取验证码按钮
      */
-    getQrcode() {
+    async getQrcode() {
       const { userName, telephone } = this;
       if (!userName) {
         this.errorType = "userName";
@@ -272,27 +275,69 @@ export default {
       }
       let second = 20;
       if (this.qrTimer) return false;
-      this.qrTimer = setInterval(() => {
-        second -= 1;
-        if (this.enAbleStatus) {
-          this.enAbleStatus = false;
-        }
-        if (second >= 0) {
-          this.qrText = `已发送(${second}s)`;
-        } else {
-          this.enAbleStatus = true;
-          clearInterval(this.qrTimer);
-          this.qrTimer = null;
-          this.qrText = "重新获取";
-        }
-      }, 1000);
+
+      let smsRes = await getSms({ mobile: telephone }); //调接口
+      let { status, msg } = smsRes;
+      if (status) {
+        this.$message({
+          message: "发送成功",
+          type: "success"
+        });
+        this.qrTimer = setInterval(() => {
+          second -= 1;
+          if (this.enAbleStatus) {
+            this.enAbleStatus = false;
+          }
+          if (second >= 0) {
+            this.qrText = `已发送(${second}s)`;
+          } else {
+            this.enAbleStatus = true;
+            clearInterval(this.qrTimer);
+            this.qrTimer = null;
+            this.qrText = "重新获取";
+          }
+        }, 1000);
+      } else {
+        this.$message.error(msg);
+      }
     },
 
     /**
-     * @description: 点击登录按钮
+     * @description: 点击注册按钮
      */
-    toRegister() {
-      this.verify(this.userType); //先校检
+    async toRegister() {
+      let flag = this.verify(this.userType); //先校检
+      if (!flag) return;
+      let params = {};
+      let registerRes = null;
+      if (this.userType == "personal") {
+        params = {
+          mobile: this.telephone,
+          captcha: this.qrcode,
+          url: window.location.href
+        };
+        registerRes = await personalRegister(params);
+      } else {
+        params = {
+          name: this.companyName,
+          email: this.companyEmail,
+          password: this.setPassword,
+          re_password: this.confirmPassword,
+          url: window.location.href
+        };
+        registerRes = await enterpriseRegister(params);
+      }
+      let { status, msg } = registerRes;
+      if (status) {
+        //TODO
+        this.$message({
+          message: "注册成功",
+          type: "success"
+        });
+        this.$emit("registerSuccess");
+      } else {
+        this.$message.error(msg);
+      }
     }
   }
 };

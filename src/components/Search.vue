@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-31 10:39:35
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-05 21:59:13
+ * @LastEditTime: 2020-04-07 16:32:54
  -->
 <template>
   <div class="searchBox">
@@ -15,21 +15,22 @@
         <div class="inputArea">
           <input type="text" v-model="searchWord" placeholder="宣传资料印刷" />
         </div>
-        <div @click="toSearchResult" class="searchBtn">搜索</div>
+        <div @click="toSearchResult(searchWord)" class="searchBtn">搜索</div>
         <div class="recommendBox">
-          <span>LED显示屏</span>
-          <span>灯箱/招牌</span>
-          <span>户外广告</span>
-          <span>背景/形象墙</span>
-          <span>多媒体互动</span>
+          <span @click="clickHotTips($event)">LED显示屏</span>
+          <span @click="clickHotTips($event)">灯箱/招牌</span>
+          <span @click="clickHotTips($event)">户外广告</span>
+          <span @click="clickHotTips($event)">背景/形象墙</span>
+          <span @click="clickHotTips($event)">多媒体互动</span>
         </div>
       </div>
     </div>
-    <div @click="toPublish" class="publishBox">免费发布信息</div>
+    <div v-if="userInfo&&userInfo.type=='enterprise'" @click="toPublish" class="publishBox">免费发布信息</div>
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "Search",
   inject: ["reload"],
@@ -37,6 +38,11 @@ export default {
     return {
       searchWord: ""
     };
+  },
+  computed: {
+    ...mapState({
+      userInfo: state => state.userInfo
+    })
   },
   methods: {
     /**
@@ -59,12 +65,18 @@ export default {
     /**
      * @description: 点击搜索
      */
-    toSearchResult() {
+    toSearchResult(searchWord) {
+      if (!searchWord) {
+        this.$message.error("请输入搜索关键字");
+        return;
+      }
       if (this.$route.path === "/searchResult") {
+        if (searchWord === decodeURIComponent(this.$route.query.searchWord))
+          return; //如果重复搜索(即搜索关键字跟当前关键字一样，则url不做任务操作)
         this.$router.replace({
           path: "/searchResult",
           query: {
-            searchWord: encodeURIComponent(this.searchWord)
+            searchWord: encodeURIComponent(searchWord)
           }
         });
         this.reload();
@@ -72,10 +84,18 @@ export default {
         this.$router.push({
           path: "/searchResult",
           query: {
-            searchWord: encodeURIComponent(this.searchWord)
+            searchWord: encodeURIComponent(searchWord)
           }
         });
       }
+    },
+    /**
+     * @description: 点击热搜词
+     * @param {type} event:当前点击元素
+     */
+    clickHotTips(event) {
+      console.log("event", event.target.innerText);
+      this.toSearchResult(event.target.innerText);
     }
   }
 };

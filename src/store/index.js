@@ -5,11 +5,12 @@ import persistedState from "vuex-persistedstate"
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  plugins: [persistedState({ storage: window.sessionStorage })],
+  plugins: [persistedState({ storage: window.localStorage })],
   state: {
     navIndex: 0,
     navoffsetTop: {},//每个大类对应的top值
     homeLoadSuccess: false,//首页DOM加载完成
+    userInfo: {},//用户信息
   },
   mutations: {
     //设置每个大类对应的top值
@@ -24,6 +25,10 @@ export default new Vuex.Store({
     changeNavIndex(state, data) {
       state.navIndex = data;
     },
+    //设置用户信息
+    setUserInfo(state, data) {
+      state.userInfo = data;
+    }
   },
   actions: {},
   modules: {}

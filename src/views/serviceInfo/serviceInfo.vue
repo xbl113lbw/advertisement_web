@@ -82,7 +82,7 @@
                     maxlength="100"
                     show-word-limit
                   ></el-input>
-                  <el-button>评论</el-button>
+                  <el-button @click="comment">评论</el-button>
                 </div>
                 <div class="discuss_list">
                   <div class="discuss" v-for="i in 5" :key="i">
@@ -204,6 +204,24 @@ export default {
      */
     showPhone(phone) {
       this.phone = phone;
+    },
+    /**
+     * @description: 点击评论
+     */
+
+    comment() {
+      if (!this.textarea) {
+        this.$message.error({
+          message: "请输入评论内容",
+          duration: 1000
+        });
+        return;
+      }
+      this.textarea = "";
+      this.$message({
+        message: "评论成功",
+        type: "success"
+      });
     }
   }
 };

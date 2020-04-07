@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-30 16:03:08
  * @LastEditors: liyh
- * @LastEditTime: 2020-03-30 18:21:42
+ * @LastEditTime: 2020-04-07 16:30:25
  -->
 <template>
   <!-- 登录部分 -->
@@ -87,6 +87,9 @@
 
 <script>
 const telephoneReg = /^1[3456789]\d{9}$/;
+import { mapMutations } from "vuex";
+import { getSms } from "@/service/commonApi";
+import { personalLogin, enterpriseLogin, getUserInfo } from "@/service/userApi";
 export default {
   name: "Login",
   data() {
@@ -104,6 +107,9 @@ export default {
     };
   },
   methods: {
+    ...mapMutations({
+      setUserInfo: "setUserInfo"
+    }),
     /**
      * @description: 切换用户类型。个人用户/企业用户
      */
@@ -140,11 +146,12 @@ export default {
             this.errorType = "qrcode";
             this.errorMassage = "请输入验证码";
             return false;
-          } else if (qrcode.length != 6) {
-            this.errorType = "qrcode";
-            this.errorMassage = "验证码错误，请重新输入";
-            return false;
           }
+          // else if (qrcode.length != 5) {
+          //   this.errorType = "qrcode";
+          //   this.errorMassage = "验证码错误，请重新输入";
+          //   return false;
+          // }
           return true;
           break;
         case "company":
@@ -167,7 +174,7 @@ export default {
     /**
      * @description: 点击获取验证码按钮
      */
-    getQrcode() {
+    async getQrcode() {
       const { telephone } = this;
       if (!telephone) {
         this.errorMassage = "请输入手机号";
@@ -178,27 +185,76 @@ export default {
       }
       let second = 20;
       if (this.qrTimer) return false;
-      this.qrTimer = setInterval(() => {
-        second -= 1;
-        if (this.enAbleStatus) {
-          this.enAbleStatus = false;
-        }
-        if (second >= 0) {
-          this.qrText = `已发送(${second}s)`;
-        } else {
-          this.enAbleStatus = true;
-          clearInterval(this.qrTimer);
-          this.qrTimer = null;
-          this.qrText = "重新获取";
-        }
-      }, 1000);
+      let smsRes = await getSms({ mobile: telephone }); //调接口
+      let { status, msg } = smsRes;
+      if (status) {
+        this.$message({
+          message: "发送成功",
+          type: "success"
+        });
+        this.qrTimer = setInterval(() => {
+          second -= 1;
+          if (this.enAbleStatus) {
+            this.enAbleStatus = false;
+          }
+          if (second >= 0) {
+            this.qrText = `已发送(${second}s)`;
+          } else {
+            this.enAbleStatus = true;
+            clearInterval(this.qrTimer);
+            this.qrTimer = null;
+            this.qrText = "重新获取";
+          }
+        }, 1000);
+      } else {
+        this.$message.error(msg);
+      }
     },
 
     /**
      * @description: 点击登录按钮
      */
-    toLogin() {
-      this.verify(this.userType); //先校检
+    async toLogin() {
+      let flag = this.verify(this.userType); //先校检
+      if (!flag) return;
+      let params = {};
+      let loginRes = null;
+      if (this.userType == "personal") {
+        params = {
+          mobile: this.telephone,
+          nick: this.userName,
+          captcha: this.qrcode,
+          url: window.location.href
+        };
+        loginRes = await personalLogin(params);
+      } else {
+        params = {
+          email: this.companyEmail,
+          password: this.companyPassword,
+          url: window.location.href
+        };
+        loginRes = await enterpriseLogin(params);
+      }
+      console.log("params", params);
+      let { status, msg, data } = loginRes;
+      if (status) {
+        //TODO
+        localStorage.setItem("token", data.token);
+        let getUserInfoRes = await getUserInfo();
+        let {
+          status: userInfoStatus,
+          msg: userInfoMsg,
+          data: userInfoData
+        } = getUserInfoRes;
+        if (userInfoStatus) {
+          this.setUserInfo(userInfoData);
+          this.$router.go(-1);
+        } else {
+          this.$message.error(userInfoMsg);
+        }
+      } else {
+        this.$message.error(msg);
+      }
     }
   }
 };
