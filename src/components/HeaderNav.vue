@@ -160,6 +160,7 @@ export default {
     logout() {
       localStorage.removeItem("token");
       this.setUserInfo({});
+      window.location.reload();
     },
     /**
      * @description: 根据id，拿到对应生成的头像

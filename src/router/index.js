@@ -22,8 +22,7 @@ const routes = [
     component: () =>
       import("../views/login/index.vue"),
     meta: {
-      // 页面标题title
-      title: '登录'
+      isLogin: false
     }
   },
   //隐私政策
@@ -33,8 +32,7 @@ const routes = [
     component: () =>
       import("../views/privacyPolicy/index.vue"),
     meta: {
-      // 页面标题title
-      title: '隐私政策'
+      isLogin: false
     }
   },
   //用户协议
@@ -44,8 +42,7 @@ const routes = [
     component: () =>
       import("../views/userAgreement/index.vue"),
     meta: {
-      // 页面标题title
-      title: '用户协议'
+      isLogin: false
     }
   },
   //服务列表
@@ -55,21 +52,26 @@ const routes = [
     component: () =>
       import("../views/serviceList/index.vue"),
     meta: {
-      // 页面标题title
-      title: '服务列表'
+      isLogin: false
     }
   },
   // 发布信息
   {
     path: "/publish",
     name: "publish",
-    component: () => import("../views/publish/publish.vue")
+    component: () => import("../views/publish/publish.vue"),
+    meta: {
+      isLogin: true
+    }
   },
   // 服务详情
   {
     path: "/serviceInfo",
     name: "serviceInfo",
-    component: () => import("../views/serviceInfo/serviceInfo.vue")
+    component: () => import("../views/serviceInfo/serviceInfo.vue"),
+    meta: {
+      isLogin: false
+    }
   },
   // 个人中心
   {
@@ -77,7 +79,7 @@ const routes = [
     name: "userCenter",
     component: () => import("../views/userCenter/index.vue"),
     meta: {
-      title: "个人中心"
+      isLogin: true
     }
   },
   // 管理中心
@@ -86,7 +88,7 @@ const routes = [
     name: "manageCenter",
     component: () => import("../views/manageCenter/index.vue"),
     meta: {
-      title: "管理中心"
+      isLogin: true
     }
   },
   // 搜索结果
@@ -95,7 +97,7 @@ const routes = [
     name: "searchResult",
     component: () => import("../views/searchResult/index.vue"),
     meta: {
-      title: "搜索结果"
+      isLogin: false
     }
   },
 ];

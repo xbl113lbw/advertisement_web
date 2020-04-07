@@ -19,20 +19,31 @@
     <div class="content">
       <div class="content_row">
         <span>用户名</span>
-        <input placeholder="请输入5～20位的用户名" value="喵喵喵" />
+        <input placeholder="请输入5～20位的用户名" v-model="nick" />
       </div>
       <div class="content_row">
         <span>手机号</span>
         <input value="134 0000 9999" class="noBorder" />
       </div>
-      <el-button>保存</el-button>
+      <el-button @click="saveChange">保存</el-button>
     </div>
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 export default {
   data() {
-    return {};
+    return {
+      nick: ""
+    };
+  },
+  computed: {
+    ...mapState({
+      userInfo: state => state.userInfo
+    })
+  },
+  mounted() {
+    this.nick = this.userInfo.nick;
   },
   methods: {
     handleOpen(key, keyPath) {
@@ -40,6 +51,12 @@ export default {
     },
     handleClose(key, keyPath) {
       console.log(key, keyPath);
+    },
+    /**
+     * @description: 点击保存
+     */
+    saveChange() {
+      console.log("this.nick", this.nick);
     }
   }
 };
@@ -63,8 +80,8 @@ export default {
         color: rgba(0, 0, 0, 1);
         line-height: 28px;
         margin: 0 40px;
-        padding-bottom:20px;
-        padding-right:39px;
+        padding-bottom: 20px;
+        padding-right: 39px;
         border-bottom: 1px solid rgba(0, 0, 0, 0.06);
       }
     }
@@ -101,7 +118,7 @@ export default {
       font-size: 22px;
       font-weight: 400;
       color: rgba(255, 255, 255, 1);
-      margin-top:50px
+      margin-top: 50px;
     }
   }
 }

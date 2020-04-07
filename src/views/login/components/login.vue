@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-30 16:03:08
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-07 16:30:25
+ * @LastEditTime: 2020-04-07 17:33:36
  -->
 <template>
   <!-- 登录部分 -->
@@ -219,6 +219,7 @@ export default {
       if (!flag) return;
       let params = {};
       let loginRes = null;
+      //判断用户是个人用户还是企业用户
       if (this.userType == "personal") {
         params = {
           mobile: this.telephone,
@@ -235,23 +236,30 @@ export default {
         };
         loginRes = await enterpriseLogin(params);
       }
-      console.log("params", params);
       let { status, msg, data } = loginRes;
       if (status) {
-        //TODO
+        //登录成功将token存在localStorage之后再去调用getUserInfo接口
         localStorage.setItem("token", data.token);
-        let getUserInfoRes = await getUserInfo();
-        let {
-          status: userInfoStatus,
-          msg: userInfoMsg,
-          data: userInfoData
-        } = getUserInfoRes;
-        if (userInfoStatus) {
-          this.setUserInfo(userInfoData);
-          this.$router.go(-1);
-        } else {
-          this.$message.error(userInfoMsg);
-        }
+        this.setUserInfo({
+          id: 22,
+          nick: "张三"
+        });
+        this.$router.go(-1);
+        console.log("getUserInfo", getUserInfo);
+
+        // let getUserInfoRes = await getUserInfo();
+        // let {
+        //   status: userInfoStatus,
+        //   msg: userInfoMsg,
+        //   data: userInfoData
+        // } = getUserInfoRes;
+        // if (userInfoStatus) {
+        //   //将用户信息存进vuex，方便其他组件调用
+        //   this.setUserInfo(userInfoData);
+        //   this.$router.go(-1);
+        // } else {
+        //   this.$message.error(userInfoMsg);
+        // }
       } else {
         this.$message.error(msg);
       }

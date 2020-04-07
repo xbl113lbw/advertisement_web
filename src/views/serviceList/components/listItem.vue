@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-31 14:04:16
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-04 22:12:32
+ * @LastEditTime: 2020-04-07 17:02:09
  -->
 <template>
   <div class="listItemBox">
@@ -19,7 +19,7 @@
       <div class="btnBox">
         <div></div>
         <div></div>
-        <div>查看电话号码</div>
+        <div @click.stop="showPhone(itemData.phone)">{{phone}}</div>
       </div>
       <div class="textBox">
         <div>{{itemData.date}}</div>
@@ -31,12 +31,18 @@
 </template>
 
 <script>
+import common from "@/utils/common";
 export default {
   name: "ListItem",
   props: {
     itemData: {
       type: Object
     }
+  },
+  data() {
+    return {
+      phone: "查看电话号码"
+    };
   },
   methods: {
     visited(id) {
@@ -45,10 +51,19 @@ export default {
       if (visitedObj && visitedObj[id]) {
         return "visited";
       }
+    },
+    /**
+     * @description: 点击查看商家号码
+     */
+    showPhone(phone) {
+      if (common.isLogin()) {
+        this.phone = phone.replace(/^(.{3})(.*)(.{4})$/, "$1 $2 $3");
+      } else {
+        this.$router.push({
+          path: "/login"
+        });
+      }
     }
-  },
-  data() {
-    return {};
   },
   components: {}
 };
@@ -143,6 +158,9 @@ export default {
         opacity: 0.4;
         margin: 0 20px 0 10px;
       }
+    }
+    .btnBox:hover {
+      background: #1aa869;
     }
     .textBox {
       color: #000000;

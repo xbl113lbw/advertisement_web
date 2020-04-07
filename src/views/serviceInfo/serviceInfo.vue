@@ -153,6 +153,7 @@
 import { Swiper, SwiperSlide } from "vue-awesome-swiper";
 import itemData from "@/data/itemData";
 import typeData from "@/data/typeData";
+import common from "@/utils/common";
 import "swiper/css/swiper.css";
 
 export default {
@@ -203,12 +204,17 @@ export default {
      * @description: 点击查看商家号码
      */
     showPhone(phone) {
-      this.phone = phone;
+      if (common.isLogin()) {
+        this.phone = phone.replace(/^(.{3})(.*)(.{4})$/, "$1 $2 $3");
+      } else {
+        this.$router.push({
+          path: "/login"
+        });
+      }
     },
     /**
      * @description: 点击评论
      */
-
     comment() {
       if (!this.textarea) {
         this.$message.error({
@@ -378,7 +384,6 @@ export default {
               color: rgba(0, 0, 0, 0.8);
               text-align: left;
             }
-
             img {
               margin-left: 10px;
               width: 124px;
@@ -388,7 +393,6 @@ export default {
 
           .button {
             text-align: left;
-            cursor: pointer;
             button {
               display: flex;
               justify-content: center;
@@ -398,13 +402,16 @@ export default {
               font-size: 22px;
               color: rgba(255, 255, 255, 1);
               margin-top: 40px;
+              cursor: pointer;
 
               p {
                 display: inline-block;
                 line-height: 36px;
                 padding-left: 24px;
+                width: 205px;
+                font-size: 22px;
+                text-align: center;
               }
-
               img {
                 display: inline-block;
                 height: 36px;
@@ -412,6 +419,9 @@ export default {
                 padding-right: 10px;
                 border-right: 1px solid rgba(255, 255, 255, 0.4);
               }
+            }
+            button:hover {
+              background: #1aa869;
             }
           }
         }
