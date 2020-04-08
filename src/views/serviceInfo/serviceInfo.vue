@@ -60,9 +60,7 @@
         <div class="content_left_bottom">
           <el-tabs v-model="activeName" @tab-click="handleClick" id="elTabs">
             <el-tab-pane label="服务描述" name="first">
-              <div class="server_dec">
-                <p v-html="detailData.content"></p>
-              </div>
+              <div class="server_dec" v-html="detailData.content"></div>
             </el-tab-pane>
             <el-tab-pane label="用户评论" name="second">
               <div class="user_discuss">
@@ -456,8 +454,11 @@ export default {
           color: rgba(0, 0, 0, 0.6);
           margin-top: 14px;
           text-align: left;
-          p {
+          /deep/p {
             margin-top: 16px;
+          }
+          & /deep/p:first-child {
+            margin-top: 0;
           }
         }
         .user_discuss {
