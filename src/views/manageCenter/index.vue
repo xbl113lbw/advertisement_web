@@ -25,21 +25,18 @@
             <el-menu-item
               index="3-1"
               style="padding-left: 70px;"
-              @click="ToAuth('3')"
-              >审核中(2)</el-menu-item
-            >
+              @click="ToAuth('3',1)"
+            >审核中{{getLength(serviceManegeReviewData)}}</el-menu-item>
             <el-menu-item
               index="3-2"
               style="padding-left: 70px;"
-              @click="ToAuth('3')"
-              >已发布(2)</el-menu-item
-            >
+              @click="ToAuth('3',2)"
+            >已发布{{getLength(serviceManegeAcceptData)}}</el-menu-item>
             <el-menu-item
               index="3-3"
               style="padding-left: 70px;"
-              @click="ToAuth('3')"
-              >其他</el-menu-item
-            >
+              @click="ToAuth('3',3)"
+            >其他{{getLength(serviceManegeOtherData)}}</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
       </el-menu>
@@ -55,6 +52,12 @@
 import auth from "./components/authenticationManage";
 import baseInfo from "./components/baseInfo";
 import serverManage from "./components/serverManage";
+import { mapState } from "vuex";
+import {
+  serviceManegeAccept,
+  serviceManegeReview,
+  serviceManegeOther
+} from "@/service/userApi";
 export default {
   components: {
     auth,
@@ -63,8 +66,24 @@ export default {
   },
   data() {
     return {
-      active: "1"
+      active: "1",
+      currentServerManageData: [1], //当前选择的服务管理数据
+      serviceManegeReviewData: [2], //服务管理-审核中数据
+      serviceManegeAcceptData: [3], //服务管理-已发布数据
+      serviceManegeOtherData: [] //服务管理-其他数据
     };
+  },
+  computed: {
+    ...mapState({
+      userInfo: state => state.userInfo
+    })
+  },
+  mounted() {
+    Promise.all([
+      this.getServiceManegeReviewData(),
+      this.getServiceManegeAcceptData(),
+      this.getServiceManegeOtherData()
+    ]);
   },
   methods: {
     handleOpen(key, keyPath) {
@@ -73,9 +92,62 @@ export default {
     handleClose(key, keyPath) {
       console.log("handleClose", key, keyPath);
     },
-    ToAuth(e) {
-      console.log("e", e);
+    /**
+     * @description: 点击左侧区域
+     */
+    ToAuth(e, currentServiceStatus) {
       this.active = e;
+      let temp = {
+        1: this.serviceManegeReviewData,
+        2: this.serviceManegeAcceptData,
+        3: this.serviceManegeOtherData
+      };
+      if (e == 3) {
+        this.currentServerManageData = temp[currentServiceStatus];
+      }
+    },
+
+    /**
+     * @description: 获取长度，如果是0则不显示
+     */
+    getLength(data) {
+      return data.length > 0 ? `(${data.length})` : "";
+    },
+
+    /**
+     * @description: 获取已发布数据
+     */
+    async getServiceManegeAcceptData() {
+      let result = await serviceManegeAccept({ id: this.userInfo.id, page: 1 });
+      console.log("result", result);
+      let { status, data } = result;
+      if (status) {
+        this.serviceManegeAcceptData = data;
+      }
+    },
+
+    /**
+     * @description: 获取审核中数据
+     */
+    async getServiceManegeReviewData() {
+      let result = await serviceManegeReview({ id: this.userInfo.id, page: 1 });
+      console.log("result", result);
+      let { status, data } = result;
+      if (status) {
+        this.serviceManegeReviewData = data;
+      }
+    },
+
+    /**
+     * @description: 获取其他数据
+     */
+    async getServiceManegeOtherData() {
+      let result = await serviceManegeOther({ id: this.userInfo.id, page: 1 });
+      console.log("result", result);
+      let { status, data } = result;
+      if (status) {
+        this.serviceManegeOtherData = data;
+      }
     }
   }
 };
@@ -107,30 +179,8 @@ export default {
     }
   }
   .content {
-    // background-color: #f8f8f8;
     padding: 40px 0 0 100px;
-    // .content_row {
-    //   span {
-    //     width: 48px;
-    //     height: 22px;
-    //     font-size: 16px;
-    //     font-weight: 600;
-    //     color: rgba(0, 0, 0, 1);
-    //     line-height: 22px;
-    //   }
-    //   input {
-    //     width: 340px;
-    //     height: 50px;
-    //     margin-left: 30px;
-    //     padding: 0 20px;
-    //     border: 1px solid rgba(0, 0, 0, 0.2);
-    //     color: rgba(0, 0, 0, 0.8);
-    //     font-size: 16px;
-    //   }
-    //   .noBorder {
-    //     border: 0;
-    //   }
-    // }
+    flex: 1;
     .el-button {
       width: 340px;
       height: 56px;

@@ -23,18 +23,21 @@
       </div>
       <div class="content_row">
         <span>手机号</span>
-        <input value="134 0000 9999" class="noBorder" />
+        <div class="noBorder">{{mobile}}</div>
       </div>
       <el-button @click="saveChange">保存</el-button>
     </div>
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
+import { getPersonalInfo, editPersonalInfo } from "@/service/userApi";
 export default {
   data() {
     return {
-      nick: ""
+      nick: "",
+      personId: "",
+      mobile: ""
     };
   },
   computed: {
@@ -43,9 +46,23 @@ export default {
     })
   },
   mounted() {
-    this.nick = this.userInfo.nick;
+    this.getPersonalInfo();
   },
   methods: {
+    ...mapActions({
+      setUserInfoAction: "setUserInfoAction"
+    }),
+    async getPersonalInfo() {
+      let personInfoRes = await getPersonalInfo();
+      let { status, msg, data } = personInfoRes;
+      if (status) {
+        this.nick = data.nick;
+        this.personId = data.id;
+        this.mobile = data.mobile;
+      } else {
+        this.$message.error(msg);
+      }
+    },
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
     },
@@ -55,8 +72,19 @@ export default {
     /**
      * @description: 点击保存
      */
-    saveChange() {
-      console.log("this.nick", this.nick);
+    async saveChange() {
+      let editResult = await editPersonalInfo({
+        id: this.personId,
+        nick: this.nick
+      });
+      let { status, msg } = editResult;
+      if (status) {
+        //修改昵称成功之后:1.更新用户个人信息;2.更新全局用户基础信息
+        this.getPersonalInfo();
+        this.setUserInfoAction();
+      } else {
+        this.$message.error(msg);
+      }
     }
   }
 };
@@ -64,6 +92,7 @@ export default {
 <style lang="scss" scope>
 .main_page {
   max-width: 1200px;
+  font-family: PingFangSC-Regular, PingFang SC;
   //   background-color: #f8f4f8;
   margin: 0 auto;
   display: flex;
@@ -90,6 +119,9 @@ export default {
     // background-color: #f8f8f8;
     padding: 40px 0 0 100px;
     .content_row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 40px;
       span {
         width: 48px;
         height: 22px;
@@ -108,7 +140,7 @@ export default {
         font-size: 16px;
       }
       .noBorder {
-        border: 0;
+        margin-left: 30px;
       }
     }
     .el-button {
@@ -118,7 +150,7 @@ export default {
       font-size: 22px;
       font-weight: 400;
       color: rgba(255, 255, 255, 1);
-      margin-top: 50px;
+      margin-top: 10px;
     }
   }
 }

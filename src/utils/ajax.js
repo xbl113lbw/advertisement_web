@@ -14,7 +14,9 @@ let instance = axios.create({
 // 添加请求拦截器
 instance.interceptors.request.use(function (config) {
     // 在发送请求之前做些什么
-    if (config.url.indexOf('login.json') == -1) {
+    console.log('config', config);
+
+    if (config && config.url.indexOf('login.json') == -1) {
         config.headers.Authorization = localStorage.getItem('token') || "";
     }
     return config;
@@ -37,7 +39,7 @@ instance.interceptors.response.use(function (response) {
  * config 请求配置（没有则不传）
  */
 const get = (url, params, config) => {
-    return instance.get(url, { params: params, ...config })
+    return instance.get(url, { params: { url: window.location.href, ...params }, ...config })
 };
 
 const post = (url, data, config) => {
@@ -45,7 +47,7 @@ const post = (url, data, config) => {
     if (config && config.headers['Content-Type'] === 'multipart/form-data') {
         return instance.post(url, data, config)
     }
-    return instance.post(url, Qs.stringify(data), config)
+    return instance.post(url, Qs.stringify({ url: window.location.href, ...data }), config)
 };
 
 export default {

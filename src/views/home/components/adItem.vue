@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-31 10:44:38
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-03 17:46:13
+ * @LastEditTime: 2020-04-08 14:25:05
  -->
 <template>
   <div class="box">
@@ -18,11 +18,11 @@
       </div>
     </div>
     <div class="itemArea">
-      <div v-for="(item,index) in currentsmallType.child" :key="index" class="itemBox">
+      <div v-for="(item,index) in currentsmallType.child.slice(0,4)" :key="index" class="itemBox">
         <div v-if="currentItemData[item]" @click="toServiceInfo(item)">
           <div class="image"></div>
           <div class="itemTitle">{{currentItemData[item].title}}</div>
-          <div class="itemContent">中国最大的以信息和知识为核心的互联…</div>
+          <div class="itemContent">{{currentItemData[item].content}}</div>
           <div class="itemImformation">
             <div>{{currentItemData[item].date}}</div>
             <div>{{currentItemData[item].browseCount}}人浏览过</div>
@@ -82,6 +82,7 @@ export default {
           smallType: this.typeData["children"][this.selectIndex].id
         }
       });
+      window.scrollTo(0, 0);
     },
     /**
      * @description: 点击去详情
@@ -96,6 +97,7 @@ export default {
           id: item
         }
       });
+      window.scrollTo(0, 0);
     }
   },
   components: {}
@@ -169,17 +171,25 @@ export default {
         margin-top: 20px;
         padding: 0 20px;
         font-size: 16px;
-        color: #000000;
-        opacity: 0.8;
+        color: rgba(0, 0, 0, 0.8);
         text-align: left;
+        width: 240px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-weight: 600;
       }
       .itemContent {
+        width: 240px;
         margin-top: 6px;
         text-align: left;
         font-size: 12px;
         color: #000000;
         padding: 0 20px;
         opacity: 0.6;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
       .itemImformation {
         margin-top: 20px;

@@ -2,23 +2,21 @@
   <div>
     <div class="content_row">
       <span class="left_title">纳税识别号</span>
-      <input placeholder="请输入纳税识别号" value="" />
+      <input placeholder="请输入纳税识别号" value />
     </div>
     <div class="content_row">
-      <span class="left_title" style="letter-spacing:4px;"> 法人代表</span>
-      <input placeholder="请输入法人代表的姓名" value="" />
+      <span class="left_title" style="letter-spacing:4px;">法人代表</span>
+      <input placeholder="请输入法人代表的姓名" value />
     </div>
     <div class="content_row">
-      <span class="left_title"> 法人身份证</span>
-      <input placeholder="请输入法人身份证" value="" />
+      <span class="left_title">法人身份证</span>
+      <input placeholder="请输入法人身份证" value />
     </div>
     <div class="content_row">
-      <span class="left_title" style="letter-spacing:5px;"> 营业执照</span>
+      <span class="left_title" style="letter-spacing:5px;">营业执照</span>
       <div class="span_grey">
-        <p>
-          请上传清晰、真实的营业执照的照片，请不要在照片上添加文字、数字、网址等内容，最多上传4张，每张最大5M
-        </p>
-        <el-upload
+        <p>请上传清晰、真实的营业执照的照片，请不要在照片上添加文字、数字、网址等内容，最多上传4张，每张最大5M</p>
+        <!-- <el-upload
           action="#"
           multiple
           :limit="4"
@@ -27,16 +25,9 @@
           class="uploadImg"
         >
           <div slot="file" slot-scope="{ file }">
-            <img
-              class="el-upload-list__item-thumbnail"
-              :src="file.url"
-              alt=""
-            />
+            <img class="el-upload-list__item-thumbnail" :src="file.url" alt />
             <span class="el-upload-list__item-actions">
-              <span
-                class="el-upload-list__item-delete"
-                @click="handleRemove(file)"
-              >
+              <span class="el-upload-list__item-delete" @click="handleRemove(file)">
                 <i class="el-icon-delete"></i>
               </span>
             </span>
@@ -44,8 +35,9 @@
           <i slot="default" class="el-icon-plus"></i>
         </el-upload>
         <el-dialog :visible.sync="dialogVisible">
-          <img width="100%" :src="dialogImageUrl" alt="" />
-        </el-dialog>
+          <img width="100%" :src="dialogImageUrl" alt />
+        </el-dialog>-->
+        <UploadPicture></UploadPicture>
       </div>
     </div>
     <div class="button">
@@ -54,12 +46,16 @@
   </div>
 </template>
 <script>
+import UploadPicture from "@/components/UploadPicture";
 export default {
   data() {
     return {
       dialogImageUrl: "",
       dialogVisible: false
     };
+  },
+  components: {
+    UploadPicture
   },
   methods: {
     handleRemove(file, fileList) {
@@ -68,6 +64,13 @@ export default {
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url;
       this.dialogVisible = true;
+    },
+
+    /**
+     * @description: 点击保存
+     */
+    save() {
+      //TODO
     }
   }
 };
@@ -109,7 +112,7 @@ export default {
     color: rgba(0, 0, 0, 1);
   }
   .span_grey {
-    width: 540px;
+    // width: 540px;
     font-size: 16px;
     font-weight: 400;
     text-align: left;

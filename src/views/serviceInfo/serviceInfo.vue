@@ -46,7 +46,7 @@
               <span class="left_title">价格</span>：
               <div class="price">
                 <span>{{detailData.price}}</span>
-                <span>/m²</span>
+                <span>/{{detailData.unit}}</span>
               </div>
             </div>
             <div class="button" @click="showPhone(detailData.phone)">
@@ -61,14 +61,7 @@
           <el-tabs v-model="activeName" @tab-click="handleClick" id="elTabs">
             <el-tab-pane label="服务描述" name="first">
               <div class="server_dec">
-                <p>
-                  百度（纳斯达克：BIDU）是全球最大的中文搜索引擎，中国最大的以信息和知识为核心的互联网综合服务公司，全球领先的人工智能平台型公司。百度愿景是：成为最懂用户，并能帮助人们成长的全球顶级高科技公司。
-                  [1]
-                </p>
-                <p>
-                  “百度”二字，来自于八百年前南宋词人辛弃疾的一句词：众里寻他千百度。这句话描述了词人对理想的执着追求。1999年底，身在美国硅谷的李彦宏看到了中国互联网及中文搜索引擎服务的巨大发展潜力，抱着技术改变世界的梦想，他毅然辞掉硅谷的高薪工作，携搜索引擎专利技术，于
-                  2000年1月1日在中关村创建了百度公司。
-                </p>
+                <p v-html="detailData.content"></p>
               </div>
             </el-tab-pane>
             <el-tab-pane label="用户评论" name="second">
@@ -85,13 +78,13 @@
                   <el-button @click="comment">评论</el-button>
                 </div>
                 <div class="discuss_list">
-                  <div class="discuss" v-for="i in 5" :key="i">
-                    <div class="avter"></div>
+                  <div class="discuss" v-for="item in detailData.comment" :key="item.id">
+                    <div class="avter">
+                      <img :src="require(`@/assets/headerNav/avatar${item.id % 4}.png`)" alt />
+                    </div>
                     <div class="discuss_right">
-                      <div class="phone">129********</div>
-                      <div
-                        class="discuss_content"
-                      >这家服务特别好～大家可以放心的选择他家的服务～这家服务特别好～大家可以放心的选择他家的服务～这家服务特别好～大家可以放心的选择他家的服务～这家服务特别好～大家可以放心的选择他家的服务～</div>
+                      <div class="phone">{{getCommenter(item.id,detailData.id)}}********</div>
+                      <div class="discuss_content">{{item.text}}</div>
                     </div>
                   </div>
                 </div>
@@ -228,6 +221,19 @@ export default {
         message: "评论成功",
         type: "success"
       });
+    },
+
+    /**
+     * @description: 随机获取用户名
+     * @param {type} id
+     * @return:
+     */
+    getCommenter(id, parentId) {
+      let result = parentId + id;
+      if (result > 999) {
+        result = result % 1000;
+      }
+      return result;
     }
   }
 };
@@ -474,18 +480,27 @@ export default {
           }
           .discuss_list {
             padding: 10px 0 0 0;
+            display: flex;
+            flex-direction: column;
             .discuss {
               display: flex;
+              width: 740px;
               padding: 30px 0;
               border-bottom: 1px solid rgba(0, 0, 0, 0.1);
               .avter {
                 height: 44px;
-                width: 88px;
+                width: 44px;
                 border-radius: 50%;
                 background: #567867;
+                img {
+                  width: 100%;
+                  height: 100%;
+                  display: block;
+                }
               }
               .discuss_right {
                 margin: 6px 0 0 16px;
+                flex: 1;
                 .phone {
                   text-align: left;
                   font-size: 14px;

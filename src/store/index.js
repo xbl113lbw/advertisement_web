@@ -1,7 +1,9 @@
 import Vue from "vue";
 import Vuex from "vuex";
 // vuex 持久化插件（原理：将数据保存在session中一份）
-import persistedState from "vuex-persistedstate"
+import persistedState from "vuex-persistedstate";
+import { getUserInfo } from "@/service/userApi";
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -30,6 +32,21 @@ export default new Vuex.Store({
       state.userInfo = data;
     }
   },
-  actions: {},
+  actions: {
+    async setUserInfoAction(context) {
+      let getUserInfoRes = await getUserInfo();
+      let {
+        status: userInfoStatus,
+        msg: userInfoMsg,
+        data: userInfoData
+      } = getUserInfoRes;
+      if (userInfoStatus) {
+        //将用户信息存进vuex，方便其他组件调用
+        context.commit('setUserInfo', userInfoData);
+      } else {
+        this.$message.error(userInfoMsg);
+      }
+    },
+  },
   modules: {}
 });

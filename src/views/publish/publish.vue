@@ -53,7 +53,7 @@ export default {
     chooseType(type) {
       console.log("父组件type", type);
       this.chooseTypeText = type;
-      this.stepsIndex = 2;
+      this.stepsIndex++;
     }
   }
 };

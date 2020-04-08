@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-21 19:52:42
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-07 18:24:54
+ * @LastEditTime: 2020-04-08 16:04:58
  */
 import ajax from './../utils/ajax';
 
@@ -28,9 +28,43 @@ export const enterpriseRegister = (params) => {
     return ajax.post(`${config.baseUrl}/frontend/enterprise/register.json`, params);
 }
 
-//获取用户个人信息
+//获取用户基础信息(此接口主要用来判断是个人用户还是企业用户)
 export const getUserInfo = (params) => {
     return ajax.get(`${config.baseUrl}/frontend/user/center/get_info.json`, params);
 }
 
+//获取个人信息
+export const getPersonalInfo = (params) => {
+    return ajax.post(`${config.baseUrl}/frontend/user/center/personal_info.json`, params);
+}
+
+//编辑个人名称
+export const editPersonalInfo = (params) => {
+    return ajax.post(`${config.baseUrl}/frontend/user/center/edit/personal_info.json`, params);
+}
+
+//获取企业信息
+export const getEnterpriseInfo = (params) => {
+    return ajax.post(`${config.baseUrl}/frontend/user/center/enterprise_info.json`, params);
+}
+
+//编辑企业信息
+export const editEnterpriseInfo = (params) => {
+    return ajax.post(`${config.baseUrl}/frontend/user/center/edit/enterprise_info.json`, params);
+}
+
+//服务管理-审核中
+export const serviceManegeReview = (params) => {
+    return ajax.post(`${config.baseUrl}/frontend/user/center/review/list.json`, params);
+}
+
+//服务管理-已发布
+export const serviceManegeAccept = (params) => {
+    return ajax.post(`${config.baseUrl}/frontend/user/center/accept/list.json`, params);
+}
+
+//服务管理-其他
+export const serviceManegeOther = (params) => {
+    return ajax.post(`${config.baseUrl}/frontend/user/center/others/list.json`, params);
+}
 

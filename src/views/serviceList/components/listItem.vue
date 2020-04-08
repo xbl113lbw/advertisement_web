@@ -2,24 +2,24 @@
  * @Author: liyh
  * @Date: 2020-03-31 14:04:16
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-07 17:02:09
+ * @LastEditTime: 2020-04-08 11:39:05
  -->
 <template>
   <div class="listItemBox">
     <div class="leftBox"></div>
     <div class="centerBox">
       <div :class="visited(itemData.id)">{{itemData.title}}</div>
-      <div>中国最大的以信息和知识为核心的互联网综中国最大的以信息和知识为核心的互联网综核心的互联网综萨达所大萨达所大</div>
+      <div>{{itemData.content}}</div>
       <div class="price">
         <span>{{itemData.price}}</span>
-        <span>/m²</span>
+        <span>/{{itemData.unit}}</span>
       </div>
     </div>
     <div class="rightBox">
-      <div class="btnBox">
+      <div class="btnBox" @click.stop="showPhone(itemData.phone)">
         <div></div>
         <div></div>
-        <div @click.stop="showPhone(itemData.phone)">{{phone}}</div>
+        <div>{{phone}}</div>
       </div>
       <div class="textBox">
         <div>{{itemData.date}}</div>

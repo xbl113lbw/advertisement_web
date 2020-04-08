@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-30 16:13:50
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-07 15:29:02
+ * @LastEditTime: 2020-04-08 14:32:11
  -->
 <template>
   <!-- 注册部分 -->
@@ -313,8 +313,7 @@ export default {
       if (this.userType == "personal") {
         params = {
           mobile: this.telephone,
-          captcha: this.qrcode,
-          url: window.location.href
+          captcha: this.qrcode
         };
         registerRes = await personalRegister(params);
       } else {
@@ -322,8 +321,7 @@ export default {
           name: this.companyName,
           email: this.companyEmail,
           password: this.setPassword,
-          re_password: this.confirmPassword,
-          url: window.location.href
+          re_password: this.confirmPassword
         };
         registerRes = await enterpriseRegister(params);
       }

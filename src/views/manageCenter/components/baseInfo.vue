@@ -2,23 +2,23 @@
   <div>
     <div class="content_row">
       <span class="left_title">企业名称</span>
-      <p class="P">深圳市大吉大利公司</p>
+      <p class="P">{{enterpriseInfo.name}}</p>
     </div>
     <div class="content_row">
       <span class="left_title">企业邮箱</span>
-      <p class="P">434353874@dajidali.com</p>
+      <p class="P">{{enterpriseInfo.email}}</p>
     </div>
     <div class="content_row">
       <span class="left_title">具体地址</span>
-      <input placeholder="请输入企业地址" v-model="address" />
+      <input placeholder="请输入企业地址" v-model="enterpriseInfo.address" />
     </div>
     <div class="content_row">
       <span class="left_title" style="letter-spacing:5px;">联系人</span>
-      <input placeholder="请输入联系人姓名" v-model="name" />
+      <input placeholder="请输入联系人姓名" v-model="enterpriseInfo.contact" />
     </div>
     <div class="content_row">
       <span class="left_title">联系电话</span>
-      <input placeholder="请输入联系人电话" v-model="phone" />
+      <input placeholder="请输入联系人电话" v-model="enterpriseInfo.mobile" />
     </div>
     <div class="button">
       <el-button @click="save">保存</el-button>
@@ -26,20 +26,59 @@
   </div>
 </template>
 <script>
+import { getEnterpriseInfo, editEnterpriseInfo } from "@/service/userApi";
+import { mapActions, mapState } from "vuex";
 export default {
   data() {
     return {
       address: "",
       name: "",
-      phone: ""
+      phone: "",
+      enterpriseInfo: {
+        name: "",
+        email: "",
+        address: "",
+        contact: "",
+        mobile: ""
+      }
     };
   },
+  computed: {
+    ...mapState({
+      userInfo: state => state.userInfo
+    })
+  },
+  mounted() {
+    this.getEnterpriseInfo();
+  },
   methods: {
-    save() {
-      if (this.phone) {
-        console.log(this.phone);
+    ...mapActions({
+      setUserInfoAction: "setUserInfoAction"
+    }),
+    async getEnterpriseInfo() {
+      //TODO
+      let enterpriseInfoRes = await getEnterpriseInfo({ id: this.userInfo.id });
+      let { status, msg, data } = enterpriseInfoRes;
+      if (status) {
+        this.enterpriseInfo = data;
       } else {
-        this.$message.error("联系电话错误，请重新输入");
+        this.$message.error(msg);
+      }
+    },
+    async save() {
+      let editResult = await editEnterpriseInfo({
+        id: this.userInfo.id,
+        address: this.enterpriseInfo.address,
+        contact: this.enterpriseInfo.contact,
+        mobile: this.enterpriseInfo.mobile
+      });
+      let { status, msg } = editResult;
+      if (status) {
+        //修改昵称成功之后:1.更新企业信息;2.更新全局用户基础信息
+        this.getEnterpriseInfo();
+        this.setUserInfoAction();
+      } else {
+        this.$message.error(msg);
       }
     }
   }

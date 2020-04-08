@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-30 16:03:08
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-07 17:33:36
+ * @LastEditTime: 2020-04-08 15:25:58
  -->
 <template>
   <!-- 登录部分 -->
@@ -87,9 +87,9 @@
 
 <script>
 const telephoneReg = /^1[3456789]\d{9}$/;
-import { mapMutations } from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
 import { getSms } from "@/service/commonApi";
-import { personalLogin, enterpriseLogin, getUserInfo } from "@/service/userApi";
+import { personalLogin, enterpriseLogin } from "@/service/userApi";
 export default {
   name: "Login",
   data() {
@@ -106,9 +106,29 @@ export default {
       companyPassword: "" //企业密码
     };
   },
+  computed: {
+    ...mapState({
+      userInfo: state => state.userInfo
+    })
+  },
+  watch: {
+    /**
+     * @description: 监听设置用户信息完毕
+     */
+    userInfo: {
+      handler(newStatus) {
+        if (newStatus && newStatus.id) {
+          this.$router.go(-1);
+        }
+      }
+    }
+  },
   methods: {
     ...mapMutations({
       setUserInfo: "setUserInfo"
+    }),
+    ...mapActions({
+      setUserInfoAction: "setUserInfoAction"
     }),
     /**
      * @description: 切换用户类型。个人用户/企业用户
@@ -217,6 +237,7 @@ export default {
     async toLogin() {
       let flag = this.verify(this.userType); //先校检
       if (!flag) return;
+      this.setUserInfo({});
       let params = {};
       let loginRes = null;
       //判断用户是个人用户还是企业用户
@@ -224,15 +245,13 @@ export default {
         params = {
           mobile: this.telephone,
           nick: this.userName,
-          captcha: this.qrcode,
-          url: window.location.href
+          captcha: this.qrcode
         };
         loginRes = await personalLogin(params);
       } else {
         params = {
           email: this.companyEmail,
-          password: this.companyPassword,
-          url: window.location.href
+          password: this.companyPassword
         };
         loginRes = await enterpriseLogin(params);
       }
@@ -240,26 +259,7 @@ export default {
       if (status) {
         //登录成功将token存在localStorage之后再去调用getUserInfo接口
         localStorage.setItem("token", data.token);
-        this.setUserInfo({
-          id: 22,
-          nick: "张三"
-        });
-        this.$router.go(-1);
-        console.log("getUserInfo", getUserInfo);
-
-        // let getUserInfoRes = await getUserInfo();
-        // let {
-        //   status: userInfoStatus,
-        //   msg: userInfoMsg,
-        //   data: userInfoData
-        // } = getUserInfoRes;
-        // if (userInfoStatus) {
-        //   //将用户信息存进vuex，方便其他组件调用
-        //   this.setUserInfo(userInfoData);
-        //   this.$router.go(-1);
-        // } else {
-        //   this.$message.error(userInfoMsg);
-        // }
+        this.setUserInfoAction(); //设置用户信息
       } else {
         this.$message.error(msg);
       }

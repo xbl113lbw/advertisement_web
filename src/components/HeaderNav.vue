@@ -32,9 +32,9 @@
         <!-- <router-link to="/login">登录/注册</router-link> -->
         <div class="loginer" v-if="Object.keys(userInfo).length>0">
           <div class="avatar">
-            <img :src="require(`@/assets/headerNav/avatar${getAvatar(0)}.png`)" alt />
+            <img :src="require(`@/assets/headerNav/avatar${getAvatar(userInfo.id)}.png`)" alt />
           </div>
-          <div class="nickname">大吉大利今晚吃鸡</div>
+          <div class="nickname">{{userInfo.nick}}</div>
           <div class="loginHover">
             <div class="item" @click="toUserCenter">个人中心</div>
             <div class="item" @click="logout">退出登录</div>
@@ -147,11 +147,15 @@ export default {
      * @description: 点击个人中心
      */
     toUserCenter() {
-      if (this.$route.path === "/userCenter") {
+      let targetUrl = {
+        peosonal: "/userCenter",
+        enterprise: "/manageCenter"
+      };
+      if (this.$route.path === targetUrl[this.userInfo.type]) {
         return;
       }
       this.$router.push({
-        path: "/userCenter"
+        path: targetUrl[this.userInfo.type]
       });
     },
     /**
@@ -251,6 +255,7 @@ export default {
           text-overflow: ellipsis;
           -o-text-overflow: ellipsis;
           white-space: nowrap;
+          text-align: left;
         }
         &:hover .loginHover {
           display: block;
