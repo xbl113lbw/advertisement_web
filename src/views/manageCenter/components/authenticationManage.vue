@@ -2,15 +2,15 @@
   <div>
     <div class="content_row">
       <span class="left_title">纳税识别号</span>
-      <input placeholder="请输入纳税识别号" value />
+      <input placeholder="请输入纳税识别号" v-model="assestInfo.taxcode" />
     </div>
     <div class="content_row">
       <span class="left_title" style="letter-spacing:4px;">法人代表</span>
-      <input placeholder="请输入法人代表的姓名" value />
+      <input placeholder="请输入法人代表的姓名" v-model="assestInfo.owner" />
     </div>
     <div class="content_row">
       <span class="left_title">法人身份证</span>
-      <input placeholder="请输入法人身份证" value />
+      <input placeholder="请输入法人身份证" v-model="assestInfo.ownerid" />
     </div>
     <div class="content_row">
       <span class="left_title" style="letter-spacing:5px;">营业执照</span>
@@ -37,7 +37,12 @@
         <el-dialog :visible.sync="dialogVisible">
           <img width="100%" :src="dialogImageUrl" alt />
         </el-dialog>-->
-        <UploadPicture></UploadPicture>
+        <UploadPicture
+          v-if="showUploadPictiue"
+          @setImgLists="setImgLists"
+          :max="4"
+          :echoImg="echoImg"
+        ></UploadPicture>
       </div>
     </div>
     <div class="button">
@@ -47,15 +52,34 @@
 </template>
 <script>
 import UploadPicture from "@/components/UploadPicture";
+import { getAttestInfo, editAttestInfo } from "@/service/userApi";
+import { mapState } from "vuex";
+
 export default {
   data() {
     return {
       dialogImageUrl: "",
-      dialogVisible: false
+      dialogVisible: false,
+      assestInfo: {
+        taxcode: "",
+        owner: "",
+        ownerid: ""
+      },
+      echoImg: [],
+      imgLists: [],
+      showUploadPictiue: false
     };
+  },
+  computed: {
+    ...mapState({
+      userInfo: state => state.userInfo
+    })
   },
   components: {
     UploadPicture
+  },
+  mounted() {
+    this.getAttestInfo();
   },
   methods: {
     handleRemove(file, fileList) {
@@ -66,11 +90,58 @@ export default {
       this.dialogVisible = true;
     },
 
+    async getAttestInfo() {
+      let assestInfoRes = await getAttestInfo({ id: this.userInfo.id });
+      let { status, msg, data } = assestInfoRes;
+      if (status) {
+        this.assestInfo = data;
+        this.echoImg = data.img;
+        this.showUploadPictiue = true;
+      } else {
+        this.$message.error(msg);
+      }
+    },
+
+    setImgLists(imgLists) {
+      console.log("data", imgLists);
+      this.imgLists = imgLists;
+    },
+
     /**
      * @description: 点击保存
      */
-    save() {
-      //TODO
+    async save() {
+      let tips = {
+        taxcode: "纳税识别号",
+        owner: "法人代表",
+        ownerid: "法人身份证"
+      };
+      for (const key in this.assestInfo) {
+        if (!this.assestInfo[key]) {
+          this.$message.error(`${tips[key]}不能为空`);
+          break;
+        }
+      }
+      let formData = new FormData();
+      formData.append("url", window.location.href);
+      formData.append("id", this.userInfo.id);
+      formData.append("taxcode", this.assestInfo["taxcode"]);
+      formData.append("owner", this.assestInfo["owner"]);
+      formData.append("ownerid", this.assestInfo["ownerid"]);
+      for (var i = 0; i < this.imgLists.length; i++) {
+        formData.append("name[]", this.imgLists[i]);
+      }
+      let editAssestInfoRes = await editAttestInfo(formData);
+      let { status, msg, data } = editAssestInfoRes;
+      if (status) {
+        this.$message({
+          message: "保存成功",
+          type: "success"
+        });
+        this.getAttestInfo();
+      } else {
+        this.$message.error(msg);
+      }
     }
   }
 };

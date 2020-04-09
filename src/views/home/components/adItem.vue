@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-31 10:44:38
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-08 14:25:05
+ * @LastEditTime: 2020-04-09 10:49:17
  -->
 <template>
   <div class="box">
@@ -22,7 +22,7 @@
         <div v-if="currentItemData[item]" @click="toServiceInfo(item)">
           <div class="image"></div>
           <div class="itemTitle">{{currentItemData[item].title}}</div>
-          <div class="itemContent">{{currentItemData[item].content}}</div>
+          <div class="itemContent">{{common.replaceText(currentItemData[item].content)}}</div>
           <div class="itemImformation">
             <div>{{currentItemData[item].date}}</div>
             <div>{{currentItemData[item].browseCount}}人浏览过</div>
@@ -39,6 +39,7 @@
 
 <script>
 import itemData from "@/data/itemData";
+import common from "@/utils/common";
 export default {
   name: "adItem",
   props: {
@@ -49,8 +50,8 @@ export default {
   data() {
     return {
       selectIndex: 0, //当前选择的index，默认第一个,
-      // currentsmallType: []
-      currentItemData: {}
+      currentItemData: itemData,
+      common: common
     };
   },
   computed: {
@@ -58,15 +59,20 @@ export default {
       return this.typeData["children"][this.selectIndex];
     }
   },
-  mounted() {
-    this.currentItemData = itemData;
-  },
   methods: {
+    /**
+     * @description:去除<p>、</p>、<br/>标签
+     * @param {type} 字符串
+     * @return: 去除后的字符串
+     */
+    // replaceText(text) {
+    //   return text.replace(/<[^>]+>/g, "");
+    // },
+
     /**
      * @description: 切换小类类型
      * @param {type} 所在索引
      */
-
     changeType(index) {
       this.selectIndex = index;
     },

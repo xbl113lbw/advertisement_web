@@ -2,39 +2,51 @@
  * @Author: liyh
  * @Date: 2020-04-08 16:39:32
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-08 17:47:45
- -->
-<!--
- * @Author: liyh
- * @Date: 2020-03-31 10:39:35
- * @LastEditors: liyh
- * @LastEditTime: 2020-04-07 16:32:54
+ * @LastEditTime: 2020-04-09 14:57:20
  -->
 <template>
   <div class="uploadWrap">
     <div class="upload">
       <img src="@/assets/publish/uploadImg.png" alt />
       <span>+ 上传图片</span>
-      <input type="file" @change="uploadImg" multiple :disabled="imgLists.length >=6" />
+      <input type="file" @change="uploadImg" multiple :disabled="imgLists.length >=max" />
     </div>
-    <ul>
-      <li v-for="(item,index) in showImgList" :key="index">
-        <img @click="deleteImg(index)" class="delete" src="@/assets/delete.png" alt />
-        <img :src="item" alt />
-      </li>
-    </ul>
+    <div>
+      <ul v-if="echoImgData.length>0">
+        <li v-for="(item,index) in echoImgData" :key="index">
+          <img @click="deleteImg(index)" class="delete" src="@/assets/delete.png" alt />
+          <img :src="item" alt />
+        </li>
+      </ul>
+      <ul v-else>
+        <li v-for="(item,index) in showImgList" :key="index">
+          <img @click="deleteImg(index)" class="delete" src="@/assets/delete.png" alt />
+          <img :src="item" alt />
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
 <script>
-import { uploadPicture } from "@/service/commonApi";
+// import { uploadPicture } from "@/service/commonApi";
 
 export default {
   name: "UploadPicture",
+  props: {
+    echoImg: {
+      type: Array
+    },
+    max: {
+      type: Number,
+      default: 6
+    }
+  },
   data() {
     return {
       imgLists: [],
-      showImgList: []
+      showImgList: [],
+      echoImgData: this.echoImg
     };
   },
   methods: {
@@ -42,7 +54,6 @@ export default {
      * @description: 删除图片
      * @param {type} 当前index
      */
-
     deleteImg(index) {
       console.log("index", index);
       this.imgLists.splice(index, 1);
@@ -54,20 +65,15 @@ export default {
       let files = e.target.files;
       console.log("files", files);
       if (!files.length) return;
-      if (files.length > 6) {
-        this.$message.error("最多上传6张图片");
+      this.echoImgData = [];
+      if (files.length > this.max) {
+        this.$message.error(`最多上传${this.max}张图片`);
         return;
       }
-      if (this.imgLists.length + files.length > 6) {
-        this.$message.error("最多上传6张图片");
+      if (this.imgLists.length + files.length > this.max) {
+        this.$message.error(`最多上传${this.max}张图片`);
         return;
       }
-      let formData = new FormData();
-      for (var i = 0; i < files.length; i++) {
-        formData.append("name[]", files[i]);
-      }
-      let result = await uploadPicture(formData);
-      console.log("result", result);
       for (let item of files) {
         const isImg = item.type === "image/png" || item.type === "image/jpeg";
         if (!isImg) {
@@ -87,6 +93,7 @@ export default {
           this.$message.error("请上传5M以内大小的图片");
         }
       }
+      this.$emit("setImgLists", this.imgLists);
     }
   }
 };

@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-21 19:52:42
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-08 16:04:58
+ * @LastEditTime: 2020-04-09 14:07:10
  */
 import ajax from './../utils/ajax';
 
@@ -66,5 +66,19 @@ export const serviceManegeAccept = (params) => {
 //服务管理-其他
 export const serviceManegeOther = (params) => {
     return ajax.post(`${config.baseUrl}/frontend/user/center/others/list.json`, params);
+}
+
+//认证管理-查看信息
+export const getAttestInfo = (params) => {
+    return ajax.post(`${config.baseUrl}/frontend/user/center/attest_info.json`, params);
+}
+//认证管理-保存信息
+export const editAttestInfo = (params) => {
+    return ajax.post(`${config.baseUrl}/frontend/user/center/edit/attest_info.json`, params, {
+        headers: {
+            "Content-Type": 'multipart/form-data',
+            "X-Requested-With": 'XMLHttpRequest',
+        }
+    });
 }
 

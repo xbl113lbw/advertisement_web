@@ -20,7 +20,7 @@
           :class="navIndex == bigType_index ? 'active' : ''"
           @click="navChange(bigType_index)"
         >
-          {{item.name}}
+          <span>{{item.name}}</span>
           <div class="right-lists">
             <span
               v-for="(item_s,smallType_index) in item.children"
@@ -72,6 +72,10 @@ export default {
   },
   created() {
     this.bigType = typeData;
+    //接收其他组件相当于切换了nav大类的操作事件
+    this.$root.event.$on("navChangeEmit", target => {
+      this.navChange(target);
+    });
   },
   mounted() {
     let excludeUrl = ["/login", "/userAgreement", "/privacyPolicy"]; //这几个路由不需要顶部导航栏
@@ -129,7 +133,7 @@ export default {
           path: "/serviceList",
           query: {
             bigType: bigType_index,
-            smallType: smallType_index
+            smallType: smallType_index + 1
           }
         });
         this.reload();
@@ -138,7 +142,7 @@ export default {
           path: "/serviceList",
           query: {
             bigType: bigType_index,
-            smallType: smallType_index
+            smallType: smallType_index + 1
           }
         });
       }
@@ -302,8 +306,13 @@ export default {
         line-height: 22px;
         cursor: pointer;
         z-index: 100;
+        span {
+          position: relative;
+          z-index: 1000;
+        }
         &:hover {
           color: #1dbc76;
+          z-index: 1000;
         }
         &:hover .right-lists {
           display: flex;
@@ -318,12 +327,12 @@ export default {
 
         .right-lists {
           display: none;
+          background: #fff;
           position: absolute;
           left: -25%;
           top: 0;
           padding-top: 63px;
           z-index: 1;
-          background: transparent;
           border: 1px solid #cccccc;
           span {
             display: inline-block;

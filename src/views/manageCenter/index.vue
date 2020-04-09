@@ -44,7 +44,7 @@
     <div class="content">
       <baseInfo v-if="active === '1'"></baseInfo>
       <auth v-else-if="active === '2'"></auth>
-      <serverManage v-else></serverManage>
+      <serverManage v-else :currentServerManageData="currentServerManageData"></serverManage>
     </div>
   </div>
 </template>
@@ -67,9 +67,9 @@ export default {
   data() {
     return {
       active: "1",
-      currentServerManageData: [1], //当前选择的服务管理数据
-      serviceManegeReviewData: [2], //服务管理-审核中数据
-      serviceManegeAcceptData: [3], //服务管理-已发布数据
+      currentServerManageData: [], //当前选择的服务管理数据
+      serviceManegeReviewData: [], //服务管理-审核中数据
+      serviceManegeAcceptData: [], //服务管理-已发布数据
       serviceManegeOtherData: [] //服务管理-其他数据
     };
   },
@@ -111,7 +111,7 @@ export default {
      * @description: 获取长度，如果是0则不显示
      */
     getLength(data) {
-      return data.length > 0 ? `(${data.length})` : "";
+      return `（${data.length}）`;
     },
 
     /**
@@ -153,9 +153,28 @@ export default {
 };
 </script>
 <style lang="scss" scope>
+.el-menu {
+  border: none;
+}
+.el-menu-item,
+.el-submenu__title {
+  padding-left: 40px !important;
+  text-align: left;
+  color: #636363;
+  font-size: 18px;
+  font-family: PingFangSC-Regular, PingFang SC;
+}
+.el-submenu__icon-arrow {
+  right: 65px;
+}
+.el-menu-item-group .el-menu-item {
+  font-size: 16px;
+  padding-left: 52px !important;
+  font-family: PingFangSC-Regular, PingFang SC;
+}
 .main_page {
   max-width: 1200px;
-  //   background-color: #f8f4f8;
+  font-family: PingFangSC-Regular, PingFang SC;
   margin: 0 auto;
   display: flex;
   margin-top: 60px;

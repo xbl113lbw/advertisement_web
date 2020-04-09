@@ -1,10 +1,17 @@
 <template>
   <div class="serviceInfo">
-    <el-breadcrumb separator-class="el-icon-arrow-right">
+    <!-- <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item>首页</el-breadcrumb-item>
       <el-breadcrumb-item>{{bigType[0].name}}</el-breadcrumb-item>
       <el-breadcrumb-item>{{smallType[0].name}}</el-breadcrumb-item>
-    </el-breadcrumb>
+    </el-breadcrumb>-->
+    <!-- 面包屑 -->
+    <div class="breadcrumbBox">
+      <div class="breadcrumbItem" v-for="(item,index) in breadcrumbData" :key="index">
+        <span @click="breadcrumbClick(index)">{{item}}</span>
+        <div v-if="index!=breadcrumbData.length-1" class="arrow_right">></div>
+      </div>
+    </div>
     <!-- 内容详情 -->
     <div class="content">
       <div class="content-left">
@@ -170,6 +177,7 @@ export default {
         //   clickable: true
         // }
       },
+      breadcrumbData: ["首页"],
       phone: "查看商家电话号码",
       bigType: [],
       smallType: [],
@@ -186,6 +194,7 @@ export default {
       item => item.id == this.$route.query.smallType
     ); //根据id小类
     this.detailData = itemData[this.$route.query.id]; //根据id匹配详情数据
+    this.breadcrumbData.push(this.bigType[0].name, this.smallType[0].name);
   },
   methods: {
     handleClick(tab, event) {
@@ -232,6 +241,26 @@ export default {
         result = result % 1000;
       }
       return result;
+    },
+    /**
+     * @description: 点击面包屑跳转
+     */
+    breadcrumbClick(index) {
+      console.log("index", index);
+      if (index == 0) {
+        this.$router.push({ path: "/" });
+      } else if (index == 1) {
+        //向HeaderNav组件派发事件，此操作相当于切换了nav的大类
+        this.$root.event.$emit("navChangeEmit", this.$route.query.bigType);
+      } else if (index == 2) {
+        this.$router.push({
+          path: "/serviceList",
+          query: {
+            bigType: this.$route.query.bigType,
+            smallType: this.$route.query.smallType
+          }
+        });
+      }
     }
   }
 };
@@ -277,6 +306,23 @@ export default {
   font-weight: 400;
   color: #000000;
   cursor: pointer;
+  .breadcrumbBox {
+    cursor: pointer;
+    display: flex;
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.4);
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    .breadcrumbItem {
+      display: flex;
+      .arrow_right {
+        margin: 0 6px;
+      }
+    }
+    .breadcrumbItem:hover span {
+      text-decoration: underline;
+    }
+  }
   .content {
     display: flex;
     justify-content: space-between;

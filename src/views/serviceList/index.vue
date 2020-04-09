@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-31 13:55:18
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-06 01:42:01
+ * @LastEditTime: 2020-04-09 15:32:42
  -->
 <template>
   <div class="Wrapper">
@@ -11,7 +11,7 @@
       <!-- 面包屑 -->
       <div class="breadcrumbBox">
         <div class="breadcrumbItem" v-for="(item,index) in breadcrumbData" :key="index">
-          <span>{{item}}</span>
+          <span @click="breadcrumbClick(index)">{{item}}</span>
           <div v-if="index!=breadcrumbData.length-1" class="arrow_right">></div>
         </div>
       </div>
@@ -104,6 +104,18 @@ export default {
         this.currentPage * this.pageSize,
         this.currentPage * this.pageSize + this.pageSize
       );
+    },
+    /**
+     * @description: 点击面包屑跳转
+     */
+    breadcrumbClick(index) {
+      console.log("index", index);
+      if (index == 0) {
+        this.$router.push({ path: "/" });
+      } else if (index == 1) {
+        //向HeaderNav组件派发事件，此操作相当于切换了nav的大类
+        this.$root.event.$emit("navChangeEmit", this.$route.query.bigType);
+      }
     }
   },
   components: { Search, ListItem }
@@ -152,6 +164,7 @@ export default {
   margin: 0 auto;
   padding-bottom: 177px;
   .breadcrumbBox {
+    cursor: pointer;
     display: flex;
     font-size: 16px;
     color: rgba(0, 0, 0, 0.4);

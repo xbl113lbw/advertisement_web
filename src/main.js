@@ -28,5 +28,8 @@ Vue.prototype.ajax = ajax;
 new Vue({
     router,
     store,
+    data: {
+        event: new Vue()
+    },
     render: h => h(App)
 }).$mount("#app");

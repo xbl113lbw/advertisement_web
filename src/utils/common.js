@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-30 14:14:28
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-07 14:45:35
+ * @LastEditTime: 2020-04-09 10:48:45
  */
 class Common {
     /**
@@ -27,6 +27,15 @@ class Common {
             return true;
         }
         return false;
+    }
+
+    /**
+     * @description:去除<p>、</p>、<br/>标签
+     * @param {type} 字符串
+     * @return: 去除后的字符串
+     */
+    replaceText(text) {
+        return text.replace(/<[^>]+>/g, "");
     }
 }
 

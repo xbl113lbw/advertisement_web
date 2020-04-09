@@ -12,5 +12,6 @@ module.exports = {
         "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off",
         "no-unreachable": "off",// 当有不能执行到的代码时
         'indent': "off",
+        "no-unused-vars": "off"
     }
 };
