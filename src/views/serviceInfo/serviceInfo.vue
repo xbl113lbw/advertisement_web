@@ -88,7 +88,7 @@
                       <img :src="require(`@/assets/headerNav/avatar${item.id % 4}.png`)" alt />
                     </div>
                     <div class="discuss_right">
-                      <div class="phone">{{getCommenter(item.id,detailData.id)}}********</div>
+                      <div class="phone">{{getCommenter()}}********</div>
                       <div class="discuss_content">{{item.text}}</div>
                     </div>
                   </div>
@@ -235,12 +235,12 @@ export default {
      * @param {type} id
      * @return:
      */
-    getCommenter(id, parentId) {
-      let result = parentId + id;
-      if (result > 999) {
-        result = result % 1000;
-      }
-      return result;
+    getCommenter() {
+      let endRandomNum = Math.round(Math.random() * 9); //尾数随机数
+      let arr = [3, 5, 6, 8, 9];
+      let index = Math.floor(Math.random() * arr.length);
+      let centerRandomNum = arr[index]; //中间随机数
+      return `1${centerRandomNum}${endRandomNum}`;
     },
     /**
      * @description: 点击面包屑跳转

@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-30 16:03:08
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-08 15:25:58
+ * @LastEditTime: 2020-04-09 17:25:27
  -->
 <template>
   <!-- 登录部分 -->
@@ -90,6 +90,7 @@ const telephoneReg = /^1[3456789]\d{9}$/;
 import { mapState, mapMutations, mapActions } from "vuex";
 import { getSms } from "@/service/commonApi";
 import { personalLogin, enterpriseLogin } from "@/service/userApi";
+let loading = null;
 export default {
   name: "Login",
   data() {
@@ -118,7 +119,14 @@ export default {
     userInfo: {
       handler(newStatus) {
         if (newStatus && newStatus.id) {
-          this.$router.go(-1);
+          if (loading) {
+            setTimeout(() => {
+              loading.close();
+              this.$router.go(-1);
+            }, 1000);
+          } else {
+            this.$router.go(-1);
+          }
         }
       }
     }
@@ -205,6 +213,7 @@ export default {
       }
       let second = 20;
       if (this.qrTimer) return false;
+      const loading = this.$loading();
       let smsRes = await getSms({ mobile: telephone }); //调接口
       let { status, msg } = smsRes;
       if (status) {
@@ -229,6 +238,7 @@ export default {
       } else {
         this.$message.error(msg);
       }
+      loading.close();
     },
 
     /**
@@ -240,6 +250,7 @@ export default {
       this.setUserInfo({});
       let params = {};
       let loginRes = null;
+      loading = this.$loading();
       //判断用户是个人用户还是企业用户
       if (this.userType == "personal") {
         params = {
@@ -262,6 +273,9 @@ export default {
         this.setUserInfoAction(); //设置用户信息
       } else {
         this.$message.error(msg);
+        setTimeout(() => {
+          loading.close();
+        }, 500);
       }
     }
   }

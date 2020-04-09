@@ -129,13 +129,17 @@ export default {
     toServiceList(bigType_index, smallType_index) {
       this.changeNavIndex(bigType_index);
       if (this.$route.path === "/serviceList") {
-        this.$router.replace({
-          path: "/serviceList",
-          query: {
-            bigType: bigType_index,
-            smallType: smallType_index + 1
-          }
-        });
+        this.$router
+          .replace({
+            path: "/serviceList",
+            query: {
+              bigType: bigType_index,
+              smallType: smallType_index + 1
+            }
+          })
+          .catch(err => {
+            console.log("输出报错", err);
+          });
         this.reload();
       } else {
         this.$router.push({
@@ -329,7 +333,7 @@ export default {
           display: none;
           background: #fff;
           position: absolute;
-          left: -25%;
+          left: -30%;
           top: 0;
           padding-top: 63px;
           z-index: 1;

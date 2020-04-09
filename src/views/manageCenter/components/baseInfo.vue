@@ -56,6 +56,7 @@ export default {
       setUserInfoAction: "setUserInfoAction"
     }),
     async getEnterpriseInfo() {
+      const loading = this.$loading();
       //TODO
       let enterpriseInfoRes = await getEnterpriseInfo({ id: this.userInfo.id });
       let { status, msg, data } = enterpriseInfoRes;
@@ -64,6 +65,7 @@ export default {
       } else {
         this.$message.error(msg);
       }
+      loading.close();
     },
     async save() {
       let editResult = await editEnterpriseInfo({

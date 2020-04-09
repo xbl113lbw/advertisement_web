@@ -2,14 +2,14 @@
  * @Author: liyh
  * @Date: 2020-03-31 14:04:16
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-08 11:39:05
+ * @LastEditTime: 2020-04-09 16:36:10
  -->
 <template>
   <div class="listItemBox">
     <div class="leftBox"></div>
     <div class="centerBox">
       <div :class="visited(itemData.id)">{{itemData.title}}</div>
-      <div>{{itemData.content}}</div>
+      <div>{{common.replaceText(itemData.content)}}</div>
       <div class="price">
         <span>{{itemData.price}}</span>
         <span>/{{itemData.unit}}</span>
@@ -41,7 +41,8 @@ export default {
   },
   data() {
     return {
-      phone: "查看电话号码"
+      phone: "查看电话号码",
+      common: common
     };
   },
   methods: {

@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-31 10:44:38
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-09 10:49:17
+ * @LastEditTime: 2020-04-09 16:49:56
  -->
 <template>
   <div class="box">
@@ -135,6 +135,7 @@ export default {
       border-bottom: 1px solid #cccccc;
       color: #000000;
       font-size: 14px;
+      cursor: pointer;
       span {
         opacity: 0.8;
       }

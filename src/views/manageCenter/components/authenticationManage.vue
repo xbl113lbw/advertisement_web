@@ -91,6 +91,7 @@ export default {
     },
 
     async getAttestInfo() {
+      const loading = this.$loading();
       let assestInfoRes = await getAttestInfo({ id: this.userInfo.id });
       let { status, msg, data } = assestInfoRes;
       if (status) {
@@ -100,6 +101,7 @@ export default {
       } else {
         this.$message.error(msg);
       }
+      loading.close();
     },
 
     setImgLists(imgLists) {
@@ -122,6 +124,7 @@ export default {
           break;
         }
       }
+      const loading = this.$loading();
       let formData = new FormData();
       formData.append("url", window.location.href);
       formData.append("id", this.userInfo.id);
@@ -142,6 +145,7 @@ export default {
       } else {
         this.$message.error(msg);
       }
+      loading.close();
     }
   }
 };

@@ -21,9 +21,9 @@
       </div>
     </div>
     <!-- 步骤 -->
-    <ChooseType v-if="stepsIndex===0" @chooseType="chooseType" />
+    <ChooseType v-if="stepsIndex===0" @chooseType="chooseType" :typeData="typeData" />
     <!-- 类别 -->
-    <Write v-if="stepsIndex===1" />
+    <Write v-if="stepsIndex===1" :chooseBigTypeName="chooseBigTypeName" />
     <!-- 填写 -->
     <Success v-if="stepsIndex===2" />
     <!-- 信息 -->
@@ -34,6 +34,7 @@
 import ChooseType from "./components/chooseType.vue";
 import Success from "./components/success.vue";
 import Write from "./components/write.vue";
+import typeData from "@/data/typeData";
 
 export default {
   name: "publish",
@@ -46,13 +47,20 @@ export default {
         { name: "完成发布" }
       ],
       stepsIndex: 0,
-      chooseTypeText: ""
+      chooseBigTypeName: "",
+      typeData: typeData
     };
   },
   methods: {
-    chooseType(type) {
-      console.log("父组件type", type);
-      this.chooseTypeText = type;
+    chooseType(bigTypeName, bigTypeId, smallTypeName, smallTypeId) {
+      console.log(
+        "父组件type",
+        bigTypeName,
+        bigTypeId,
+        smallTypeName,
+        smallTypeId
+      );
+      this.chooseBigTypeName = bigTypeName;
       this.stepsIndex++;
     }
   }

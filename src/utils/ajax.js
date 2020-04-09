@@ -1,5 +1,6 @@
-import axios from 'axios'
-import Qs from 'qs'
+import axios from 'axios';
+import Qs from 'qs';
+import store from '@/store';
 
 // 创建axios实例
 let instance = axios.create({
@@ -26,6 +27,10 @@ instance.interceptors.request.use(function (config) {
 });
 // 添加响应拦截器
 instance.interceptors.response.use(function (response) {
+    if (response.data.code == 29014) {
+        localStorage.removeItem("token");
+        store.dispatch('setUserInfo', {});
+    }
     // 对响应数据做点什么
     return response.data;
 }, function (error) {

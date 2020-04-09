@@ -4,11 +4,11 @@
       <div class="formItem-title">基础信息</div>
       <div class="formItem-line">
         <span>所属分类</span>
-        <span>展会服务</span>
+        <span>{{chooseBigTypeName}}</span>
       </div>
       <div class="formItem-line">
         <span>公司名称</span>
-        <span>深圳市大吉大利有限公司</span>
+        <span>{{userInfo.nick}}</span>
       </div>
       <div class="formItem-line">
         <span>所属地区</span>
@@ -63,11 +63,15 @@
 </template>
 
 <script>
-// import { uploadPicture } from "@/service/commonApi";
 import UploadPicture from "@/components/UploadPicture";
-// import axios from "axios";
+import { mapState } from "vuex";
 export default {
   name: "write",
+  props: {
+    chooseBigTypeName: {
+      type: String
+    }
+  },
   data() {
     return {
       address: "",
@@ -80,6 +84,11 @@ export default {
       imgLists: [],
       showImgList: []
     };
+  },
+  computed: {
+    ...mapState({
+      userInfo: state => state.userInfo
+    })
   },
   components: { UploadPicture },
   methods: {
@@ -163,12 +172,11 @@ export default {
         font-size: 16px;
         font-weight: 400;
         color: rgba(0, 0, 0, 0.8);
-        line-height: 22px;
-
+        // line-height: 22px;
         &:first-child {
           min-width: 65px;
-          height: 50px;
-          line-height: 50px;
+          // height: 50px;
+          // line-height: 50px;
           margin-right: 30px;
           font-weight: 600;
           text-align-last: justify;

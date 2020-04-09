@@ -1,12 +1,12 @@
 <template>
   <div class="chooseType">
-    <ul v-for="(item,index) in [1,2,3,4]" :key="index">
-      <li>广告传媒</li>
+    <ul v-for="(item,index) in typeData" :key="index">
+      <li>{{item.name}}</li>
       <li
-        @click="chooseType(item_second)"
-        v-for="(item_second,index_second) in ['广告位招租','多媒体互动','导视系统设计']"
+        @click="chooseType(item.name,item.id,item_second.name,item_second.id)"
+        v-for="(item_second,index_second) in item.children"
         :key="index_second"
-      >{{item_second}}</li>
+      >{{item_second.name}}</li>
     </ul>
   </div>
 </template>
@@ -14,9 +14,20 @@
 <script>
 export default {
   name: "chooseType",
+  props: {
+    typeData: {
+      type: Array
+    }
+  },
   methods: {
-    chooseType(type) {
-      this.$emit("chooseType", type);
+    chooseType(bigTypeName, bigTypeId, smallTypeName, smallTypeId) {
+      this.$emit(
+        "chooseType",
+        bigTypeName,
+        bigTypeId,
+        smallTypeName,
+        smallTypeId
+      );
     }
   }
 };

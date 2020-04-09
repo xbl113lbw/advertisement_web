@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-04-08 16:39:32
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-09 14:57:20
+ * @LastEditTime: 2020-04-09 15:45:22
  -->
 <template>
   <div class="uploadWrap">
@@ -46,7 +46,7 @@ export default {
     return {
       imgLists: [],
       showImgList: [],
-      echoImgData: this.echoImg
+      echoImgData: this.echoImg || []
     };
   },
   methods: {
