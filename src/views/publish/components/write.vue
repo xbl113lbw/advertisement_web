@@ -37,18 +37,6 @@
         <span>图片添加</span>
         <div>
           <p>请上传清晰、实拍的图片，请不要在图片上添加文字、数字、网址等内容，请勿上传名片、二维码、自拍照等无关图片，最少上传3张，最多上传6张，每张最大5M</p>
-          <!-- <div class="uploadWrap">
-            <div class="upload">
-              <img src="../../../assets/publish/uploadImg.png" alt />
-              <span>+ 上传图片</span>
-              <input type="file" @change="uploadImg" multiple :disabled="imgLists.length >=6" />
-            </div>
-            <ul>
-              <li v-for="(item,index) in showImgList" :key="index">
-                <img :src="item" alt />
-              </li>
-            </ul>
-          </div>-->
           <UploadPicture></UploadPicture>
         </div>
       </div>
@@ -95,49 +83,6 @@ export default {
   },
   components: { UploadPicture },
   methods: {
-    // 上传图片
-    // async uploadImg(e) {
-    //   let files = e.target.files;
-    //   console.log("files", files);
-
-    //   let formData = new FormData();
-    //   //   formData.append("name[]", files[0], files[0].name);
-    //   for (var i = 0; i < files.length; i++) {
-    //     formData.append("name[]", files[i]);
-    //   }
-    //   let result = await uploadPicture(formData);
-    //   console.log("result", result);
-
-    //   e.target.value = "";
-    //   return;
-    //   if (files.length > 6) {
-    //     this.$message.error("最多上传6张图片");
-    //     return;
-    //   }
-    //   if (this.imgLists.length + files.length > 6) {
-    //     this.$message.error("最多上传6张图片");
-    //     return;
-    //   }
-    //   for (let item of files) {
-    //     const isImg = item.type === "image/png" || item.type === "image/jpeg";
-    //     if (!isImg) {
-    //       this.$message.error("请上传图片");
-    //       return;
-    //     }
-    //     let size = item.size;
-    //     if (size / (1024 * 1024) < 5) {
-    //       this.imgLists.push(item);
-    //       let reader = new FileReader();
-    //       reader.readAsDataURL(item);
-    //       reader.onload = e => {
-    //         let result = e.target.result;
-    //         this.showImgList.push(result);
-    //       };
-    //     } else {
-    //       this.$message.error("请上传5M以内大小的图片");
-    //     }
-    //   }
-    // },
     // 提交按钮
     submit() {
       console.log("this.showImgList", this.showImgList);
