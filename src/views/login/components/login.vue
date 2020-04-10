@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-30 16:03:08
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-09 17:25:27
+ * @LastEditTime: 2020-04-10 11:00:01
  -->
 <template>
   <!-- 登录部分 -->
@@ -273,10 +273,10 @@ export default {
         this.setUserInfoAction(); //设置用户信息
       } else {
         this.$message.error(msg);
-        setTimeout(() => {
-          loading.close();
-        }, 500);
       }
+      setTimeout(() => {
+        loading.close();
+      }, 500);
     }
   }
 };

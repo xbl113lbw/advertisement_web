@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-31 10:39:35
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-07 16:32:54
+ * @LastEditTime: 2020-04-10 11:04:08
  -->
 <template>
   <div class="searchBox">
@@ -31,6 +31,7 @@
 
 <script>
 import { mapState } from "vuex";
+import { getEnterpriseStatus } from "@/service/commonApi";
 export default {
   name: "Search",
   inject: ["reload"],
@@ -48,8 +49,15 @@ export default {
     /**
      * @description: 点击发布信息
      */
-    toPublish() {
-      this.$router.push({ path: "/publish" });
+    async toPublish() {
+      //先判断当前企业审核是否通过
+      let result = await getEnterpriseStatus();
+      console.log("result", result);
+      if (result == "accept") {
+        this.$router.push({ path: "/publish" });
+      } else {
+        this.$message.error("企业审核未通过");
+      }
     },
     /**
      * @description: 点击去首页

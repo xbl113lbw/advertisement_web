@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-21 19:52:42
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-09 14:07:10
+ * @LastEditTime: 2020-04-10 10:06:30
  */
 import ajax from './../utils/ajax';
 
@@ -75,6 +75,16 @@ export const getAttestInfo = (params) => {
 //认证管理-保存信息
 export const editAttestInfo = (params) => {
     return ajax.post(`${config.baseUrl}/frontend/user/center/edit/attest_info.json`, params, {
+        headers: {
+            "Content-Type": 'multipart/form-data',
+            "X-Requested-With": 'XMLHttpRequest',
+        }
+    });
+}
+
+//服务发布->表单提交
+export const publish = (params) => {
+    return ajax.post(`${config.baseUrl}/frontend/service/publish/submit.json`, params, {
         headers: {
             "Content-Type": 'multipart/form-data',
             "X-Requested-With": 'XMLHttpRequest',

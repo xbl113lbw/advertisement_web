@@ -4,7 +4,7 @@
       <div class="formItem-title">基础信息</div>
       <div class="formItem-line">
         <span>所属分类</span>
-        <span>{{chooseBigTypeName}}</span>
+        <span>{{chooseType.bigTypeName}}</span>
       </div>
       <div class="formItem-line">
         <span>公司名称</span>
@@ -28,7 +28,7 @@
       <div class="formItem-line">
         <span>价格</span>
         <div>
-          <input type="number" placeholder="请输入数值" style="width: 160px;" v-model.number="num" />
+          <input type="number" placeholder="请输入数值" style="width: 160px;" v-model.number="price" />
           <span>/</span>
           <input type="text" placeholder="请输入单位" style="width: 160px;" v-model="unit" />
         </div>
@@ -37,13 +37,13 @@
         <span>图片添加</span>
         <div>
           <p>请上传清晰、实拍的图片，请不要在图片上添加文字、数字、网址等内容，请勿上传名片、二维码、自拍照等无关图片，最少上传3张，最多上传6张，每张最大5M</p>
-          <UploadPicture></UploadPicture>
+          <UploadPicture @setImgLists="setImgLists" :max="6"></UploadPicture>
         </div>
       </div>
       <div class="formItem-line" style="display:flex;align-items: flex-start">
         <span>信息标题</span>
         <div>
-          <textarea placeholder="可以介绍一下工作流程、团队优势、过往大型案例等，详细的描述会大大提升客户的兴趣与信任度！" v-model="msg"></textarea>
+          <textarea placeholder="可以介绍一下工作流程、团队优势、过往大型案例等，详细的描述会大大提升客户的兴趣与信任度！" v-model="desc"></textarea>
         </div>
       </div>
     </div>
@@ -51,11 +51,11 @@
       <div class="formItem-title">联系方式</div>
       <div class="formItem-line">
         <span>联系人</span>
-        <input type="text" placeholder="请输入联系人姓名" v-model="name" />
+        <input type="text" placeholder="请输入联系人姓名" v-model="contact" />
       </div>
       <div class="formItem-line">
         <span>联系电话</span>
-        <input type="text" placeholder="请输入联系电话" v-model="phone" />
+        <input type="text" placeholder="请输入联系电话" v-model="mobile" />
       </div>
     </div>
     <button class="submit" @click="submit">发布信息</button>
@@ -64,25 +64,25 @@
 
 <script>
 import UploadPicture from "@/components/UploadPicture";
+import { publish } from "@/service/userApi";
 import { mapState } from "vuex";
 export default {
   name: "write",
   props: {
-    chooseBigTypeName: {
-      type: String
+    chooseType: {
+      type: Object
     }
   },
   data() {
     return {
       address: "",
       title: "",
-      num: null,
+      price: null,
       unit: "",
-      msg: "",
-      name: "",
-      phone: null,
-      imgLists: [],
-      showImgList: []
+      desc: "",
+      contact: "",
+      mobile: null,
+      imgLists: []
     };
   },
   computed: {
@@ -92,10 +92,15 @@ export default {
   },
   components: { UploadPicture },
   methods: {
+    /**
+     * @description: 上传图片回调
+     */
+    setImgLists(imgLists) {
+      console.log("data", imgLists);
+      this.imgLists = imgLists;
+    },
     // 提交按钮
-    submit() {
-      console.log("this.showImgList", this.showImgList);
-      return;
+    async submit() {
       if (!this.address) {
         this.$message.error("请输入公司详细地址");
         return;
@@ -104,7 +109,7 @@ export default {
         this.$message.error("请输入信息标题");
         return;
       }
-      if (!this.num) {
+      if (!this.price) {
         this.$message.error("请输入数值");
         return;
       }
@@ -116,24 +121,53 @@ export default {
         this.$message.error("请根据提示上传图片");
         return;
       }
-      if (!this.msg) {
+      if (!this.desc) {
         this.$message.error("请输入信息标题");
         return;
       }
-      if (!this.name) {
+      if (!this.contact) {
         this.$message.error("请输入联系人姓名");
         return;
       }
-      if (!this.phone) {
+      if (!this.mobile) {
         this.$message.error("请输入联系电话");
         return;
       }
       const telephoneReg = /^1[3456789]\d{9}$/;
-      if (!telephoneReg.test(this.phone)) {
+      if (!telephoneReg.test(this.mobile)) {
         this.$message.error("联系电话错误，请重新输入");
         return;
       }
-      console.log(1);
+      let formData = new FormData();
+      formData.append("url", window.location.href);
+      formData.append("id", this.userInfo.id);
+      formData.append("address", this.address);
+      formData.append("title", this.title);
+      formData.append("price", this.price);
+      formData.append("unit", this.unit);
+      formData.append("desc", this.desc);
+      formData.append("contact", this.contact);
+      formData.append("mobile", this.mobile);
+      formData.append(
+        "type",
+        `${this.chooseType.bigTypeId},${this.chooseType.smallTypeId}`
+      );
+      for (var i = 0; i < this.imgLists.length; i++) {
+        formData.append("name[]", this.imgLists[i]);
+      }
+      const loading = this.$loading();
+      let publishRes = await publish(formData);
+      let { status, msg, data } = publishRes;
+      if (status) {
+        this.$message({
+          message: "发布成功",
+          type: "success"
+        });
+        this.$emit("publishSuccess");
+      } else {
+        this.$message.error(msg);
+      }
+      loading.close();
     }
   }
 };

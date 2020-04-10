@@ -90,6 +90,25 @@ export default {
 };
 </script>
 <style lang="scss" scope>
+.el-menu {
+  border: none;
+}
+.el-menu-item,
+.el-submenu__title {
+  padding-left: 40px !important;
+  text-align: left;
+  color: #636363;
+  font-size: 18px;
+  font-family: PingFangSC-Regular, PingFang SC;
+}
+.el-submenu__icon-arrow {
+  right: 65px;
+}
+.el-menu-item-group .el-menu-item {
+  font-size: 16px;
+  padding-left: 52px !important;
+  font-family: PingFangSC-Regular, PingFang SC;
+}
 .main_page {
   max-width: 1200px;
   font-family: PingFangSC-Regular, PingFang SC;

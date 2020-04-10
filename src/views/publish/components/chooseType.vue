@@ -3,7 +3,7 @@
     <ul v-for="(item,index) in typeData" :key="index">
       <li>{{item.name}}</li>
       <li
-        @click="chooseType(item.name,item.id,item_second.name,item_second.id)"
+        @click="chooseTypeEvent(item.name,item.id,item_second.name,item_second.id)"
         v-for="(item_second,index_second) in item.children"
         :key="index_second"
       >{{item_second.name}}</li>
@@ -20,9 +20,9 @@ export default {
     }
   },
   methods: {
-    chooseType(bigTypeName, bigTypeId, smallTypeName, smallTypeId) {
+    chooseTypeEvent(bigTypeName, bigTypeId, smallTypeName, smallTypeId) {
       this.$emit(
-        "chooseType",
+        "chooseTypeEvent",
         bigTypeName,
         bigTypeId,
         smallTypeName,

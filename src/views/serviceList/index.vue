@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-31 13:55:18
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-09 15:32:42
+ * @LastEditTime: 2020-04-10 14:54:05
  -->
 <template>
   <div class="Wrapper">
@@ -40,7 +40,7 @@ import Search from "@/components/Search";
 import ListItem from "./components/listItem";
 import itemData from "@/data/itemData";
 import typeData from "@/data/typeData";
-
+import { mapMutations } from "vuex";
 export default {
   name: "ServiceList",
   data() {
@@ -73,8 +73,12 @@ export default {
     }
     this.itemData = itemData;
     this.breadcrumbData.push(this.bigType[0].name, this.smallType[0].name);
+    this.changeNavIndex(this.$route.query.bigType - 1);
   },
   methods: {
+    ...mapMutations({
+      changeNavIndex: "changeNavIndex"
+    }),
     /**
      * @description: 点击跳去详情页
      */

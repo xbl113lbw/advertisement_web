@@ -44,7 +44,11 @@
     <div class="content">
       <baseInfo v-if="active === '1'"></baseInfo>
       <auth v-else-if="active === '2'"></auth>
-      <serverManage v-else :currentServerManageData="currentServerManageData"></serverManage>
+      <serverManage
+        v-else
+        :currentServerManageData="currentServerManageData"
+        :currentServerManagePageinfo="currentServerManagePageinfo"
+      ></serverManage>
     </div>
   </div>
 </template>
@@ -53,6 +57,7 @@ import auth from "./components/authenticationManage";
 import baseInfo from "./components/baseInfo";
 import serverManage from "./components/serverManage";
 import { mapState } from "vuex";
+import { getEnterpriseStatus } from "@/service/commonApi";
 import {
   serviceManegeAccept,
   serviceManegeReview,
@@ -68,8 +73,12 @@ export default {
     return {
       active: "1",
       currentServerManageData: [], //当前选择的服务管理数据
+      currentServerManagePageinfo: [], //当前选择的服务管理分页信息
+      serviceManegeReviewPageinfo: {}, //服务管理-审核中分页信息
       serviceManegeReviewData: [], //服务管理-审核中数据
+      serviceManegeAcceptPageinfo: {}, //服务管理-已发布分页信息
       serviceManegeAcceptData: [], //服务管理-已发布数据
+      serviceManegeOtherPageinfo: {}, //服务管理-其他分页信息
       serviceManegeOtherData: [] //服务管理-其他数据
     };
   },
@@ -78,12 +87,17 @@ export default {
       userInfo: state => state.userInfo
     })
   },
-  mounted() {
-    Promise.all([
-      this.getServiceManegeReviewData(),
-      this.getServiceManegeAcceptData(),
-      this.getServiceManegeOtherData()
-    ]);
+  async mounted() {
+    //先判断当前企业审核是否通过
+    let result = await getEnterpriseStatus();
+    console.log("result", result);
+    if (result == "accept") {
+      Promise.all([
+        this.getServiceManegeReviewData(),
+        this.getServiceManegeAcceptData(),
+        this.getServiceManegeOtherData()
+      ]);
+    }
   },
   methods: {
     handleOpen(key, keyPath) {
@@ -98,12 +112,13 @@ export default {
     ToAuth(e, currentServiceStatus) {
       this.active = e;
       let temp = {
-        1: this.serviceManegeReviewData,
-        2: this.serviceManegeAcceptData,
-        3: this.serviceManegeOtherData
+        1: [this.serviceManegeReviewData, this.serviceManegeReviewPageinfo],
+        2: [this.serviceManegeAcceptData, this.serviceManegeAcceptPageinfo],
+        3: [this.serviceManegeOtherData, this.serviceManegeOtherPageinfo]
       };
       if (e == 3) {
-        this.currentServerManageData = temp[currentServiceStatus];
+        this.currentServerManageData = temp[currentServiceStatus][0];
+        this.currentServerManagePageinfo = temp[currentServiceStatus][1];
       }
     },
 
@@ -120,9 +135,10 @@ export default {
     async getServiceManegeAcceptData() {
       let result = await serviceManegeAccept({ id: this.userInfo.id, page: 1 });
       console.log("result", result);
-      let { status, data } = result;
+      let { status, data, pageinfo } = result;
       if (status) {
         this.serviceManegeAcceptData = data;
+        this.serviceManegeAcceptPageinfo = pageinfo;
       }
     },
 
@@ -132,9 +148,10 @@ export default {
     async getServiceManegeReviewData() {
       let result = await serviceManegeReview({ id: this.userInfo.id, page: 1 });
       console.log("result", result);
-      let { status, data } = result;
+      let { status, data, pageinfo } = result;
       if (status) {
         this.serviceManegeReviewData = data;
+        this.serviceManegeReviewPageinfo = pageinfo;
       }
     },
 
@@ -144,9 +161,10 @@ export default {
     async getServiceManegeOtherData() {
       let result = await serviceManegeOther({ id: this.userInfo.id, page: 1 });
       console.log("result", result);
-      let { status, data } = result;
+      let { status, data, pageinfo } = result;
       if (status) {
         this.serviceManegeOtherData = data;
+        this.serviceManegeOtherPageinfo = pageinfo;
       }
     }
   }

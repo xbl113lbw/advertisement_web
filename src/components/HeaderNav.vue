@@ -133,7 +133,7 @@ export default {
           .replace({
             path: "/serviceList",
             query: {
-              bigType: bigType_index,
+              bigType: bigType_index + 1,
               smallType: smallType_index + 1
             }
           })
@@ -145,7 +145,7 @@ export default {
         this.$router.push({
           path: "/serviceList",
           query: {
-            bigType: bigType_index,
+            bigType: bigType_index + 1,
             smallType: smallType_index + 1
           }
         });
@@ -156,7 +156,7 @@ export default {
      */
     toUserCenter() {
       let targetUrl = {
-        peosonal: "/userCenter",
+        personal: "/userCenter",
         enterprise: "/manageCenter"
       };
       if (this.$route.path === targetUrl[this.userInfo.type]) {

@@ -21,9 +21,9 @@
       </div>
     </div>
     <!-- 步骤 -->
-    <ChooseType v-if="stepsIndex===0" @chooseType="chooseType" :typeData="typeData" />
+    <ChooseType v-if="stepsIndex===0" @chooseTypeEvent="chooseTypeEvent" :typeData="typeData" />
     <!-- 类别 -->
-    <Write v-if="stepsIndex===1" :chooseBigTypeName="chooseBigTypeName" />
+    <Write v-if="stepsIndex===1" :chooseType="chooseType" @publishSuccess="publishSuccess" />
     <!-- 填写 -->
     <Success v-if="stepsIndex===2" />
     <!-- 信息 -->
@@ -47,12 +47,12 @@ export default {
         { name: "完成发布" }
       ],
       stepsIndex: 0,
-      chooseBigTypeName: "",
+      chooseType: {},
       typeData: typeData
     };
   },
   methods: {
-    chooseType(bigTypeName, bigTypeId, smallTypeName, smallTypeId) {
+    chooseTypeEvent(bigTypeName, bigTypeId, smallTypeName, smallTypeId) {
       console.log(
         "父组件type",
         bigTypeName,
@@ -60,8 +60,16 @@ export default {
         smallTypeName,
         smallTypeId
       );
-      this.chooseBigTypeName = bigTypeName;
-      this.stepsIndex++;
+      this.chooseType = { bigTypeName, bigTypeId, smallTypeName, smallTypeId };
+      this.stepsIndex = 1;
+    },
+
+    /**
+     * @description: 发布成功
+     */
+
+    publishSuccess() {
+      this.stepsIndex = 2;
     }
   }
 };

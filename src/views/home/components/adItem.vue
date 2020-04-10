@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-31 10:44:38
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-09 16:49:56
+ * @LastEditTime: 2020-04-10 10:26:15
  -->
 <template>
   <div class="box">
@@ -116,6 +116,7 @@ export default {
   margin: 0 auto;
   margin-top: 80px;
   cursor: pointer;
+  font-family: PingFangSC-Regular, PingFang SC;
   .title {
     font-size: 28px;
     font-weight: 600;
