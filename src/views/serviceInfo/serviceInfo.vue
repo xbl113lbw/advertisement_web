@@ -128,15 +128,15 @@
         <div class="bottom">
           <span class="bottom-title">相关推荐</span>
           <ul>
-            <li v-for="(item, index) in [1, 2, 3, 4]" :key="index">
+            <li v-for="(item, index) in recommendData" :key="index" @click="toServiceInfo(item)">
               <img src="../../assets/logo.png" alt />
               <div class="textWrap">
-                <span class="omit">标题标题标题标题…</span>
-                <span>2020.03.19 ｜ 28人浏览过</span>
-                <span>展会服务 > 展会布置/搭建</span>
+                <span class="omit">{{item.title}}</span>
+                <span>{{item.date}} ｜ {{item.browseCount}}人浏览过</span>
+                <span>{{item.bigTypeName}} > {{item.smallTypeName}}</span>
                 <span>
-                  20元
-                  <span>/m²</span>
+                  {{item.price}}
+                  <span>/{{item.unit}}</span>
                 </span>
               </div>
             </li>
@@ -183,7 +183,8 @@ export default {
       smallType: [],
       detailData: {},
       textarea: "",
-      activeName: "first"
+      activeName: "first",
+      recommendData: []
     };
   },
   created() {
@@ -195,10 +196,65 @@ export default {
     ); //根据id小类
     this.detailData = itemData[this.$route.query.id]; //根据id匹配详情数据
     this.breadcrumbData.push(this.bigType[0].name, this.smallType[0].name);
+    this.getRecommend();
   },
   methods: {
     handleClick(tab, event) {
       console.log(tab, event);
+    },
+    /**
+     * @description:获取相关推荐数据
+     */
+    getRecommend() {
+      let tempArr = [];
+      for (const key in itemData) {
+        tempArr.push(key);
+      }
+      let recommendArr = common.getRandomArrayElements(tempArr, 4); //随即取出4个推荐元素
+      let recommendData = [];
+      for (let index = 0; index < recommendArr.length; index++) {
+        const element = recommendArr[index];
+        recommendData.push(itemData[element]);
+      }
+      //根据id找出大类id、name和小类id、name
+      let recommendMapData = recommendData.map(item => {
+        let outerName = ""; //记录第一层循环的name
+        let outerId = 0; //记录第一层循环的id
+        let innerName = ""; //记录第二层循环的name
+        let innerId = 0; //记录第二层循环的id
+        let outerLength = typeData.length;
+        /*第一层循环*/
+        outer: for (
+          let outerIndex = 0;
+          outerIndex < outerLength;
+          outerIndex++
+        ) {
+          const outerElement = typeData[outerIndex];
+          //记录第一层循环的id和name
+          outerId = outerElement.id;
+          outerName = outerElement.name;
+          let innerLength = outerElement.children.length;
+          /*第二层循环*/
+          for (let innerIndex = 0; innerIndex < innerLength; innerIndex++) {
+            const innerElement = outerElement.children[innerIndex];
+            //记录第二层循环的id和name
+            innerId = innerElement.id;
+            innerName = innerElement.name;
+            if (innerElement.child.includes(item.id)) {
+              //找到了，直接跳出两层循环
+              break outer;
+            }
+          }
+        }
+        return {
+          ...item,
+          bigTypeName: outerName,
+          bigTypeId: outerId,
+          smallTypeName: innerName,
+          smallTypeId: innerId
+        };
+      });
+      this.recommendData = recommendMapData;
     },
     /**
      * @description: 点击查看商家号码
@@ -261,6 +317,24 @@ export default {
           }
         });
       }
+    },
+    /**
+     * @description: 点击相关推荐
+     */
+
+    toServiceInfo(item) {
+      console.log("item", item);
+
+      this.$router.replace({
+        path: "/serviceInfo",
+        query: {
+          bigType: item.bigTypeId,
+          smallType: item.smallTypeId,
+          id: item.id
+        }
+      });
+      window.scrollTo(0, 0);
+      window.location.reload();
     }
   }
 };
@@ -299,6 +373,7 @@ export default {
 }
 
 .serviceInfo {
+  font-family: PingFangSC-Regular, PingFang SC;
   width: 1200px;
   margin: 0 auto;
   padding-top: 80px;

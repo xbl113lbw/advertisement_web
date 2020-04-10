@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-31 13:55:18
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-06 00:31:28
+ * @LastEditTime: 2020-04-10 16:24:07
  -->
 <template>
   <div class="Wrapper">
@@ -122,7 +122,7 @@ export default {
           const innerElement = outerElement.children[innerIndex];
           //记录第二层循环的id
           innerId = innerElement.id;
-          if (innerElement.child.includes(5)) {
+          if (innerElement.child.includes(item.id)) {
             //找到了，直接跳出两层循环
             break outer;
           }

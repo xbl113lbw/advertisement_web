@@ -2,11 +2,11 @@
  * @Author: liyh
  * @Date: 2020-04-03 10:28:20
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-10 14:51:39
+ * @LastEditTime: 2020-04-10 16:58:45
  */
 let itemData = {
     'copy': {
-        id: 311,
+        id: 'copy',
         title: '',
         content: '',
         date: '2020.04.3',
