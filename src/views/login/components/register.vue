@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-30 16:13:50
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-08 14:32:11
+ * @LastEditTime: 2020-04-13 17:45:53
  -->
 <template>
   <!-- 注册部分 -->
@@ -312,6 +312,7 @@ export default {
       let registerRes = null;
       if (this.userType == "personal") {
         params = {
+          userName: this.userName,
           mobile: this.telephone,
           captcha: this.qrcode
         };
