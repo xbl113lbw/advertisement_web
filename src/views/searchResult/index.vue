@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-31 13:55:18
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-10 16:24:07
+ * @LastEditTime: 2020-04-13 10:22:25
  -->
 <template>
   <div class="Wrapper">
@@ -75,7 +75,7 @@ export default {
       searchWord: "", //搜索的关键字
       serviceList: [], //搜索的总数据
       pageList: [], //每页的总数据
-      pageSize: 1, //每页渲染多少条数据
+      pageSize: 8, //每页渲染多少条数据
       currentPage: 0, //当前页数
       itemData: {}
     };

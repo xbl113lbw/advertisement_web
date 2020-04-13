@@ -45,14 +45,12 @@ export default {
   name: "ServiceList",
   data() {
     return {
-      searchWord: "", //搜索的关键字
-      searchResultLen: 12, //搜索结果的总数
       breadcrumbData: ["首页"],
       bigType: [],
       smallType: [],
       serviceList: [], //搜索的总数据
       pageList: [], //每页的总数据
-      pageSize: 2, //每页渲染多少条数据
+      pageSize: 8, //每页渲染多少条数据
       currentPage: 0, //当前页数
       itemData: {}
     };

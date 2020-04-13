@@ -24,7 +24,7 @@
           <div class="detail_left">
             <div class="img"></div>
             <div class="img_list">
-              <swiper class="swiper" :options="swiperOption">
+              <swiper class="swiper" :options="swiperOption" @click-slide="smallImgClick">
                 <swiper-slide>1</swiper-slide>
                 <swiper-slide>2</swiper-slide>
                 <swiper-slide>3</swiper-slide>
@@ -324,7 +324,6 @@ export default {
 
     toServiceInfo(item) {
       console.log("item", item);
-
       this.$router.replace({
         path: "/serviceInfo",
         query: {
@@ -335,6 +334,15 @@ export default {
       });
       window.scrollTo(0, 0);
       window.location.reload();
+    },
+    /**
+     * @description: 点击小图
+     */
+    smallImgClick(a, b) {
+      console.log("i", a, b);
+    },
+    mos() {
+      console.log(123);
     }
   }
 };
@@ -342,8 +350,26 @@ export default {
 
 <style lang="scss" scoped>
 .swiper-container {
-  --swiper-navigation-color: #000000; /* 单独设置按钮颜色 */
+  --swiper-navigation-color: #ffffff; /* 单独设置按钮颜色 */
   --swiper-navigation-size: 18px; /* 设置按钮大小 */
+}
+.swiper-button-prev {
+  width: 30px;
+  height: 75px;
+  background: rgba(0, 0, 0, 1);
+  opacity: 0.6;
+  position: absolute;
+  left: 0;
+  top: 10px;
+}
+.swiper-button-next {
+  width: 30px;
+  height: 75px;
+  background: rgba(0, 0, 0, 1);
+  opacity: 0.6;
+  position: absolute;
+  right: 0;
+  top: 10px;
 }
 
 .swiper-slide {
