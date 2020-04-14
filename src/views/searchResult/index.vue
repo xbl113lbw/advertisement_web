@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-31 13:55:18
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-13 10:22:25
+ * @LastEditTime: 2020-04-14 14:09:16
  -->
 <template>
   <div class="Wrapper">
@@ -20,11 +20,11 @@
         <div>建议您：去掉不必要的字句，扩大搜索范围，如“的”、“什么”等。</div>
         <div class="hotBox">
           <span>热搜词:</span>
-          <span>LED显示屏</span>
-          <span>LED显示屏</span>
-          <span>LED显示屏</span>
-          <span>LED显示屏</span>
-          <span>LED显示屏</span>
+          <span @click="toSearchResult('LED显示屏')">LED显示屏</span>
+          <span @click="toSearchResult('灯箱/招牌')">灯箱/招牌</span>
+          <span @click="toSearchResult('户外广告')">户外广告</span>
+          <span @click="toSearchResult('背景/形象墙')">背景/形象墙</span>
+          <span @click="toSearchResult('多媒体互动')">多媒体互动</span>
         </div>
       </div>
     </div>
@@ -70,6 +70,7 @@ import typeData from "@/data/typeData";
 
 export default {
   name: "SearchResult",
+  inject: ["reload"],
   data() {
     return {
       searchWord: "", //搜索的关键字
@@ -88,10 +89,12 @@ export default {
         this.serviceList.push(element);
       }
     }
+    console.log("this.serviceList", this.serviceList);
+
     if (this.serviceList.length > 0) {
       this.pageList = this.serviceList.slice(
         this.currentPage * this.pageSize,
-        this.currentPage * this.pageSize + 1
+        this.currentPage * this.pageSize + this.pageSize
       );
     }
   },
@@ -146,6 +149,16 @@ export default {
         this.currentPage * this.pageSize,
         this.currentPage * this.pageSize + 1
       );
+    },
+    toSearchResult(item) {
+      if (item === decodeURIComponent(this.$route.query.searchWord)) return; //如果重复搜索(即搜索关键字跟当前关键字一样，则url不做任务操作)
+      this.$router.replace({
+        path: "/searchResult",
+        query: {
+          searchWord: encodeURIComponent(item)
+        }
+      });
+      this.reload();
     }
   },
   components: { Search, ListItem }
@@ -270,6 +283,7 @@ export default {
       span:not(:first-child) {
         opacity: 0.4;
         text-decoration: underline;
+        cursor: pointer;
       }
     }
   }
