@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-31 10:44:38
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-10 10:26:15
+ * @LastEditTime: 2020-04-14 10:18:28
  -->
 <template>
   <div class="box">
@@ -20,7 +20,9 @@
     <div class="itemArea">
       <div v-for="(item,index) in currentsmallType.child.slice(0,4)" :key="index" class="itemBox">
         <div v-if="currentItemData[item]" @click="toServiceInfo(item)">
-          <div class="image"></div>
+          <div class="image" v-if="currentItemData[item].images[0]">
+            <img :src="currentItemData[item].images[0]['img']" alt />
+          </div>
           <div class="itemTitle">{{currentItemData[item].title}}</div>
           <div class="itemContent">{{common.replaceText(currentItemData[item].content)}}</div>
           <div class="itemImformation">

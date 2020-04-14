@@ -22,15 +22,20 @@
         </div>
         <div class="goods_detail">
           <div class="detail_left">
-            <div class="img"></div>
+            <div class="img">
+              <img :src="detailData.images[currentImgIndex].img" alt />
+              <div class="total">{{currentImgIndex+1}}/{{detailData.images.length}}</div>
+            </div>
             <div class="img_list">
-              <swiper class="swiper" :options="swiperOption" @click-slide="smallImgClick">
-                <swiper-slide>1</swiper-slide>
-                <swiper-slide>2</swiper-slide>
-                <swiper-slide>3</swiper-slide>
-                <swiper-slide>4</swiper-slide>
-                <swiper-slide>5</swiper-slide>
-                <swiper-slide>6</swiper-slide>
+              <swiper
+                ref="mySwiper"
+                class="swiper"
+                :options="swiperOption"
+                @click-slide="smallImgClick"
+              >
+                <swiper-slide v-for="item in detailData.images" :key="item.id">
+                  <img :src="item.img" alt />
+                </swiper-slide>
                 <div class="swiper-button-prev" slot="button-prev"></div>
                 <div class="swiper-button-next" slot="button-next"></div>
               </swiper>
@@ -129,7 +134,7 @@
           <span class="bottom-title">相关推荐</span>
           <ul>
             <li v-for="(item, index) in recommendData" :key="index" @click="toServiceInfo(item)">
-              <img src="../../assets/logo.png" alt />
+              <img v-if="item.images[0]" :src="item.images[0].img" alt />
               <div class="textWrap">
                 <span class="omit">{{item.title}}</span>
                 <span>{{item.date}} ｜ {{item.browseCount}}人浏览过</span>
@@ -171,11 +176,20 @@ export default {
         navigation: {
           nextEl: ".swiper-button-next",
           prevEl: ".swiper-button-prev"
+        },
+        on: {
+          slideChangeTransitionStart: () => {
+            // 通过$refs获取对应的swiper对象
+            this.$nextTick(() => {
+              let swiper =
+                this.$refs.mySwiper && this.$refs.mySwiper.swiperInstance;
+              let i = swiper.realIndex;
+              console.log("i", i);
+              this.currentImgIndex =
+                i - 1 < 0 ? this.detailData.images.length - 1 : i - 1;
+            });
+          }
         }
-        // pagination: {
-        //   el: ".swiper-pagination",
-        //   clickable: true
-        // }
       },
       breadcrumbData: ["首页"],
       phone: "查看商家电话号码",
@@ -184,7 +198,8 @@ export default {
       detailData: {},
       textarea: "",
       activeName: "first",
-      recommendData: []
+      recommendData: [],
+      currentImgIndex: 0 //默认第一张
     };
   },
   created() {
@@ -307,7 +322,7 @@ export default {
         this.$router.push({ path: "/" });
       } else if (index == 1) {
         //向HeaderNav组件派发事件，此操作相当于切换了nav的大类
-        this.$root.event.$emit("navChangeEmit", this.$route.query.bigType);
+        this.$root.event.$emit("navChangeEmit", this.$route.query.bigType - 1);
       } else if (index == 2) {
         this.$router.push({
           path: "/serviceList",
@@ -340,9 +355,7 @@ export default {
      */
     smallImgClick(a, b) {
       console.log("i", a, b);
-    },
-    mos() {
-      console.log(123);
+      this.currentImgIndex = b;
     }
   }
 };
@@ -376,6 +389,11 @@ export default {
   width: 100px;
   height: 75px;
   background: #f3f3f3;
+  img {
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+  }
 }
 
 .swiper-slide:nth-child(2n) {
@@ -469,6 +487,23 @@ export default {
             width: 400px;
             background: #f4f4f4;
             margin-bottom: 10px;
+            position: relative;
+            .total {
+              position: absolute;
+              width: 40px;
+              height: 22px;
+              background: rgba(0, 0, 0, 1);
+              border-radius: 2px;
+              opacity: 0.6;
+              bottom: 13px;
+              right: 18px;
+              font-size: 12px;
+              font-family: PingFangSC-Regular, PingFang SC;
+              font-weight: 400;
+              color: rgba(255, 255, 255, 1);
+              text-align: center;
+              line-height: 22px;
+            }
           }
 
           .img_list {

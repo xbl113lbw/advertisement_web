@@ -2,11 +2,13 @@
  * @Author: liyh
  * @Date: 2020-03-31 14:04:16
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-09 16:36:10
+ * @LastEditTime: 2020-04-14 13:46:39
  -->
 <template>
   <div class="listItemBox">
-    <div class="leftBox"></div>
+    <div class="leftBox">
+      <img v-if="itemData.images[0]" :src="itemData.images[0].img" alt />
+    </div>
     <div class="centerBox">
       <div :class="visited(itemData.id)">{{itemData.title}}</div>
       <div>{{common.replaceText(itemData.content)}}</div>
@@ -80,7 +82,10 @@ export default {
   .leftBox {
     width: 240px;
     height: 180px;
-    border: 1px solid red;
+    img {
+      width: 100%;
+      height: 100%;
+    }
   }
   .centerBox {
     margin-left: 30px;

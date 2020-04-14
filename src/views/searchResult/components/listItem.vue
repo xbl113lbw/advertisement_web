@@ -2,11 +2,13 @@
  * @Author: liyh
  * @Date: 2020-03-31 14:04:16
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-05 22:51:59
+ * @LastEditTime: 2020-04-14 13:49:55
  -->
 <template>
   <div class="listItemBox">
-    <div class="leftBox"></div>
+    <div class="leftBox">
+      <img v-if="itemData.images[0]" :src="itemData.images[0].img" alt />
+    </div>
     <div class="centerBox">
       <div :class="visited(itemData.id)">{{itemData.title}}</div>
       <div>中国最大的以信息和知识为核心的互联网综中国最大的以信息和知识为核心的互联网综核心的互联网综萨达所大萨达所大</div>
@@ -72,7 +74,10 @@ export default {
   .leftBox {
     width: 240px;
     height: 180px;
-    border: 1px solid red;
+    img {
+      width: 100%;
+      height: 100%;
+    }
   }
   .centerBox {
     margin-left: 30px;
