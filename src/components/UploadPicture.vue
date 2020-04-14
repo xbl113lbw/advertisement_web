@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-04-08 16:39:32
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-09 15:45:22
+ * @LastEditTime: 2020-04-14 14:22:23
  -->
 <template>
   <div class="uploadWrap">
@@ -14,13 +14,13 @@
     <div>
       <ul v-if="echoImgData.length>0">
         <li v-for="(item,index) in echoImgData" :key="index">
-          <img @click="deleteImg(index)" class="delete" src="@/assets/delete.png" alt />
+          <!-- <img @click="deleteImg(index)" class="delete" src="@/assets/delete.png" alt /> -->
           <img :src="item" alt />
         </li>
       </ul>
       <ul v-else>
         <li v-for="(item,index) in showImgList" :key="index">
-          <img @click="deleteImg(index)" class="delete" src="@/assets/delete.png" alt />
+          <!-- <img @click="deleteImg(index)" class="delete" src="@/assets/delete.png" alt /> -->
           <img :src="item" alt />
         </li>
       </ul>

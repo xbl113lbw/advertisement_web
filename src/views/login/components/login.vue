@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-30 16:03:08
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-10 11:00:01
+ * @LastEditTime: 2020-04-14 14:32:41
  -->
 <template>
   <!-- 登录部分 -->
@@ -255,7 +255,6 @@ export default {
       if (this.userType == "personal") {
         params = {
           mobile: this.telephone,
-          nick: this.userName,
           captcha: this.qrcode
         };
         loginRes = await personalLogin(params);

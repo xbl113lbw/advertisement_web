@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-30 16:13:50
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-14 10:00:51
+ * @LastEditTime: 2020-04-14 14:31:38
  -->
 <template>
   <!-- 注册部分 -->
@@ -113,9 +113,9 @@
     </div>
     <div class="agreeMentBox">
       <span>注册即表示同意</span>
-      <span @click="toUserAgree">《用户注册协议》</span>
+      <span @click="toUserAgree">《用户协议》</span>
       <span>和</span>
-      <span @click="toPrivacyPolicy">《隐私保护政策》</span>
+      <span @click="toPrivacyPolicy">《隐私政策》</span>
     </div>
   </div>
 </template>
@@ -312,7 +312,7 @@ export default {
       let registerRes = null;
       if (this.userType == "personal") {
         params = {
-          userName: this.userName,
+          nick: this.userName,
           mobile: this.telephone,
           captcha: this.qrcode
         };

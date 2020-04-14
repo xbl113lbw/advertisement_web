@@ -118,12 +118,15 @@ export default {
         owner: "法人代表",
         ownerid: "法人身份证"
       };
+      let verfiFlag = true;
       for (const key in this.assestInfo) {
         if (!this.assestInfo[key]) {
           this.$message.error(`${tips[key]}不能为空`);
+          verfiFlag = false;
           break;
         }
       }
+      if (!verfiFlag) return;
       const loading = this.$loading();
       let formData = new FormData();
       formData.append("url", window.location.href);

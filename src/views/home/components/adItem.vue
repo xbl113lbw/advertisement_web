@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-31 10:44:38
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-14 10:18:28
+ * @LastEditTime: 2020-04-14 14:27:33
  -->
 <template>
   <div class="box">
@@ -170,7 +170,6 @@ export default {
       .image {
         width: 280px;
         height: 210px;
-        background: chartreuse;
         img {
           width: 100%;
           height: 100%;
