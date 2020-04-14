@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-30 16:13:50
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-13 17:45:53
+ * @LastEditTime: 2020-04-14 10:00:51
  -->
 <template>
   <!-- 注册部分 -->
@@ -87,7 +87,7 @@
             <input
               v-model="setPassword"
               @focus="resetErrortext('setPassword')"
-              type="text"
+              type="password"
               maxlength="10"
               placeholder="请设置6-10位的密码"
             />
@@ -99,7 +99,7 @@
             <input
               v-model="confirmPassword"
               @focus="resetErrortext('confirmPassword')"
-              type="text"
+              type="password"
               maxlength="10"
               placeholder="请再次输入密码"
             />
@@ -113,9 +113,9 @@
     </div>
     <div class="agreeMentBox">
       <span>注册即表示同意</span>
-      <span @click="toUserAgree">《用户协议》</span>
+      <span @click="toUserAgree">《用户注册协议》</span>
       <span>和</span>
-      <span @click="toPrivacyPolicy">《隐私政策》</span>
+      <span @click="toPrivacyPolicy">《隐私保护政策》</span>
     </div>
   </div>
 </template>
@@ -172,7 +172,7 @@ export default {
      * @description: 点击隐私政策
      */
     toPrivacyPolicy() {
-      window.open(window.location.origin + "/#//privacyPolicy", "_blank");
+      window.open(window.location.origin + "/#/privacyPolicy", "_blank");
     },
 
     /**

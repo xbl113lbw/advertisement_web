@@ -70,7 +70,7 @@
             <input
               @focus="resetErrortext('companyPassword')"
               v-model="companyPassword"
-              type="text"
+              type="password"
               placeholder="请输入密码"
             />
           </div>

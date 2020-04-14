@@ -2,7 +2,7 @@
  * @Author: liyh
  * @Date: 2020-03-30 14:02:41
  * @LastEditors: liyh
- * @LastEditTime: 2020-04-07 15:30:16
+ * @LastEditTime: 2020-04-14 09:39:03
  -->
 <template>
   <div class="Wrapper" id="Wrapper">
@@ -92,7 +92,7 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: url("./../../assets/login/bg@2x.png") no-repeat;
+    background: url("./../../assets/login/bg@2x.jpeg") no-repeat;
     background-size: 100% 100%;
     z-index: -1;
   }
